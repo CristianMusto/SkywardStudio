@@ -16,29 +16,37 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
+          cache: npm
+
+      # package-lock.json must be committed and in sync with package.json (run `npm install` locally).
       - name: Install
-        run: if [ -f package-lock.json ]; then npm ci; else npm install; fi
+        run: npm ci
+
       - name: Build (prerendered, base /SkywardStudio/)
         run: npm run build:pages
-      - name: SPA fallback and Jekyll off
+
+      - name: SPA fallback and disable Jekyll
+        working-directory: dist/skyward/browser
         run: |
-          cd dist/skyward/browser
           if [ -f index.csr.html ]; then cp index.csr.html 404.html; else cp index.html 404.html; fi
           touch .nojekyll
+
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: dist/skyward/browser
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -32,5 +32,9 @@ export const serverRoutes: ServerRoute[] = [
       );
     },
   },
+  // Unknown paths inside a language (/:lang/** in app.routes.ts): rendered in the browser,
+  // where the engine shows the 404. Must be listed explicitly, otherwise it inherits
+  // the prerender settings of ':lang' and fails on the '**' parameter.
+  { path: ':lang/**', renderMode: RenderMode.Client },
   { path: '**', renderMode: RenderMode.Client },
 ];
