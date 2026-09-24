@@ -395,7 +395,7 @@ export const view = {
         nextName: hasNext ? nx.name : isC ? STR.galaxyMap : STR.contact,
       };
       Object.assign(page, {
-        hasPhoto: tp === 'about' && [STR.me, STR.experience, 'approach'].includes(p.key),
+        hasPhoto: tp === 'about' && ['me', 'experience', 'approach'].includes(p.key),
         photoHex: c[1],
         phMe: p.key === 'me',
         phExp: p.key === 'experience',

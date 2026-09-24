@@ -717,11 +717,11 @@ export const scene = {
     }
     if (this.wtail) {
       const T = this.wtail,
-        q = clamp((t - STR.start) / T.dur, 0, 1),
+        q = clamp((t - T.start) / T.dur, 0, 1),
         V = T.V0 * Math.pow(1 - q, 2.2),
         am = Math.pow(1 - q, 1.4),
         F2 = Math.max(W, H) * 0.14,
-        roll = ((t - STR.start) / 1000) * 0.1 * T.dir,
+        roll = ((t - T.start) / 1000) * 0.1 * T.dir,
         cr = Math.cos(roll),
         sr = Math.sin(roll),
         sd = this.stride || 1;
