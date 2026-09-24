@@ -1,0 +1,86 @@
+@let v = vm();
+@let t = tr();
+<nav class="nav" [skyRef]="v?.navRef" [attr.aria-label]="t.systemMap">
+  @for (s of v?.systems ?? []; track $index) {
+    <div
+      class="row"
+      [skyRef]="s?.wrapRef"
+      [style.--transform]="txt(s?.tf)"
+      [style.--flex-direction]="txt(s?.dir)"
+      [style.--opacity]="txt(s?.op)"
+    >
+      <button
+        class="btn"
+        [skyRef]="s?.ref"
+        (click)="call(s?.onClick, $event)"
+        (pointerdown)="call(s?.onDown, $event)"
+        (pointerup)="call(s?.onUp, $event)"
+        (pointerleave)="call(s?.onUp, $event)"
+        (pointercancel)="call(s?.onUp, $event)"
+        (contextmenu)="call(s?.noMenu, $event)"
+        (mouseenter)="call(s?.onEnter, $event)"
+        (mouseleave)="call(s?.onLeave, $event)"
+        (focus)="call(s?.onEnter, $event)"
+        (blur)="call(s?.onLeave, $event)"
+        [attr.aria-label]="s?.aria"
+        [attr.aria-expanded]="s?.selected"
+      >
+        <span
+          class="label"
+          [style.--border]="txt(s?.ringBorder)"
+          [style.--opacity]="txt(s?.ringOp)"
+          [style.--transform]="txt(s?.ringScale)"
+        ></span>
+        @if (s?.selected) {
+          <span class="label-2" [style.--background]="txt(s?.hex)"></span
+          ><span class="label-3" [style.--background]="txt(s?.hex)"></span
+          ><span class="label-4" [style.--background]="txt(s?.hex)"></span
+          ><span class="label-5" [style.--background]="txt(s?.hex)"></span>
+        }
+        <svg class="svg" [skyRef]="s?.holdRef" aria-hidden="true" width="60" height="60" viewBox="0 0 60 60">
+          <circle
+            cx="30"
+            cy="30"
+            r="27"
+            fill="none"
+            stroke="rgba(242,238,230,.18)"
+            stroke-width="2.5"
+          ></circle>
+          <circle
+            cx="30"
+            cy="30"
+            r="27"
+            fill="none"
+            [attr.stroke]="s?.hex"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-dasharray="169.6"
+            stroke-dashoffset="169.6"
+            transform="rotate(-90 30 30)"
+          ></circle></svg
+        ><span class="label-6" [skyRef]="s?.haloRef" [style.--background]="txt(s?.tint)"></span
+        ><span
+          class="label-7"
+          [style.--width]="txt(s?.core)"
+          [style.--height]="txt(s?.core)"
+          [style.--background]="txt(s?.coreBg)"
+          [style.--border]="txt(s?.coreBorder)"
+          [style.--box-shadow]="txt(s?.glow)"
+        ></span>
+      </button>
+      <div class="stack" [style.--text-align]="txt(s?.align)">
+        <span class="name">{{ txt(s?.name) }}</span
+        ><span class="meta">{{ txt(s?.hud) }}</span>
+        @if (s?.isHere) {
+          <span
+            class="meta-2"
+            [style.--border]="txt(s?.hex)"
+            [style.--color]="txt(s?.hex)"
+            [style.--box-shadow]="txt(s?.tint)"
+            ><span class="label-8" [style.--border]="txt(s?.hex)"></span>{{ t.youAreHere }}</span
+          >
+        }
+      </div>
+    </div>
+  }
+</nav>

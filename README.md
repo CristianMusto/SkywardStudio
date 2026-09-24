@@ -18,18 +18,38 @@ Il sito è il mockup **Skyward Mappa** portato 1:1: stesso motore (galassia su c
 
 ```
 src/app/
-  skyward/
-    engine-it.js / engine-en.js      motore del mockup (generato, non modificare a mano)
-    skyward-it.html / skyward-en.html template del mockup convertito in Angular (generato)
-    skyward-*.css                    stati hover/focus del mockup (generato)
-    skyward-host.ts                  collega il motore ad Angular, invio modulo (Web3Forms)
-    sky-ref.ts, sky-vn.ts            supporto per ref e icone animate del mockup
-  content/                           pianeti (pagine) in IT + EN, uno per file
-public/assets/                       immagini, logo, memoji
-public/design-system.html           design system, linkato dal case study
+  layout/shell/               layout persistente /:lang: canvas, intro, 404 (possiede il motore)
+  pages/
+    galaxy/                   /:lang                  mappa della galassia
+    system/                   /:lang/:system          sistema con i pianeti
+    planet/                   /:lang/:system/:planet  pagina del pianeta
+  layout/site-header/         barra in alto: logo, lingua, audio, mappa/elenco
+  features/
+    intro/intro-screen/       intro e "tieni premuto per partire"
+    galaxy/                   hero, system-labels, map-controls, system-card, system-list, coach, egg-toast
+    system/system-map/        mappa del sistema con i pianeti in orbita
+    planet/                   planet-page (guscio) + case-study, service-detail, process-step,
+                              about-detail, crew, contact-details, contact-form
+    not-found/                404
+  shared/                     view-part (base dei componenti), sky-ref, sky-vn
+  core/                       engine.store (motore <-> router), contact.service, settings, lang.guard
+  engine/                     motore della galassia in moduli (scene, navigation, input, router…)
+  i18n/                       ui-strings (template) e engine-strings (motore), IT + EN
+  content/                    pianeti (pagine), uno per file
+public/assets/                immagini, logo, memoji
 ```
 
-Indirizzi: `/it/` e `/en/`; dentro, le pagine usano l'hash come nel mockup (`/it/#/about/experience`).
+Ogni componente riceve `v` (i valori del motore) e `t` (i testi nella lingua della pagina).
+
+Indirizzi: `/it`, `/it/services`, `/it/about/experience` (e lo stesso con `/en`). Ogni URL è prerenderizzato, quindi i link diretti funzionano su GitHub Pages.
+
+## Stato del refactoring
+
+1. Motore in moduli TypeScript: **fatto**. Riscritti a mano e tipizzati: `types`, `constants`, `math`, `data`, `base`, `vnode`, `quality`, `audio`, `contact-form`, `coach`, `navigation`, `router`. Ancora con `// @ts-nocheck`: gli altri, uno alla volta con `ng build` dopo ciascuno.
+2. Un componente per schermata: **fatto**.
+3. Routing Angular vero (`/it/about/experience`) con prerender: **fatto**.
+4. Un solo template con i18n: **fatto** (testi in `i18n/`).
+5. Stili per componente: **fatto** (nessuno stile inline; valori dinamici passati come variabili CSS, es. `[style.--left]`). Prossimo: token condivisi.
 
 ## Aggiungere un pianeta (progetto, servizio, fase…)
 

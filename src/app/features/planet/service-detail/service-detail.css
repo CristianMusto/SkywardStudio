@@ -1,0 +1,118 @@
+.row {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 64px;
+}
+
+.stack {
+  flex: 2 1 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heading {
+  margin: 0;
+  font: 600 clamp(28px, 3vw, 40px) / 1.1 var(--font-display);
+  font-variation-settings: 'wdth' 84;
+  letter-spacing: -0.015em;
+}
+
+.ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgb(var(--rgb-text) / 0.16);
+}
+
+.li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px solid rgb(var(--rgb-text) / 0.16);
+}
+
+.meta {
+  font: 400 12px var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--color);
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name {
+  font: 600 20px/1.25 var(--font-display);
+}
+
+.label-2 {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--color-text-2);
+}
+
+.stack-2 {
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.btn {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  min-height: 88px;
+  padding: 16px 18px;
+  border: 1px solid rgb(var(--rgb-text) / 0.18);
+  border-radius: 6px;
+  background: rgb(var(--rgb-panel) / 0.6);
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.btn:hover {
+  background: var(--color-panel-hover);
+  border-color: rgb(var(--rgb-text) / 0.5);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.label-3 {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #e4fbff 0%, #5fc8d8 40%, #0e3a48 100%);
+}
+
+.label-4 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-2 {
+  font: 400 12px var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.name-2 {
+  font: 600 22px/1.1 var(--font-display);
+}

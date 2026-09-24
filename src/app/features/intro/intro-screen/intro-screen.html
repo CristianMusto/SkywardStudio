@@ -1,0 +1,88 @@
+@let v = vm();
+@let t = tr();
+<div
+  class="row"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-label]="t.skywardIntro"
+  [style.--background]="txt(v?.introBg)"
+>
+  <div class="stack" [style.--opacity]="txt(v?.introContentOp)" [style.--transform]="txt(v?.introContentTf)">
+    <svg width="132" height="132" viewBox="0 0 1000 1000" aria-hidden="true">
+      <g
+        transform="matrix(1.577362,0,0,1.577362,-316.787463,-268.230134)"
+        fill="#F2EEE6"
+        fill-opacity="0"
+        stroke="#F2EEE6"
+        stroke-width="7"
+        stroke-linejoin="round"
+      >
+        <path
+          class="path"
+          pathLength="1"
+          d="M266.52 334.9C284.03 317.9 298.58 309.08 303.81 315.75C306.61 319.32 305.3 326.17 301 333C286.19 356.53 284.79 386.15 297 406C306.04 422.04 321.54 433.59 343 441C364.92 448.57 408.9 449.04 441 452C501.22 455.91 558.74 467.34 614 485C682.73 506.96 728.55 528.98 747 563C765.22 596.6 758.44 633.33 731 663C689.34 702.74 624.47 727.32 552 734C466.31 741.9 377.57 725.26 299 687C249.15 662.72 197.66 624.62 217 599C220.85 593.9 226.44 592.57 237 594C289.55 609.17 301.88 617.74 394 632C477.2 643.4 586.08 627.55 591 601.12C594.74 581.03 495.01 548.18 438 536C396.37 527.1 342.76 519.83 317 509C254.84 486.38 224.6 445.99 236 389C240.76 369.02 250.14 350.7 266.52 334.9Z"
+        ></path>
+        <path
+          class="path-2"
+          pathLength="1"
+          d="M315.14 365C322.03 298.46 407.74 257.57 485.01 245C635.32 220.55 772.78 255.6 814.5 325.11C825.27 343.05 824.98 359.25 817 365C800.94 376.57 775.24 356.64 751 349.34C658.83 318.76 592.68 330.43 569.05 332C545.25 335.34 533.16 337.91 532 342C530.48 347.35 548.61 351.17 569.05 356C635.06 373.83 691.6 399.06 737 433C798.87 480.06 815.96 539.47 801 599C798.18 610.22 791.38 619.69 786 619.12C779.18 618.4 776.77 615.49 776 607C778.69 572.88 758.97 530.68 730.8 512C688.55 476.1 544.64 430.68 449 427C371 423.99 314.78 422.41 315.14 365"
+        ></path>
+      </g>
+    </svg>
+    <div class="stack-2" aria-hidden="true">
+      <span class="label"
+        ><span>{{ t.systems }}</span
+        ><span class="label-2">OK</span></span
+      ><span class="label-3"
+        ><span>{{ t.routes }}</span
+        ><span class="label-2">OK</span></span
+      ><span class="label-4"
+        ><span>{{ t.drive }}</span
+        ><span class="label-5">{{ t.ready }}</span></span
+      >
+    </div>
+    <div class="stack-3">
+      @if (v?.introReady) {
+        <button
+          class="btn"
+          (click)="call(v?.introClick, $event)"
+          (pointerdown)="call(v?.introDown, $event)"
+          (pointerup)="call(v?.introUp, $event)"
+          (pointerleave)="call(v?.introCancel, $event)"
+          (pointercancel)="call(v?.introCancel, $event)"
+          (contextmenu)="call(v?.noMenu, $event)"
+          [attr.aria-label]="t.launch"
+        >
+          <svg class="svg" width="96" height="96" viewBox="0 0 96 96" aria-hidden="true">
+            <circle
+              cx="48"
+              cy="48"
+              r="44"
+              fill="none"
+              stroke="rgba(242,238,230,.2)"
+              stroke-width="2"
+            ></circle>
+            <circle
+              [skyRef]="v?.introRingRef"
+              cx="48"
+              cy="48"
+              r="44"
+              fill="none"
+              stroke="#7FE6F2"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-dasharray="276.5"
+              stroke-dashoffset="276.5"
+              transform="rotate(-90 48 48)"
+            ></circle></svg
+          ><span class="label-6" aria-hidden="true"></span></button
+        ><span class="meta" aria-hidden="true">{{ txt(v?.introHint) }}</span>
+      }
+    </div>
+  </div>
+  @if (v?.showSkip) {
+    <button class="btn-2" (click)="call(v?.skipIntro, $event)">
+      {{ t.skipIntro }}
+    </button>
+  }
+</div>

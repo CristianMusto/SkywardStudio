@@ -1,0 +1,45 @@
+.grid {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
+  gap: 32px 24px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.grid-2 {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px dashed rgb(var(--rgb-text) / 0.3);
+  background: radial-gradient(circle at 34% 30%, rgb(var(--rgb-text) / 0.08), rgb(var(--rgb-panel) / 0.6) 70%);
+  display: grid;
+  place-items: center;
+}
+
+.meta {
+  font: 400 12px var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.label {
+  display: block;
+  height: 16px;
+  width: 64%;
+  border-radius: 3px;
+  background: rgb(var(--rgb-text) / 0.2);
+}
+
+.label-2 {
+  display: block;
+  height: 12px;
+  width: 44%;
+  border-radius: 3px;
+  background: rgb(var(--rgb-text) / 0.12);
+}

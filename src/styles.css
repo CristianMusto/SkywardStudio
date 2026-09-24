@@ -1,20 +1,300 @@
+/*
+ * Per-element values bound from templates ([style.--x]). Registered as non-inherited so a child
+ * never picks up its parent's value when its own binding is empty.
+ */
+@property --accent-color {
+  syntax: '*';
+  inherits: false;
+}
+@property --animation {
+  syntax: '*';
+  inherits: false;
+}
+@property --background {
+  syntax: '*';
+  inherits: false;
+}
+@property --background-1 {
+  syntax: '*';
+  inherits: false;
+}
+@property --background-2 {
+  syntax: '*';
+  inherits: false;
+}
+@property --background-3 {
+  syntax: '*';
+  inherits: false;
+}
+@property --border {
+  syntax: '*';
+  inherits: false;
+}
+@property --border-radius {
+  syntax: '*';
+  inherits: false;
+}
+@property --border-top {
+  syntax: '*';
+  inherits: false;
+}
+@property --bottom {
+  syntax: '*';
+  inherits: false;
+}
+@property --box-shadow {
+  syntax: '*';
+  inherits: false;
+}
+@property --box-shadow-1 {
+  syntax: '*';
+  inherits: false;
+}
+@property --box-shadow-2 {
+  syntax: '*';
+  inherits: false;
+}
+@property --color {
+  syntax: '*';
+  inherits: false;
+}
+@property --display {
+  syntax: '*';
+  inherits: false;
+}
+@property --flex-direction {
+  syntax: '*';
+  inherits: false;
+}
+@property --font-variation-settings {
+  syntax: '*';
+  inherits: false;
+}
+@property --height {
+  syntax: '*';
+  inherits: false;
+}
+@property --left {
+  syntax: '*';
+  inherits: false;
+}
+@property --margin {
+  syntax: '*';
+  inherits: false;
+}
+@property --opacity {
+  syntax: '*';
+  inherits: false;
+}
+@property --position {
+  syntax: '*';
+  inherits: false;
+}
+@property --right {
+  syntax: '*';
+  inherits: false;
+}
+@property --text-align {
+  syntax: '*';
+  inherits: false;
+}
+@property --text-decoration-color {
+  syntax: '*';
+  inherits: false;
+}
+@property --top {
+  syntax: '*';
+  inherits: false;
+}
+@property --transform {
+  syntax: '*';
+  inherits: false;
+}
+@property --width {
+  syntax: '*';
+  inherits: false;
+}
+
+/* Design tokens. Components use these instead of raw values. */
+:root {
+  /* Surfaces */
+  --color-bg: #0b0a1f;
+  --color-bg-deep: #07060f;
+  --color-panel-hover: #241f4d;
+  --color-black: #000;
+  --color-white: #fff;
+  /* Text */
+  --color-text: #f2eee6;
+  --color-text-2: #d9d4e6;
+  --color-muted: #a9a3c2;
+  --color-error: #ff8fb1;
+  /* One colour per star system */
+  --color-home: #ffb38a;
+  --color-work: #7fe6f2;
+  --color-services: #ffd27a;
+  --color-process: #ff7a6b;
+  --color-about: #8cf0a0;
+  --color-contact: #c3a6ff;
+  /* Same colours as "r g b" channels, for rgb(var(--rgb-x) / alpha) */
+  --rgb-text: 242 238 230;
+  --rgb-bg: 11 10 31;
+  --rgb-bg-deep: 7 6 15;
+  --rgb-panel: 21 19 46;
+  --rgb-panel-hover: 36 31 77;
+  --rgb-black: 0 0 0;
+  --rgb-work: 127 230 242;
+  /* Type */
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-text: 'Hanken Grotesk', sans-serif;
+  --font-mono: 'Martian Mono', monospace;
+  /* Motion */
+  --dur-fast: 160ms;
+  --ease-out: ease-out;
+  --ease-rise: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
 /* Global rules from the Skyward Mappa mockup <helmet>. */
-html,body{margin:0;height:100%;background:#0B0A1F;color:#F2EEE6;font-family:'Hanken Grotesk',sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
-*{box-sizing:border-box}
-a{color:#7FE6F2;text-underline-offset:3px}a:hover{color:#FFC078}
-button{font-family:inherit}
-@keyframes skCardIn{from{opacity:0;transform:translateY(6px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes skSheetIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@keyframes skFade{from{opacity:0}to{opacity:1}}
-@keyframes skRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@keyframes skDraw{to{stroke-dashoffset:0}}
-@keyframes skFillIn{to{fill-opacity:1;stroke-opacity:0}}
-@keyframes skDrag{0%,100%{transform:translateX(-12px)}50%{transform:translateX(12px)}}
-@keyframes skPinchA{0%,100%{transform:translate(-4px,4px)}50%{transform:translate(-13px,13px)}}
-@keyframes skPinchB{0%,100%{transform:translate(4px,-4px)}50%{transform:translate(13px,-13px)}}
-@keyframes skHoldRing{0%{stroke-dashoffset:113}70%,100%{stroke-dashoffset:0}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;transition-duration:1ms!important;transition-delay:0ms!important;scroll-behavior:auto!important}}
-html{background:#0B0A1F}
-html[data-sk-veil]::after{content:"";position:fixed;inset:0;z-index:2147483000;background:#0B0A1F;pointer-events:none;opacity:var(--sk-veil,1);transition:opacity 560ms cubic-bezier(.4,0,.2,1)}
-@media (prefers-reduced-motion:reduce){html[data-sk-veil]::after{transition:none}}
-sky-root{display:block;height:100%}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #0b0a1f;
+  color: #f2eee6;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+* {
+  box-sizing: border-box;
+}
+a {
+  color: #7fe6f2;
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: #ffc078;
+}
+button {
+  font-family: inherit;
+}
+@keyframes skCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes skSheetIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes skFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes skRise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes skDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes skFillIn {
+  to {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+}
+@keyframes skDrag {
+  0%,
+  100% {
+    transform: translateX(-12px);
+  }
+  50% {
+    transform: translateX(12px);
+  }
+}
+@keyframes skPinchA {
+  0%,
+  100% {
+    transform: translate(-4px, 4px);
+  }
+  50% {
+    transform: translate(-13px, 13px);
+  }
+}
+@keyframes skPinchB {
+  0%,
+  100% {
+    transform: translate(4px, -4px);
+  }
+  50% {
+    transform: translate(13px, -13px);
+  }
+}
+@keyframes skHoldRing {
+  0% {
+    stroke-dashoffset: 113;
+  }
+  70%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html {
+  background: #0b0a1f;
+}
+html[data-sk-veil]::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  background: #0b0a1f;
+  pointer-events: none;
+  opacity: var(--sk-veil, 1);
+  transition: opacity 560ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-sk-veil]::after {
+    transition: none;
+  }
+}
+sky-root {
+  display: block;
+  height: 100%;
+}

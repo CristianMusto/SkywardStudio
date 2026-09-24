@@ -1,0 +1,136 @@
+.stack {
+  position: absolute;
+  z-index: 6;
+  background: rgb(var(--rgb-panel) / 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgb(var(--rgb-text) / 0.18);
+  padding: 20px 20px max(20px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 24px 64px rgb(var(--rgb-black) / 0.45);
+  left: var(--left);
+  right: var(--right);
+  top: var(--top);
+  bottom: var(--bottom);
+  width: var(--width);
+  border-radius: var(--border-radius);
+  animation: var(--animation);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font: 400 12px var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.label {
+  color: var(--color-text-2);
+}
+
+.btn {
+  width: 44px;
+  height: 44px;
+  margin: -10px -10px -10px 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.btn:hover {
+  background: var(--color-panel-hover);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 1px;
+}
+
+.card-title {
+  margin: 0;
+  font: 650 40px/1 var(--font-display);
+  font-variation-settings: 'wdth' 80;
+  letter-spacing: -0.02em;
+}
+
+.text {
+  margin: 0;
+  color: var(--color-text-2);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.row-2 {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.meta-2 {
+  font: 400 12px var(--font-mono);
+  padding: 5px 10px;
+  border: 1px solid rgb(var(--rgb-text) / 0.22);
+  border-radius: 99px;
+  color: var(--color-text-2);
+}
+
+.meta-3 {
+  font: 400 12px var(--font-mono);
+  padding: 5px 10px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  color: var(--color);
+}
+
+.btn-2 {
+  min-height: 52px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 4px;
+  color: var(--color-bg);
+  font: 600 16px var(--font-text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 18px;
+  cursor: pointer;
+  transition:
+    filter var(--dur-fast) var(--ease-out),
+    transform 120ms ease-out;
+  background: var(--background);
+}
+
+.btn-2:hover {
+  filter: brightness(1.12);
+}
+
+.btn-2:active {
+  transform: scale(0.98);
+}
+
+.btn-2:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.meta-4 {
+  font: 400 12px var(--font-mono);
+  display: var(--display);
+}

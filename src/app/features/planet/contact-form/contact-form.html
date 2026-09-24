@@ -1,0 +1,98 @@
+@let v = vm();
+@let t = tr();
+<form class="form" (submit)="call(v?.fSubmit, $event)" [noValidate]="!!true" aria-labelledby="sk-page">
+  <div class="stack">
+    <label class="label" for="f-nome">{{ t.name }}</label
+    ><input
+      class="nome"
+      id="f-nome"
+      name="nome"
+      type="text"
+      autocomplete="name"
+      [value]="txt(v?.fv?.nome)"
+      (input)="call(v?.fIn, $event)"
+      (blur)="call(v?.fBlur, $event)"
+      [attr.aria-invalid]="v?.fe?.nome?.inv"
+      aria-describedby="f-nome-h"
+      [style.--border]="txt(v?.fe?.nome?.border)"
+    /><span class="nome-h" id="f-nome-h" [style.--color]="txt(v?.fe?.nome?.color)">
+      @if (v?.fe?.nome?.inv) {
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+          <path d="M7 4v3.5M7 9.5v.5" stroke="currentColor" stroke-width="1.4"></path>
+        </svg>
+      }
+      {{ txt(v?.fe?.nome?.msg) }}</span
+    >
+  </div>
+  <div class="stack">
+    <label class="label" for="f-email">Email</label
+    ><input
+      class="email"
+      id="f-email"
+      name="email"
+      type="email"
+      autocomplete="email"
+      [value]="txt(v?.fv?.email)"
+      (input)="call(v?.fIn, $event)"
+      (blur)="call(v?.fBlur, $event)"
+      [attr.aria-invalid]="v?.fe?.email?.inv"
+      aria-describedby="f-email-h"
+      [style.--border]="txt(v?.fe?.email?.border)"
+    /><span class="email-h" id="f-email-h" [style.--color]="txt(v?.fe?.email?.color)">
+      @if (v?.fe?.email?.inv) {
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+          <path d="M7 4v3.5M7 9.5v.5" stroke="currentColor" stroke-width="1.4"></path>
+        </svg>
+      }
+      {{ txt(v?.fe?.email?.msg) }}</span
+    >
+  </div>
+  <div class="stack">
+    <label class="label" for="f-msg">{{ t.whatDoYouNeed }}</label
+    ><textarea
+      class="msg"
+      id="f-msg"
+      name="msg"
+      [value]="txt(v?.fv?.msg)"
+      (input)="call(v?.fIn, $event)"
+      (blur)="call(v?.fBlur, $event)"
+      [attr.aria-invalid]="v?.fe?.msg?.inv"
+      aria-describedby="f-msg-h"
+      rows="5"
+      [style.--border]="txt(v?.fe?.msg?.border)"
+    ></textarea
+    ><span class="msg-h" id="f-msg-h" [style.--color]="txt(v?.fe?.msg?.color)">
+      @if (v?.fe?.msg?.inv) {
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+          <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+          <path d="M7 4v3.5M7 9.5v.5" stroke="currentColor" stroke-width="1.4"></path>
+        </svg>
+      }
+      {{ txt(v?.fe?.msg?.msg) }}</span
+    >
+  </div>
+  <button
+    class="btn"
+    type="submit"
+    [attr.aria-busy]="v?.fSending"
+    [disabled]="!!v?.fSending"
+    [style.--background]="txt(v?.page?.hex)"
+    [style.--opacity]="txt(v?.fBtnOp)"
+  >
+    {{ txt(v?.fBtn) }}
+  </button>
+  @if (v?.fSent) {
+    <p class="text" role="status" [style.--border]="txt(v?.page?.hex)">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+        <path
+          d="M3.5 9.5l3.5 3.5 7.5-8"
+          fill="none"
+          [attr.stroke]="v?.page?.hex"
+          stroke-width="1.8"
+        ></path></svg
+      >{{ t.messageSentILl }}
+    </p>
+  }
+</form>

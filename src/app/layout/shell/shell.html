@@ -1,0 +1,18 @@
+@if (store.browser) {
+  @let v = store.view();
+  @let t = store.strings();
+  <main class="main">
+    <div class="box" [skyRef]="v?.skyRef" aria-hidden="true"></div>
+    <div class="box-2" aria-live="polite">
+      {{ txt(v?.live) }}
+    </div>
+    <div class="box-3" [skyRef]="v?.zoomRef" aria-hidden="true"></div>
+    <router-outlet></router-outlet>
+    @if (v?.introOn) {
+      <sky-intro-screen [v]="v" [t]="t"></sky-intro-screen>
+    }
+    @if (v?.lostOn) {
+      <sky-not-found [v]="v" [t]="t"></sky-not-found>
+    }
+  </main>
+}

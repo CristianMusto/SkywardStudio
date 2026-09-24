@@ -1,0 +1,38 @@
+.section {
+  animation: skFade 700ms ease-out;
+  position: absolute;
+  left: clamp(16px, 4vw, 56px);
+  bottom: max(28px, env(safe-area-inset-bottom));
+  max-width: min(560px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: opacity 240ms ease-out;
+  pointer-events: none;
+}
+
+.meta {
+  font: 400 12px var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.hero {
+  margin: 0;
+  font: 700 clamp(44px, 7vw, 104px) / 0.9 var(--font-display);
+  font-variation-settings:
+    'wdth' 78,
+    'opsz' 96;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.text {
+  margin: 0;
+  max-width: 440px;
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.6;
+  color: var(--color-text-2);
+  text-wrap: pretty;
+}

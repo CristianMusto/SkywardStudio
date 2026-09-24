@@ -1,0 +1,164 @@
+@let v = vm();
+@let t = tr();
+<section class="section" [skyRef]="v?.pageRef" aria-labelledby="sk-page">
+  <header class="header">
+    <button class="btn" (click)="call(v?.closePage, $event)">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg
+      >{{ txt(v?.page?.sysName) }}<span class="meta" [style.--display]="txt(v?.kbdDisp)">ESC</span>
+    </button>
+    <div class="row">
+      <nav class="nav" [attr.aria-label]="t.location" [style.--display]="txt(v?.crumbDisplay)">
+        <span>{{ t.galaxy }}</span
+        ><span aria-hidden="true">/</span><span>{{ txt(v?.page?.sysName) }}</span
+        ><span aria-hidden="true">/</span
+        ><span class="label" aria-current="page">{{ txt(v?.page?.name) }}</span>
+      </nav>
+      <a
+        class="link"
+        [attr.href]="t.it"
+        (click)="call(v?.switchLang, $event)"
+        [attr.hreflang]="t.it2"
+        [attr.lang]="t.it2"
+        [attr.aria-label]="t.versioneItaliana"
+        >{{ t.it3 }}</a
+      ><button
+        class="btn-2"
+        (click)="call(v?.toggleAudio, $event)"
+        [attr.aria-pressed]="v?.audioOn"
+        [attr.aria-label]="v?.audioAria"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+          <path
+            d="M3 8h3l4-3v10l-4-3H3z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linejoin="round"
+          ></path>
+          <path
+            [attr.d]="v?.audioWave"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+  <div class="stack">
+    <div
+      class="box"
+      aria-hidden="true"
+      [style.--background]="txt(v?.page?.horizon)"
+      [style.--box-shadow]="txt(v?.page?.glow)"
+    ></div>
+    <div class="box-2" aria-hidden="true" [style.--background]="txt(v?.page?.ground)"></div>
+    <div class="stack-2">
+      <span class="meta-2" [style.--color]="txt(v?.page?.hex)"
+        >{{ txt(v?.page?.sysCode) }} · {{ txt(v?.page?.sysName) }} · {{ txt(v?.page?.idx) }}</span
+      >
+      <h1 class="page" id="sk-page" [skyRef]="v?.pageTitleRef" tabindex="-1">
+        {{ txt(v?.page?.name) }}
+      </h1>
+      <p class="text">
+        {{ txt(v?.page?.desc) }}
+      </p>
+      <div class="row-2">
+        <span class="meta-3">{{ txt(v?.page?.kind) }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="stack-3" [style.--background]="txt(v?.page?.ground)">
+    <div class="row-3">
+      <dl class="dl">
+        <div class="grid">
+          <dt class="dt">
+            {{ t.system2 }}
+          </dt>
+          <dd class="dd">{{ txt(v?.page?.sysName) }}</dd>
+        </div>
+        <div class="grid">
+          <dt class="dt">
+            {{ t.section }}
+          </dt>
+          <dd class="dd">{{ txt(v?.page?.idx) }} {{ t.of }} {{ txt(v?.page?.total) }}</dd>
+        </div>
+        <div class="grid">
+          <dt class="dt">
+            {{ t.type }}
+          </dt>
+          <dd class="dd">{{ txt(v?.page?.kind) }}</dd>
+        </div>
+      </dl>
+      @if (v?.page?.showIntro) {
+        <div class="stack-4">
+          <p class="text-2">
+            {{ txt(v?.page?.lead) }}
+          </p>
+          @if (v?.page?.hasBody) {
+            <p class="text-3">
+              {{ txt(v?.page?.body) }}
+            </p>
+          }
+        </div>
+      }
+    </div>
+    @if (v?.page?.isCase) {
+      <sky-case-study [v]="v" [t]="t"></sky-case-study>
+    }
+    @if (v?.page?.isService) {
+      <sky-service-detail [v]="v" [t]="t"></sky-service-detail>
+    }
+    @if (v?.page?.isStep) {
+      <sky-process-step [v]="v" [t]="t"></sky-process-step>
+    }
+    @if (v?.page?.isCrew) {
+      <sky-crew [v]="v" [t]="t"></sky-crew>
+    }
+    @if (v?.page?.isAbout) {
+      <sky-about-detail [v]="v" [t]="t"></sky-about-detail>
+    }
+    @if (v?.page?.isContact) {
+      <sky-contact-details [v]="v" [t]="t"></sky-contact-details>
+    }
+    @if (v?.page?.isForm) {
+      <sky-contact-form [v]="v" [t]="t"></sky-contact-form>
+    }
+    <nav class="nav-2" [attr.aria-label]="t.otherSections">
+      @if (v?.page?.hasPrev) {
+        <button class="btn-3" (click)="call(v?.pagePrev, $event)">
+          <span class="meta-4">‹ {{ txt(v?.page?.prevIdx) }}</span
+          ><span class="name">{{ txt(v?.page?.prevName) }}</span>
+        </button>
+      }
+      <button class="btn-4" (click)="call(v?.pageNext, $event)">
+        <span class="meta-4">{{ txt(v?.page?.nextIdx) }} ›</span
+        ><span class="name">{{ txt(v?.page?.nextName) }}</span>
+      </button>
+    </nav>
+  </div>
+  @if (v?.shotOn) {
+    <div
+      class="stack-5"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="v?.shotAlt"
+      (click)="call(v?.closeShot, $event)"
+    >
+      <button
+        class="btn-5"
+        [skyRef]="v?.shotCloseRef"
+        (click)="call(v?.closeShot, $event)"
+        [attr.aria-label]="t.closeImage"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6"></path>
+        </svg></button
+      ><img class="img" [skyRef]="v?.shotImgRef" [attr.alt]="v?.shotAlt" /><span class="meta-4"
+        >{{ txt(v?.shotAlt) }} {{ t.escToClose }}</span
+      >
+    </div>
+  }
+</section>

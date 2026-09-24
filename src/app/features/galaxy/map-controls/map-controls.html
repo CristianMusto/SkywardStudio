@@ -1,0 +1,31 @@
+@let v = vm();
+@let t = tr();
+<div class="stack" [style.--top]="txt(v?.ctrlTop)" [style.--bottom]="txt(v?.ctrlBottom)">
+  @if (v?.showHint) {
+    <div class="row" [skyRef]="v?.hintRef" aria-hidden="true">
+      <span>{{ t.dragRotate }}</span
+      ><span>{{ t.shiftDragPan }}</span
+      ><span>scroll · zoom</span><span>{{ t.holdEnter }}</span
+      ><span>{{ t.lList }}</span>
+    </div>
+  }
+  <div class="row-2" role="group" [attr.aria-label]="t.mapControls">
+    <button class="btn" (click)="call(v?.zoomOut, $event)" [attr.aria-label]="t.zoomOut">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M3 8h10" stroke="currentColor" stroke-width="1.5"></path>
+      </svg></button
+    ><button class="btn-2" (click)="call(v?.zoomIn, $event)" [attr.aria-label]="t.zoomIn">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="1.5"></path>
+      </svg></button
+    ><button class="btn-3" (click)="call(v?.recenter, $event)" [attr.aria-label]="t.recenterTheMap">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="8" cy="8" r="5" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+        <path d="M8 0v4M8 12v4M0 8h4M12 8h4" stroke="currentColor" stroke-width="1.4"></path>
+      </svg>
+      @if (v?.showRecenterLabel) {
+        {{ t.recenter }}<span class="meta">R</span>
+      }
+    </button>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+@let v = vm();
+@let t = tr();
+<div
+  class="row"
+  role="dialog"
+  aria-labelledby="sk-coach-t"
+  aria-describedby="sk-coach-d"
+  [style.--left]="txt(v?.coachLeft)"
+  [style.--right]="txt(v?.coachRight)"
+  [style.--top]="txt(v?.coachTop)"
+  [style.--bottom]="txt(v?.coachBottom)"
+  [style.--transform]="txt(v?.coachTf)"
+>
+  <div class="grid" aria-hidden="true">
+    <sky-vn [n]="v?.coachIcon"></sky-vn>
+  </div>
+  <div class="stack">
+    <span class="meta">{{ txt(v?.coachCount) }}</span
+    ><span class="coach-t" id="sk-coach-t">{{ txt(v?.coachTitle) }}</span
+    ><span class="coach-d" id="sk-coach-d">{{ txt(v?.coachText) }}</span>
+  </div>
+  <div class="stack-2">
+    <button class="btn" (click)="call(v?.coachNext, $event)">
+      {{ txt(v?.coachNextLabel) }}</button
+    ><button class="btn-2" (click)="call(v?.coachSkip, $event)">
+      {{ t.skip }}
+    </button>
+  </div>
+</div>

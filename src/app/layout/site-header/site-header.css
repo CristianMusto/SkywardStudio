@@ -1,0 +1,152 @@
+.header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: max(16px, env(safe-area-inset-top)) clamp(16px, 3vw, 32px) 16px;
+  z-index: 5;
+  animation: skFade 600ms ease-out;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 8px 0 0;
+  background: transparent;
+  border: 0;
+  color: var(--color-text);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.name {
+  font: 600 19px var(--font-display);
+  font-variation-settings: 'wdth' 90;
+  letter-spacing: -0.01em;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.link {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(var(--rgb-text) / 0.32);
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.4);
+  color: var(--color-text);
+  font: 500 13px var(--font-mono);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.link:hover {
+  background: var(--color-panel-hover);
+  border-color: rgb(var(--rgb-text) / 0.5);
+  color: var(--color-text);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.btn-2 {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 11px;
+  border: 1px solid rgb(var(--rgb-text) / 0.32);
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.4);
+  color: var(--color-text);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.btn-2:hover {
+  background: var(--color-panel-hover);
+  border-color: var(--color-text);
+}
+
+.btn-2:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.btn-3 {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgb(var(--rgb-text) / 0.32);
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.4);
+  color: var(--color-text);
+  font: 500 15px var(--font-text);
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.btn-3:hover {
+  background: var(--color-panel-hover);
+  border-color: var(--color-text);
+}
+
+.btn-3:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.meta {
+  font: 400 12px var(--font-mono);
+  color: var(--color-muted);
+}
+
+.btn-4 {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--color-work);
+  color: var(--color-bg);
+  font: 600 15px var(--font-text);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.btn-4:hover {
+  background: #a8f0f8;
+}
+
+.btn-4:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}

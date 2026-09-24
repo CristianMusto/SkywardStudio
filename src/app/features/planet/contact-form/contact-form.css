@@ -1,0 +1,137 @@
+.form {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font: 500 15px var(--font-text);
+}
+
+.nome {
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.5);
+  color: var(--color-text);
+  font: 400 16px var(--font-text);
+  border: var(--border);
+}
+
+.nome:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 2px;
+}
+
+.nome-h {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color);
+}
+
+.email {
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.5);
+  color: var(--color-text);
+  font: 400 16px var(--font-text);
+  border: var(--border);
+}
+
+.email:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 2px;
+}
+
+.email-h {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color);
+}
+
+.msg {
+  min-height: 140px;
+  padding: 12px 14px;
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.5);
+  color: var(--color-text);
+  font: 400 16px/1.5 var(--font-text);
+  resize: vertical;
+  border: var(--border);
+}
+
+.msg:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 2px;
+}
+
+.msg-h {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--color);
+}
+
+.btn {
+  align-self: flex-start;
+  min-height: 52px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 4px;
+  color: var(--color-bg);
+  font: 600 16px var(--font-text);
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition:
+    filter var(--dur-fast) var(--ease-out),
+    transform 120ms ease-out,
+    opacity var(--dur-fast) var(--ease-out);
+  background: var(--background);
+  opacity: var(--opacity);
+}
+
+.btn:hover {
+  filter: brightness(1.12);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.text {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 6px;
+  color: var(--color-text);
+  animation: skFade 320ms ease-out;
+  border: 1px solid var(--border);
+}

@@ -1,0 +1,32 @@
+@let v = vm();
+@let t = tr();
+<div class="row">
+  <div class="stack">
+    <h2 class="heading">
+      {{ t.whatSIncluded }}
+    </h2>
+    <ol class="ol">
+      @for (it of v?.page?.items ?? []; track $index) {
+        <li class="li">
+          <span class="meta" [style.--color]="txt(v?.page?.hex)">{{ txt(it?.n) }}</span
+          ><span class="label"
+            ><span class="name">{{ txt(it?.t) }}</span
+            ><span class="label-2">{{ txt(it?.d) }}</span></span
+          >
+        </li>
+      }
+    </ol>
+  </div>
+  <div class="stack-2">
+    <h2 class="heading">
+      {{ t.relatedWork }}
+    </h2>
+    <button class="btn" (click)="call(v?.page?.goCase, $event)">
+      <span class="label-3" aria-hidden="true"></span
+      ><span class="label-4"
+        ><span class="meta-2">{{ t.sys01Work }}</span
+        ><span class="name-2">Skyward</span></span
+      >
+    </button>
+  </div>
+</div>

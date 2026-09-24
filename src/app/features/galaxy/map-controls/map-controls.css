@@ -1,0 +1,121 @@
+.stack {
+  position: absolute;
+  right: clamp(16px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 3;
+  animation: skFade 700ms ease-out;
+  top: var(--top);
+  bottom: var(--bottom);
+}
+
+.row {
+  transition: opacity 240ms ease-out;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  font: 400 12px var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  pointer-events: none;
+}
+
+.row-2 {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
+  border: 1px solid rgb(var(--rgb-text) / 0.32);
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.55);
+  color: var(--color-text);
+  font: 500 15px var(--font-text);
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.btn:hover {
+  background: var(--color-panel-hover);
+  border-color: var(--color-text);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.btn-2 {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
+  border: 1px solid rgb(var(--rgb-text) / 0.32);
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.55);
+  color: var(--color-text);
+  font: 500 15px var(--font-text);
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.btn-2:hover {
+  background: var(--color-panel-hover);
+  border-color: var(--color-text);
+}
+
+.btn-2:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.btn-3 {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
+  border: 1px solid rgb(var(--rgb-text) / 0.32);
+  border-radius: 4px;
+  background: rgb(var(--rgb-bg) / 0.55);
+  color: var(--color-text);
+  font: 500 15px var(--font-text);
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.btn-3:hover {
+  background: var(--color-panel-hover);
+  border-color: var(--color-text);
+}
+
+.btn-3:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.meta {
+  font: 400 12px var(--font-mono);
+  color: var(--color-muted);
+}

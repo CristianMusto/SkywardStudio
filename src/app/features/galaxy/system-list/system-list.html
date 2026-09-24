@@ -1,0 +1,15 @@
+@let v = vm();
+@let t = tr();
+<div class="box" role="region" [attr.aria-label]="t.systemListView">
+  <div class="stack">
+    @for (s of v?.systems ?? []; track $index) {
+      <button class="btn" (click)="call(s?.onJump, $event)">
+        <span class="meta">{{ txt(s?.code) }}</span
+        ><span class="label"
+          ><span class="name">{{ txt(s?.name) }}</span
+          ><span class="label-2">{{ txt(s?.desc) }}</span></span
+        ><span class="meta-2" [style.--color]="txt(s?.listColor)">{{ txt(s?.listMeta) }}</span>
+      </button>
+    }
+  </div>
+</div>

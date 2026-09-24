@@ -1,0 +1,428 @@
+@let v = vm();
+@let t = tr();
+<div class="stack">
+  <div class="stack-2">
+    <span class="meta">{{ t.logbook6Legs }}</span>
+    <h2 class="heading">
+      {{ t.skywardSJourney }}
+    </h2>
+  </div>
+  <ol class="ol">
+    <li class="li">
+      <span class="label" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="row">
+        <div class="stack-3">
+          <span class="meta-2" [style.--color]="txt(v?.page?.hex)">{{ t.leg01LiftOff }}</span>
+          <h2 class="heading">
+            {{ t.theBrief }}
+          </h2>
+          <p class="text">
+            {{ t.skywardIsMyOwn }}
+          </p>
+        </div>
+        <div class="box">
+          <dl class="dl">
+            <div class="grid">
+              <dt class="dt">
+                {{ t.client }}
+              </dt>
+              <dd class="dd">{{ t.skywardSelfInitiated }}</dd>
+            </div>
+            <div class="grid">
+              <dt class="dt-2">
+                {{ t.scope }}
+              </dt>
+              <dd class="dd-2">
+                <span class="meta-3">{{ t.logoIdentity }}</span
+                ><span class="meta-3">{{ t.logoAnimation }}</span
+                ><span class="meta-3">{{ t.galaxyMapWebsite }}</span
+                ><span class="meta-3">Design system</span><span class="meta-3">Motion</span>
+              </dd>
+            </div>
+            <div class="grid-2">
+              <dt class="dt">
+                {{ t.year }}
+              </dt>
+              <dd class="dd">2026</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </li>
+    <li class="li">
+      <span class="label-2" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="row">
+        <div class="stack-3">
+          <span class="meta-4" [style.--color]="txt(v?.page?.hex)">{{ t.leg02TheMark }}</span>
+          <h2 class="heading">
+            {{ t.aMarkThatDraws }}
+          </h2>
+          <p class="text">
+            {{ t.theLogoIsMade }}
+          </p>
+        </div>
+        <div class="box">
+          <div class="stack-4">
+            <div class="grid-3">
+              <sky-vn [n]="v?.logoDemo"></sky-vn>
+            </div>
+            <button class="btn" (click)="call(v?.logoReplay, $event)">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5V5h-2.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                ></path></svg
+              >{{ t.replayTheStroke }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="li">
+      <span class="label-3" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="row">
+        <div class="stack-3">
+          <span class="meta-5" [style.--color]="txt(v?.page?.hex)">{{ t.leg03ColorVoice }}</span>
+          <h2 class="heading">
+            {{ t.oneColorPerSystem }}
+          </h2>
+          <p class="text">
+            {{ t.everySectionHasIts }}
+          </p>
+        </div>
+        <div class="box">
+          <div class="stack-5">
+            <div class="stack-6" aria-live="polite">
+              <span
+                class="name"
+                [style.--font-variation-settings]="txt(v?.tyW)"
+                [style.--color]="txt(v?.tyHex)"
+                >Skyward</span
+              ><span class="label-4">{{ t.yourIdeaInOrbit }}</span
+              ><span class="meta-6"
+                >{{ txt(v?.tyCode) }} · {{ txt(v?.tyName) }} · {{ txt(v?.tyHexLabel) }} {{ t.contrast }}
+                {{ txt(v?.tyCr) }}</span
+              >
+            </div>
+            <div class="row-2" role="group" [attr.aria-label]="t.systemColor">
+              @for (c of v?.tySw ?? []; track $index) {
+                <button
+                  class="btn-2"
+                  (click)="call(c?.pick, $event)"
+                  [attr.aria-pressed]="c?.on"
+                  [attr.aria-label]="c?.name"
+                  [style.--border]="txt(c?.ring)"
+                >
+                  <span
+                    class="label-5"
+                    [style.--background]="txt(c?.hex)"
+                    [style.--box-shadow]="txt(c?.glow)"
+                  ></span>
+                </button>
+              }
+            </div>
+            <div class="stack-7">
+              <label class="label-6" for="ty-w"
+                ><span>{{ t.typeWidth }}</span
+                ><span class="meta-6">wdth {{ txt(v?.tyW) }}</span></label
+              ><input
+                class="ty-w"
+                id="ty-w"
+                type="range"
+                min="75"
+                max="100"
+                step="1"
+                [value]="txt(v?.tyW)"
+                (input)="call(v?.tyWIn, $event)"
+                [style.--accent-color]="txt(v?.tyHex)"
+              />
+            </div>
+            <div class="grid-4">
+              <span class="label-7"
+                ><span class="name-2">Bricolage Grotesque</span
+                ><span class="meta-6">{{ t.headingsSystems }}</span></span
+              ><span class="label-7"
+                ><span class="label-8">Hanken Grotesk</span
+                ><span class="meta-6">{{ t.textInterface }}</span></span
+              ><span class="label-7"
+                ><span class="meta-7">Martian Mono</span
+                ><span class="meta-6">{{ t.hudCoordinates }}</span></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="li">
+      <span class="label-9" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="row">
+        <div class="stack-3">
+          <span class="meta-8" [style.--color]="txt(v?.page?.hex)">{{ t.leg04TheMap }}</span>
+          <h2 class="heading">
+            {{ t.theSiteBecomesA }}
+          </h2>
+          <p class="text">
+            {{ t.insteadOfAMenu }}
+          </p>
+        </div>
+        <div class="box">
+          <div class="stack-8">
+            <canvas
+              class="canvas"
+              [skyRef]="v?.miniGalRef"
+              role="img"
+              [attr.aria-label]="t.miniGalaxyDragTo"
+            ></canvas>
+            <div class="row-3" role="group" [attr.aria-label]="t.chooseASystem">
+              @for (c of v?.mChips ?? []; track $index) {
+                <button
+                  class="btn-3"
+                  (click)="call(c?.pick, $event)"
+                  [attr.aria-pressed]="c?.on"
+                  [style.--border]="txt(c?.ring)"
+                  [style.--background]="txt(c?.bg)"
+                >
+                  <span class="label-10" aria-hidden="true" [style.--background]="txt(c?.hex)"></span
+                  >{{ txt(c?.name) }}
+                </button>
+              }
+            </div>
+            <span class="meta-6">{{ t.dragToRotateTap }}</span>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="li">
+      <span class="label-11" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="row">
+        <div class="stack-3">
+          <span class="meta-9" [style.--color]="txt(v?.page?.hex)">{{ t.leg05TheJump }}</span>
+          <h2 class="heading">
+            {{ t.travelingBetweenSections }}
+          </h2>
+          <p class="text">
+            {{ t.movingBetweenSectionsIs }}
+          </p>
+        </div>
+        <div class="box">
+          <div class="stack-8">
+            <canvas
+              class="canvas-2"
+              [skyRef]="v?.miniJumpRef"
+              role="img"
+              [attr.aria-label]="t.demoOfTheJump"
+            ></canvas>
+            <div class="row-4">
+              <button
+                class="btn-4"
+                (click)="call(v?.jumpDemo, $event)"
+                [disabled]="!!v?.jumpBusy"
+                [style.--background]="txt(v?.mSelHex)"
+                [style.--opacity]="txt(v?.jumpOp)"
+              >
+                {{ txt(v?.jumpLabel) }}</button
+              ><span class="meta-6">{{ t.pickTheSystemIn }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="li">
+      <span class="label-12" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="row">
+        <div class="stack-3">
+          <span class="meta-10" [style.--color]="txt(v?.page?.hex)">{{ t.leg06TheSystem }}</span>
+          <h2 class="heading">
+            {{ t.aSharedLanguage }}
+          </h2>
+          <p class="text">
+            {{ t.colorsTypeRadiiAnd }}
+          </p>
+        </div>
+        <div class="box">
+          <div class="grid-5">
+            <div class="stack-9">
+              <span class="meta-6">{{ t.systemColors }}</span
+              ><span class="label-13"
+                ><span class="label-14"></span><span class="label-15"></span><span class="label-16"></span
+                ><span class="label-17"></span><span class="label-18"></span><span class="label-19"></span
+              ></span>
+            </div>
+            <div class="stack-9">
+              <span class="meta-6">{{ t.typefaces }}</span
+              ><span class="name-2">{{ t.n3Families16pxBase }}</span>
+            </div>
+            <div class="stack-9">
+              <span class="meta-6">{{ t.radii }}</span
+              ><span class="label-20"
+                ><span class="label-21"></span><span class="label-22"></span><span class="label-23"></span
+              ></span>
+            </div>
+            <div class="stack-9">
+              <span class="meta-6">{{ t.motion }}</span
+              ><span class="meta-11">{{ t.jump162 }}</span>
+            </div>
+            <div class="box-2">
+              <a class="link" href="design-system.html"
+                >{{ t.openTheDesignSystem }}<span aria-hidden="true">→</span></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ol>
+  <div class="stack-10">
+    <div class="stack-2">
+      <span class="meta">{{ t.arrivalFinalScreens }}</span>
+      <h2 class="heading-2">
+        {{ t.theFinishedSite }}
+      </h2>
+    </div>
+    <figure class="figure">
+      <button
+        class="btn-5"
+        (click)="call(v?.openShot, $event)"
+        data-src="assets/case/galaxy-map.jpg"
+        [attr.data-alt]="t.galaxyMapWithThe"
+        [attr.aria-label]="t.enlargeGalaxyMapWith"
+      >
+        <img
+          class="img"
+          src="assets/case/galaxy-map.jpg"
+          [attr.alt]="t.galaxyMapWithThe"
+          loading="lazy"
+          decoding="async"
+          width="2968"
+          height="1766"
+        />
+      </button>
+      <figcaption class="figcaption">
+        {{ t.galaxyMapHome }}
+      </figcaption>
+    </figure>
+    <div class="grid-6">
+      <figure class="figure">
+        <button
+          class="btn-6"
+          (click)="call(v?.openShot, $event)"
+          data-src="assets/case/intro.png"
+          [attr.data-alt]="t.introScreenWithThe"
+          [attr.aria-label]="t.enlargeIntroScreenWith"
+        >
+          <img
+            class="img"
+            src="assets/case/intro.png"
+            [attr.alt]="t.introScreenWithThe"
+            loading="lazy"
+            decoding="async"
+            width="2968"
+            height="1766"
+          />
+        </button>
+        <figcaption class="figcaption">
+          {{ t.introHoldToLaunch }}
+        </figcaption>
+      </figure>
+      <figure class="figure">
+        <button
+          class="btn-7"
+          (click)="call(v?.openShot, $event)"
+          data-src="assets/case/system-map.jpg"
+          [attr.data-alt]="t.processSystemMapWith"
+          [attr.aria-label]="t.enlargeProcessSystemMap"
+        >
+          <img
+            class="img"
+            src="assets/case/system-map.jpg"
+            [attr.alt]="t.processSystemMapWith"
+            loading="lazy"
+            decoding="async"
+            width="2968"
+            height="1766"
+          />
+        </button>
+        <figcaption class="figcaption">
+          {{ t.systemMapProcess }}
+        </figcaption>
+      </figure>
+      <figure class="figure">
+        <button
+          class="btn-8"
+          (click)="call(v?.openShot, $event)"
+          data-src="assets/case/planet-page.jpg"
+          [attr.data-alt]="t.skywardCaseStudyPage"
+          [attr.aria-label]="t.enlargeSkywardCaseStudy"
+        >
+          <img
+            class="img"
+            src="assets/case/planet-page.jpg"
+            [attr.alt]="t.skywardCaseStudyPage"
+            loading="lazy"
+            decoding="async"
+            width="2968"
+            height="1766"
+          />
+        </button>
+        <figcaption class="figcaption">
+          {{ t.planetPageSkyward }}
+        </figcaption>
+      </figure>
+      <figure class="figure">
+        <button
+          class="btn-9"
+          (click)="call(v?.openShot, $event)"
+          data-src="assets/case/list-view.png"
+          [attr.data-alt]="t.listViewOfAll"
+          [attr.aria-label]="t.enlargeListViewOf"
+        >
+          <img
+            class="img"
+            src="assets/case/list-view.png"
+            [attr.alt]="t.listViewOfAll"
+            loading="lazy"
+            decoding="async"
+            width="2968"
+            height="1766"
+          />
+        </button>
+        <figcaption class="figcaption">
+          {{ t.listView }}
+        </figcaption>
+      </figure>
+      <figure class="figure">
+        <button
+          class="btn-10"
+          (click)="call(v?.openShot, $event)"
+          data-src="assets/case/contact-form.png"
+          [attr.data-alt]="t.contactFormWithName"
+          [attr.aria-label]="t.enlargeContactFormWith"
+        >
+          <img
+            class="img"
+            src="assets/case/contact-form.png"
+            [attr.alt]="t.contactFormWithName"
+            loading="lazy"
+            decoding="async"
+            width="2968"
+            height="1766"
+          />
+        </button>
+        <figcaption class="figcaption">
+          {{ t.contactMessage }}
+        </figcaption>
+      </figure>
+      <figure class="figure">
+        <div class="box-3">
+          <div class="box-4"></div>
+        </div>
+        <figcaption class="figcaption">
+          {{ t.mobileTbd }}
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</div>

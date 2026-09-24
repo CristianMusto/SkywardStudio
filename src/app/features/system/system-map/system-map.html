@@ -1,0 +1,239 @@
+@let v = vm();
+@let t = tr();
+<section
+  class="section"
+  aria-labelledby="sk-arrive"
+  [style.--background-1]="txt(v?.mapCxPct)"
+  [style.--background-2]="txt(v?.mapCyPct)"
+  [style.--animation]="txt(v?.arriveAnim)"
+>
+  <header class="header">
+    <button class="btn" (click)="call(v?.backToMap, $event)">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg
+      >{{ t.galaxyMap }}<span class="meta">M</span>
+    </button>
+    <div class="row">
+      <nav class="nav" [attr.aria-label]="t.location" [style.--display]="txt(v?.crumbDisplay)">
+        <span>{{ t.galaxy }}</span
+        ><span aria-hidden="true">/</span><span class="label">{{ txt(v?.sel?.name) }}</span>
+      </nav>
+      <a
+        class="link"
+        [attr.href]="t.it"
+        (click)="call(v?.switchLang, $event)"
+        [attr.hreflang]="t.it2"
+        [attr.lang]="t.it2"
+        [attr.aria-label]="t.versioneItaliana"
+        >{{ t.it3 }}</a
+      ><button
+        class="btn-2"
+        (click)="call(v?.toggleAudio, $event)"
+        [attr.aria-pressed]="v?.audioOn"
+        [attr.aria-label]="v?.audioAria"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+          <path
+            d="M3 8h3l4-3v10l-4-3H3z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linejoin="round"
+          ></path>
+          <path
+            [attr.d]="v?.audioWave"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+  <svg class="svg" [skyRef]="v?.orbSvgRef" aria-hidden="true" [attr.width]="v?.vw" [attr.height]="v?.vh">
+    <path [attr.d]="v?.orbitsD" fill="none" stroke="rgba(242,238,230,.2)" stroke-width="1"></path>
+    <path
+      [attr.d]="v?.ghostD"
+      fill="none"
+      stroke="rgba(242,238,230,.28)"
+      stroke-width="1"
+      stroke-dasharray="3 7"
+    ></path>
+    <path
+      [attr.d]="v?.orbitSelD"
+      fill="none"
+      [attr.stroke]="v?.sel?.hex"
+      stroke-width="1.4"
+      stroke-opacity=".8"
+    ></path>
+  </svg>
+  <div
+    class="box"
+    [skyRef]="v?.starRef"
+    aria-hidden="true"
+    [style.--left]="txt(v?.mapCx)"
+    [style.--top]="txt(v?.mapCy)"
+    [style.--width]="txt(v?.starSize)"
+    [style.--height]="txt(v?.starSize)"
+    [style.--margin]="txt(v?.starMargin)"
+    [style.--background-1]="txt(v?.sel?.hex)"
+    [style.--background-2]="txt(v?.sel?.tint)"
+    [style.--background-3]="txt(v?.sel?.tint)"
+  ></div>
+  @for (p of v?.planets ?? []; track $index) {
+    <div class="box-2" [skyRef]="p?.wrapRef" [style.--width]="txt(p?.size)" [style.--height]="txt(p?.size)">
+      <button
+        class="btn-3"
+        (click)="call(p?.onSel, $event)"
+        (mouseenter)="call(p?.onEnter, $event)"
+        (mouseleave)="call(p?.onLeave, $event)"
+        (focus)="call(p?.onEnter, $event)"
+        (blur)="call(p?.onLeave, $event)"
+        [attr.aria-label]="p?.aria"
+        [attr.aria-pressed]="p?.selected"
+        [style.--width]="txt(p?.hit)"
+        [style.--height]="txt(p?.hit)"
+      >
+        <span
+          class="label-2"
+          [skyRef]="p?.haloRef"
+          [style.--width]="txt(p?.haloSize)"
+          [style.--height]="txt(p?.haloSize)"
+          [style.--margin]="txt(p?.haloM)"
+          [style.--background-1]="txt(p?.tint)"
+          [style.--background-2]="txt(p?.tint)"
+          [style.--opacity]="txt(p?.glowOp)"
+        ></span
+        ><span
+          class="label-3"
+          [style.--width]="txt(p?.core)"
+          [style.--height]="txt(p?.core)"
+          [style.--margin]="txt(p?.coreM)"
+          [style.--background]="txt(p?.coreBg)"
+          [style.--border]="txt(p?.coreBorder)"
+          [style.--box-shadow]="txt(p?.coreGlow)"
+          [style.--opacity]="txt(p?.glowOp)"
+        ></span
+        ><span
+          class="label-4"
+          [style.--width]="txt(p?.size)"
+          [style.--height]="txt(p?.size)"
+          [style.--background]="txt(p?.bg)"
+          [style.--border]="txt(p?.border)"
+          [style.--box-shadow]="txt(p?.shadow)"
+          [style.--opacity]="txt(p?.solidOp)"
+          [style.--transform]="txt(p?.solidScale)"
+        ></span
+        ><span
+          class="label-5"
+          [style.--width]="txt(p?.ringD)"
+          [style.--height]="txt(p?.ringD)"
+          [style.--margin]="txt(p?.ringM)"
+          [style.--border]="txt(p?.ringCol)"
+          [style.--opacity]="txt(p?.ringOp)"
+        ></span>
+      </button>
+      <div class="stack">
+        <span class="meta-2" [style.--color]="txt(p?.idxColor)">{{ txt(p?.idx) }}</span
+        ><span class="name">{{ txt(p?.name) }}</span>
+      </div>
+    </div>
+  }
+  <div class="stack-2" [style.--top]="txt(v?.colTop)" [style.--width]="txt(v?.colW)">
+    <span class="meta-3" [style.--color]="txt(v?.sel?.hex)"
+      >{{ txt(v?.sel?.code) }} {{ t.system }} {{ txt(v?.sel?.meta) }}</span
+    >
+    <h1 class="arrive" id="sk-arrive" [skyRef]="v?.arriveRef" tabindex="-1">
+      {{ txt(v?.sel?.name) }}
+    </h1>
+    <p class="text">
+      {{ txt(v?.sel?.desc) }}
+    </p>
+    <nav class="nav-2" [attr.aria-label]="t.indexOf + txt(v?.sel?.name)">
+      <span class="meta-4">{{ t.index }}</span>
+      <ol class="ol">
+        @for (p of v?.planets ?? []; track $index) {
+          <li class="li">
+            <button
+              class="btn-4"
+              (click)="call(p?.onSel, $event)"
+              (mouseenter)="call(p?.onEnter, $event)"
+              (mouseleave)="call(p?.onLeave, $event)"
+              [attr.aria-pressed]="p?.selected"
+              [style.--background]="txt(p?.rowBg)"
+            >
+              <span class="meta-5" [style.--color]="txt(p?.idxColor)">{{ txt(p?.idx) }}</span
+              ><span class="label-6"
+                ><span class="name-2">{{ txt(p?.name) }}</span
+                ><span class="label-7">{{ txt(p?.kind) }}</span></span
+              ><span
+                class="label-8"
+                aria-hidden="true"
+                [style.--background]="txt(p?.dot)"
+                [style.--border]="txt(p?.border)"
+              ></span>
+            </button>
+          </li>
+        }
+      </ol>
+    </nav>
+    @if (v?.planetOnDesk) {
+      <div class="stack-3" role="region" aria-labelledby="sk-planet">
+        <div class="row-2">
+          <span class="meta">{{ txt(v?.pl?.idx) }} · {{ txt(v?.pl?.kind) }}</span
+          ><button class="btn-5" (click)="call(v?.closePlanet, $event)" [attr.aria-label]="t.closeDetail">
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5"></path>
+            </svg>
+          </button>
+        </div>
+        <h2 class="planet" id="sk-planet">
+          {{ txt(v?.pl?.name) }}
+        </h2>
+        <p class="text-2">{{ txt(v?.pl?.desc) }}</p>
+        <button class="btn-6" (click)="call(v?.land, $event)" [style.--background]="txt(v?.sel?.hex)">
+          <span>{{ txt(v?.pl?.cta) }}</span
+          ><span class="meta-6" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
+        </button>
+        @if (v?.landMsg) {
+          <p class="text-3" role="status">
+            {{ txt(v?.landMsg) }}
+          </p>
+        }
+      </div>
+    }
+  </div>
+  @if (v?.planetOnMob) {
+    <div
+      class="stack-4"
+      role="region"
+      aria-labelledby="sk-planet"
+      [style.--position]="txt(v?.panelPos)"
+      [style.--left]="txt(v?.panelLeft)"
+      [style.--width]="txt(v?.panelW)"
+    >
+      <div class="row-2">
+        <span class="meta">{{ txt(v?.pl?.idx) }} · {{ txt(v?.pl?.kind) }}</span
+        ><button class="btn-7" (click)="call(v?.closePlanet, $event)" [attr.aria-label]="t.closeDetail">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5"></path>
+          </svg>
+        </button>
+      </div>
+      <h2 class="planet" id="sk-planet">
+        {{ txt(v?.pl?.name) }}
+      </h2>
+      <p class="text-2">{{ txt(v?.pl?.desc) }}</p>
+      <button class="btn-8" (click)="call(v?.land, $event)" [style.--background]="txt(v?.sel?.hex)">
+        <span>{{ txt(v?.pl?.cta) }}</span
+        ><span class="meta-7" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
+      </button>
+      @if (v?.landMsg) {
+        <p class="text-3" role="status">
+          {{ txt(v?.landMsg) }}
+        </p>
+      }
+    </div>
+  }
+</section>

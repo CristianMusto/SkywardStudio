@@ -1,0 +1,128 @@
+.nav {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 8px;
+  position: relative;
+}
+
+.btn {
+  width: 100%;
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 6px;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+  border: 1px solid var(--border);
+  background: var(--background);
+}
+
+.btn:hover {
+  background: var(--color-panel-hover);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-work);
+  outline-offset: 3px;
+}
+
+.label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.label-2 {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--background);
+  border: 1.5px solid var(--border);
+}
+
+.meta {
+  font: 400 12px var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.name {
+  font: 600 19px/1.15 var(--font-display);
+}
+
+.row {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 64px;
+}
+
+.stack {
+  flex: 2 1 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.heading {
+  margin: 0;
+  font: 600 clamp(28px, 3vw, 40px) / 1.1 var(--font-display);
+  font-variation-settings: 'wdth' 84;
+  letter-spacing: -0.015em;
+}
+
+.text {
+  margin: 0;
+  max-width: 640px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--color-text-2);
+  text-wrap: pretty;
+}
+
+.stack-2 {
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.svg {
+  flex: none;
+  margin-top: 3px;
+}

@@ -1,0 +1,46 @@
+@let v = store.view();
+@let t = store.strings();
+@if (v?.showMap) {
+  <sky-site-header [v]="v" [t]="t"></sky-site-header
+  ><svg
+    class="svg"
+    aria-hidden="true"
+    [attr.width]="v?.vw"
+    [attr.height]="v?.vh"
+    [style.--opacity]="txt(v?.routesOpacity)"
+  >
+    <path
+      [skyRef]="v?.pIdleRef"
+      fill="none"
+      stroke="rgba(169,163,194,.38)"
+      stroke-width="1"
+      stroke-dasharray="2 7"
+    ></path>
+    <path
+      [skyRef]="v?.pActRef"
+      fill="none"
+      stroke="#7FE6F2"
+      stroke-width="1.25"
+      stroke-dasharray="6 6"
+    ></path></svg
+  ><button
+    class="btn"
+    [skyRef]="v?.bhRef"
+    (click)="call(v?.bhClick, $event)"
+    [attr.aria-label]="t.blackHole"
+  ></button
+  ><sky-system-labels [v]="v" [t]="t"></sky-system-labels><sky-hero [v]="v" [t]="t"></sky-hero
+  ><sky-map-controls [v]="v" [t]="t"></sky-map-controls>
+  @if (v?.coachOn) {
+    <sky-coach [v]="v" [t]="t"></sky-coach>
+  }
+  @if (v?.eggMsg) {
+    <sky-egg-toast [v]="v" [t]="t"></sky-egg-toast>
+  }
+  @if (v?.cardOn) {
+    <sky-system-card [v]="v" [t]="t"></sky-system-card>
+  }
+  @if (v?.listOn) {
+    <sky-system-list [v]="v" [t]="t"></sky-system-list>
+  }
+}

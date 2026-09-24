@@ -1,0 +1,56 @@
+@let v = vm();
+@let t = tr();
+<header class="header">
+  <button class="btn" (click)="call(v?.goHome, $event)" [attr.aria-label]="t.skywardBackToHome">
+    <svg width="36" height="36" viewBox="0 0 1000 1000" aria-hidden="true">
+      <g transform="matrix(1.577362,0,0,1.577362,-316.787463,-268.230134)" fill="#F2EEE6">
+        <path
+          d="M266.52 334.9C284.03 317.9 298.58 309.08 303.81 315.75C306.61 319.32 305.3 326.17 301 333C286.19 356.53 284.79 386.15 297 406C306.04 422.04 321.54 433.59 343 441C364.92 448.57 408.9 449.04 441 452C501.22 455.91 558.74 467.34 614 485C682.73 506.96 728.55 528.98 747 563C765.22 596.6 758.44 633.33 731 663C689.34 702.74 624.47 727.32 552 734C466.31 741.9 377.57 725.26 299 687C249.15 662.72 197.66 624.62 217 599C220.85 593.9 226.44 592.57 237 594C289.55 609.17 301.88 617.74 394 632C477.2 643.4 586.08 627.55 591 601.12C594.74 581.03 495.01 548.18 438 536C396.37 527.1 342.76 519.83 317 509C254.84 486.38 224.6 445.99 236 389C240.76 369.02 250.14 350.7 266.52 334.9Z"
+        ></path>
+        <path
+          d="M315.14 365C322.03 298.46 407.74 257.57 485.01 245C635.32 220.55 772.78 255.6 814.5 325.11C825.27 343.05 824.98 359.25 817 365C800.94 376.57 775.24 356.64 751 349.34C658.83 318.76 592.68 330.43 569.05 332C545.25 335.34 533.16 337.91 532 342C530.48 347.35 548.61 351.17 569.05 356C635.06 373.83 691.6 399.06 737 433C798.87 480.06 815.96 539.47 801 599C798.18 610.22 791.38 619.69 786 619.12C779.18 618.4 776.77 615.49 776 607C778.69 572.88 758.97 530.68 730.8 512C688.55 476.1 544.64 430.68 449 427C371 423.99 314.78 422.41 315.14 365"
+        ></path>
+      </g>
+    </svg>
+    @if (v?.showWordmark) {
+      <span class="name">Skyward</span>
+    }
+  </button>
+  <div class="row">
+    <a
+      class="link"
+      [attr.href]="t.it"
+      (click)="call(v?.switchLang, $event)"
+      [attr.hreflang]="t.it2"
+      [attr.lang]="t.it2"
+      [attr.aria-label]="t.versioneItaliana"
+      >{{ t.it3 }}</a
+    ><button
+      class="btn-2"
+      (click)="call(v?.toggleAudio, $event)"
+      [attr.aria-pressed]="v?.audioOn"
+      [attr.aria-label]="v?.audioAria"
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+        <path
+          d="M3 8h3l4-3v10l-4-3H3z"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linejoin="round"
+        ></path>
+        <path
+          [attr.d]="v?.audioWave"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+        ></path>
+      </svg></button
+    ><button class="btn-3" (click)="call(v?.toggleList, $event)" [attr.aria-pressed]="v?.listOn">
+      {{ txt(v?.listLabel) }}<span class="meta">{{ txt(v?.listKey) }}</span></button
+    ><button class="btn-4" (click)="call(v?.goContatti, $event)">
+      {{ t.contact }}
+    </button>
+  </div>
+</header>

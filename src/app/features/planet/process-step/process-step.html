@@ -1,0 +1,56 @@
+@let v = vm();
+@let t = tr();
+<nav class="nav" [attr.aria-label]="t.processStages">
+  <ol class="ol">
+    @for (r of v?.page?.rail ?? []; track $index) {
+      <li>
+        <button
+          class="btn"
+          (click)="call(r?.go, $event)"
+          [attr.aria-current]="r?.cur"
+          [style.--border]="txt(r?.border)"
+          [style.--background]="txt(r?.bg)"
+        >
+          <span class="label"
+            ><span
+              class="label-2"
+              aria-hidden="true"
+              [style.--background]="txt(r?.dot)"
+              [style.--border]="txt(r?.dotBorder)"
+            ></span
+            ><span class="meta">{{ txt(r?.idx) }} · {{ txt(r?.kind) }}</span></span
+          ><span class="name">{{ txt(r?.name) }}</span>
+        </button>
+      </li>
+    }
+  </ol>
+</nav>
+<div class="row">
+  <div class="stack">
+    <h2 class="heading">
+      {{ t.whatHappens }}
+    </h2>
+    <p class="text">
+      {{ txt(v?.page?.happens) }}
+    </p>
+  </div>
+  <div class="stack-2">
+    <h2 class="heading">
+      {{ t.whatYouGet }}
+    </h2>
+    <ul class="ul">
+      @for (g of v?.page?.gets ?? []; track $index) {
+        <li class="li">
+          <svg class="svg" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+            <path
+              d="M3.5 9.5l3.5 3.5 7.5-8"
+              fill="none"
+              [attr.stroke]="v?.page?.hex"
+              stroke-width="1.8"
+            ></path></svg
+          ><span>{{ txt(g) }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

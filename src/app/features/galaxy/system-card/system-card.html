@@ -1,0 +1,44 @@
+@let v = vm();
+@let t = tr();
+<div
+  class="stack"
+  role="dialog"
+  aria-labelledby="sk-card-title"
+  (mouseenter)="call(v?.cardEnter, $event)"
+  (mouseleave)="call(v?.cardLeave, $event)"
+  [style.--left]="txt(v?.cardLeft)"
+  [style.--right]="txt(v?.cardRight)"
+  [style.--top]="txt(v?.cardTop)"
+  [style.--bottom]="txt(v?.cardBottom)"
+  [style.--width]="txt(v?.cardWidth)"
+  [style.--border-radius]="txt(v?.cardRadius)"
+  [style.--animation]="txt(v?.cardAnim)"
+>
+  <div class="row">
+    <span class="meta"
+      ><span>{{ txt(v?.sel?.code) }} {{ t.distance }} {{ txt(v?.sel?.min) }} min</span
+      ><span class="label">{{ txt(v?.sel?.route) }}</span></span
+    ><button class="btn" (click)="call(v?.clearSel, $event)" [attr.aria-label]="t.closeCard">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5"></path>
+      </svg>
+    </button>
+  </div>
+  <h2 class="card-title" id="sk-card-title">
+    {{ txt(v?.sel?.name) }}
+  </h2>
+  <p class="text">{{ txt(v?.sel?.desc) }}</p>
+  <div class="row-2">
+    <span class="meta-2">{{ txt(v?.sel?.meta) }}</span
+    ><span
+      class="meta-3"
+      [style.--border]="txt(v?.sel?.visitBorder)"
+      [style.--color]="txt(v?.sel?.visitColor)"
+      >{{ txt(v?.sel?.visitLabel) }}</span
+    >
+  </div>
+  <button class="btn-2" (click)="call(v?.jump, $event)" [style.--background]="txt(v?.sel?.hex)">
+    <span>{{ txt(v?.sel?.cta) }}</span
+    ><span class="meta-4" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
+  </button>
+</div>

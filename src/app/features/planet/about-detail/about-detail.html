@@ -1,0 +1,113 @@
+@let v = vm();
+@if (v?.page?.hasPhoto) {
+  <div class="row">
+    <canvas class="canvas" [skyRef]="v?.aboutGalRef" aria-hidden="true"></canvas>
+    <div class="box">
+      @if (v?.page?.phMe) {
+        <img
+          class="img"
+          src="assets/about/cristian.png"
+          [attr.alt]="v?.page?.photoAlt"
+          width="480"
+          height="480"
+          loading="lazy"
+          decoding="async"
+        />
+      }
+      @if (v?.page?.phExp) {
+        <img
+          class="img"
+          src="assets/about/cristian-laptop.png"
+          [attr.alt]="v?.page?.photoAlt"
+          width="480"
+          height="480"
+          loading="lazy"
+          decoding="async"
+        />
+      }
+      @if (v?.page?.phAppr) {
+        <img
+          class="img"
+          src="assets/about/cristian-idea.png"
+          [attr.alt]="v?.page?.photoAlt"
+          width="480"
+          height="480"
+          loading="lazy"
+          decoding="async"
+        />
+      }
+      <div
+        class="box-2"
+        aria-hidden="true"
+        [style.--background]="txt(v?.page?.photoHex)"
+        [style.--box-shadow-1]="txt(v?.page?.photoHex)"
+        [style.--box-shadow-2]="txt(v?.page?.photoHex)"
+      ></div>
+    </div>
+  </div>
+}
+<div class="grid">
+  @for (b of v?.page?.blocks ?? []; track $index) {
+    <div class="stack" [style.--border-top]="txt(v?.page?.hex)">
+      <span class="meta" [style.--color]="txt(v?.page?.hex)">{{ txt(b?.n) }}</span>
+      @if (b?.isNss) {
+        <img
+          class="img-2"
+          src="assets/about/nss-logo.png"
+          alt
+          width="1340"
+          height="460"
+          loading="lazy"
+          decoding="async"
+        />
+      }
+      @if (b?.isTxt) {
+        <img
+          class="img-2"
+          src="assets/about/txt-logo.png"
+          alt
+          width="770"
+          height="372"
+          loading="lazy"
+          decoding="async"
+        />
+      }
+      @if (b?.isSky) {
+        <img
+          class="img-2"
+          src="assets/logo-light.svg"
+          alt
+          width="1000"
+          height="1000"
+          loading="lazy"
+          decoding="async"
+        />
+      }
+      <h2 class="heading">
+        {{ txt(b?.t) }}
+      </h2>
+      <p class="text">{{ txt(b?.d) }}</p>
+      @if (b?.hasLink) {
+        <a
+          class="link"
+          [attr.href]="b?.href"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.aria-label]="b?.linkAria"
+          [style.--color]="txt(v?.page?.hex)"
+          >{{ txt(b?.linkLabel)
+          }}<svg
+            aria-hidden="true"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path d="M4 2h6v6M10 2 2 10"></path></svg
+        ></a>
+      }
+    </div>
+  }
+</div>
