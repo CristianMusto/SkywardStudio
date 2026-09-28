@@ -1,0 +1,42 @@
+@let t = tr();
+<dialog #shortcuts class="shortcuts" aria-labelledby="sk-shortcuts-title" (click)="backdropClick($event)">
+  <div class="shortcuts-panel">
+    <div class="shortcuts-head">
+      <h2 class="shortcuts-title" id="sk-shortcuts-title">{{ t.keyboardShortcuts }}</h2>
+      <button class="shortcuts-close" type="button" (click)="closeShortcuts()" [attr.aria-label]="t.close">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <path
+            d="M3 3l10 10M13 3L3 13"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+          ></path>
+        </svg>
+      </button>
+    </div>
+    <div class="shortcuts-groups">
+      @for (g of groups(); track g.title) {
+        <section class="shortcuts-group" [attr.aria-label]="g.title">
+          <h3 class="shortcuts-group-title">{{ g.title }}</h3>
+          <dl class="shortcuts-list">
+            @for (s of g.items; track s.label) {
+              <div class="shortcut">
+                <dt class="shortcut-keys">
+                  @for (combo of s.keys; track $index) {
+                    @if (!$first) {
+                      <span class="shortcut-or">{{ t.kOr }}</span>
+                    }
+                    @for (k of combo; track $index) {
+                      <kbd class="key">{{ k }}</kbd>
+                    }
+                  }
+                </dt>
+                <dd class="shortcut-label">{{ s.label }}</dd>
+              </div>
+            }
+          </dl>
+        </section>
+      }
+    </div>
+  </div>
+</dialog>

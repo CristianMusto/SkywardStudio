@@ -15,4 +15,6 @@
       <sky-not-found [v]="v" [t]="t"></sky-not-found>
     }
   </main>
+  <!-- Outside main: the 404 screen makes main inert, the dialog must stay usable. -->
+  <sky-shortcuts [t]="t"></sky-shortcuts>
 }
