@@ -231,8 +231,10 @@ const offscreen = (x1: number, y1: number, x2: number, y2: number, W: number, H:
 export const scene = {
   sizeCanvas(this: SceneCtx): void {
     if (!this.cv) return;
-    // Low quality also lowers the resolution.
-    const dpr = Math.max(0.75, Math.min(devicePixelRatio || 1, 2) * ((this.q ?? 1) < 0.75 ? 0.72 : 1));
+    // Lower quality also lowers the resolution; at the lowest level down to about 1× for slow phones.
+    const q = this.q ?? 1;
+    const scale = q < 0.5 ? 0.5 : q < 0.75 ? 0.72 : 1;
+    const dpr = Math.max(0.75, Math.min(devicePixelRatio || 1, 2) * scale);
     this.dpr = dpr;
     this.cv.width = innerWidth * dpr;
     this.cv.height = innerHeight * dpr;
