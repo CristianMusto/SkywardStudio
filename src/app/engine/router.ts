@@ -301,7 +301,22 @@ export const router = {
       },
       () => {
         this.fly(-1);
-        setTimeout(() => this.btns[system]?.focus(), 30);
+        // Focus returns to the system's button without opening its card (on mobile the card
+        // is a bottom sheet that would cover the hero buttons). Same guard as input.clear().
+        const ctx = this as EngineCtx & { noCard: number | null };
+        ctx.noCard = system;
+        setTimeout(() => {
+          const button = this.btns[system];
+          if (!button) return;
+          button.focus({ preventScroll: true });
+          const release = () => {
+            ctx.noCard = null;
+            button.removeEventListener('blur', release);
+            button.removeEventListener('pointerleave', release);
+          };
+          button.addEventListener('blur', release);
+          button.addEventListener('pointerleave', release);
+        }, 30);
       },
     );
   },
