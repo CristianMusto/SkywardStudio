@@ -1,4 +1,4 @@
-.stack {
+.controls {
   position: absolute;
   right: clamp(16px, 3vw, 32px);
   display: flex;
@@ -11,7 +11,7 @@
   bottom: var(--bottom);
 }
 
-.row {
+.drag-hint {
   transition: opacity 240ms ease-out;
   display: flex;
   gap: 16px;
@@ -23,12 +23,12 @@
   pointer-events: none;
 }
 
-.row-2 {
+.zoom-group {
   display: flex;
   gap: 8px;
 }
 
-.btn {
+.zoom-in {
   min-height: 44px;
   min-width: 44px;
   padding: 0 12px;
@@ -47,17 +47,17 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.btn:hover {
+.zoom-in:hover {
   background: var(--color-panel-hover);
   border-color: var(--color-text);
 }
 
-.btn:focus-visible {
+.zoom-in:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.btn-2 {
+.zoom-out {
   min-height: 44px;
   min-width: 44px;
   padding: 0 12px;
@@ -76,17 +76,17 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.btn-2:hover {
+.zoom-out:hover {
   background: var(--color-panel-hover);
   border-color: var(--color-text);
 }
 
-.btn-2:focus-visible {
+.zoom-out:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.btn-3 {
+.recenter {
   min-height: 44px;
   min-width: 44px;
   padding: 0 12px;
@@ -105,17 +105,17 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.btn-3:hover {
+.recenter:hover {
   background: var(--color-panel-hover);
   border-color: var(--color-text);
 }
 
-.btn-3:focus-visible {
+.recenter:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.meta {
+.key-hint {
   font: 400 12px var(--font-mono);
   color: var(--color-muted);
 }

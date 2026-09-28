@@ -1,4 +1,4 @@
-.row {
+.service {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -7,28 +7,28 @@
   gap: 40px 64px;
 }
 
-.stack {
+.service-included {
   flex: 2 1 420px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.heading {
+.section-title {
   margin: 0;
   font: 600 clamp(28px, 3vw, 40px) / 1.1 var(--font-display);
   font-variation-settings: 'wdth' 84;
   letter-spacing: -0.015em;
 }
 
-.ol {
+.included-list {
   list-style: none;
   margin: 0;
   padding: 0;
   border-top: 1px solid rgb(var(--rgb-text) / 0.16);
 }
 
-.li {
+.included-item {
   display: grid;
   grid-template-columns: 40px minmax(0, 1fr);
   gap: 12px;
@@ -37,36 +37,36 @@
   border-bottom: 1px solid rgb(var(--rgb-text) / 0.16);
 }
 
-.meta {
+.item-num {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--color);
 }
 
-.label {
+.item-text {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.name {
+.item-name {
   font: 600 20px/1.25 var(--font-display);
 }
 
-.label-2 {
+.item-desc {
   font-size: 16px;
   line-height: 1.55;
   color: var(--color-text-2);
 }
 
-.stack-2 {
+.service-proof {
   flex: 1 1 280px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.btn {
+.proof-card {
   display: flex;
   gap: 16px;
   align-items: center;
@@ -83,17 +83,17 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.btn:hover {
+.proof-card:hover {
   background: var(--color-panel-hover);
   border-color: rgb(var(--rgb-text) / 0.5);
 }
 
-.btn:focus-visible {
+.proof-card:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.label-3 {
+.proof-planet {
   width: 40px;
   height: 40px;
   flex: none;
@@ -101,18 +101,18 @@
   background: radial-gradient(circle at 34% 30%, #e4fbff 0%, #5fc8d8 40%, #0e3a48 100%);
 }
 
-.label-4 {
+.proof-text {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.meta-2 {
+.proof-meta {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--color-muted);
 }
 
-.name-2 {
+.proof-name {
   font: 600 22px/1.1 var(--font-display);
 }

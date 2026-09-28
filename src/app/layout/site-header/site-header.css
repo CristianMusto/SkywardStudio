@@ -1,4 +1,4 @@
-.header {
+.site-header {
   position: absolute;
   left: 0;
   right: 0;
@@ -12,7 +12,7 @@
   animation: skFade 600ms ease-out;
 }
 
-.btn {
+.home-btn {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -25,24 +25,24 @@
   border-radius: 4px;
 }
 
-.btn:focus-visible {
+.home-btn:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.name {
+.wordmark {
   font: 600 19px var(--font-display);
   font-variation-settings: 'wdth' 90;
   letter-spacing: -0.01em;
 }
 
-.row {
+.header-actions {
   display: flex;
   gap: 8px;
   align-items: center;
 }
 
-.link {
+.lang-link {
   min-height: 44px;
   min-width: 44px;
   padding: 0 11px;
@@ -61,18 +61,18 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.link:hover {
+.lang-link:hover {
   background: var(--color-panel-hover);
   border-color: rgb(var(--rgb-text) / 0.5);
   color: var(--color-text);
 }
 
-.link:focus-visible {
+.lang-link:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.btn-2 {
+.audio-btn {
   min-height: 44px;
   min-width: 44px;
   padding: 0 11px;
@@ -88,17 +88,17 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.btn-2:hover {
+.audio-btn:hover {
   background: var(--color-panel-hover);
   border-color: var(--color-text);
 }
 
-.btn-2:focus-visible {
+.audio-btn:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.btn-3 {
+.list-toggle {
   min-height: 44px;
   padding: 0 16px;
   border: 1px solid rgb(var(--rgb-text) / 0.32);
@@ -115,22 +115,22 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.btn-3:hover {
+.list-toggle:hover {
   background: var(--color-panel-hover);
   border-color: var(--color-text);
 }
 
-.btn-3:focus-visible {
+.list-toggle:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.meta {
+.key-hint {
   font: 400 12px var(--font-mono);
   color: var(--color-muted);
 }
 
-.btn-4 {
+.btn-contact {
   min-height: 44px;
   padding: 0 16px;
   border: 0;
@@ -142,11 +142,11 @@
   transition: background var(--dur-fast) var(--ease-out);
 }
 
-.btn-4:hover {
+.btn-contact:hover {
   background: #a8f0f8;
 }
 
-.btn-4:focus-visible {
+.btn-contact:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }

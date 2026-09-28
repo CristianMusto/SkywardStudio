@@ -1,4 +1,4 @@
-.grid {
+.crew {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -7,13 +7,13 @@
   gap: 32px 24px;
 }
 
-.stack {
+.crew-member {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.grid-2 {
+.portrait-slot {
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px dashed rgb(var(--rgb-text) / 0.3);
@@ -26,13 +26,13 @@
   place-items: center;
 }
 
-.meta {
+.portrait-label {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--color-muted);
 }
 
-.label {
+.name-line {
   display: block;
   height: 16px;
   width: 64%;
@@ -40,7 +40,7 @@
   background: rgb(var(--rgb-text) / 0.2);
 }
 
-.label-2 {
+.role-line {
   display: block;
   height: 12px;
   width: 44%;

@@ -1,10 +1,10 @@
-.nav {
+.system-nav {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.row {
+.system-marker {
   position: absolute;
   left: 0;
   top: 0;
@@ -18,7 +18,7 @@
   opacity: var(--opacity);
 }
 
-.btn {
+.marker-btn {
   position: relative;
   width: 44px;
   height: 44px;
@@ -36,12 +36,12 @@
   -webkit-user-select: none;
 }
 
-.btn:focus-visible {
+.marker-btn:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.label {
+.marker-halo {
   position: absolute;
   inset: 0;
   border-radius: 50%;
@@ -54,7 +54,7 @@
   transform: scale(var(--transform));
 }
 
-.label-2 {
+.marker-ring {
   position: absolute;
   left: 21px;
   top: -9px;
@@ -63,7 +63,7 @@
   background: var(--background);
 }
 
-.label-3 {
+.marker-core {
   position: absolute;
   left: 21px;
   bottom: -9px;
@@ -72,7 +72,7 @@
   background: var(--background);
 }
 
-.label-4 {
+.marker-layer-4 {
   position: absolute;
   top: 21px;
   left: -9px;
@@ -81,7 +81,7 @@
   background: var(--background);
 }
 
-.label-5 {
+.marker-layer-5 {
   position: absolute;
   top: 21px;
   right: -9px;
@@ -90,7 +90,7 @@
   background: var(--background);
 }
 
-.svg {
+.hold-ring {
   position: absolute;
   left: -8px;
   top: -8px;
@@ -100,7 +100,7 @@
   overflow: visible;
 }
 
-.label-6 {
+.marker-layer-6 {
   position: absolute;
   inset: 4px;
   border-radius: 50%;
@@ -108,7 +108,7 @@
   background: radial-gradient(circle, rgba(var(--background), 0.5), transparent 68%);
 }
 
-.label-7 {
+.marker-layer-7 {
   position: relative;
   border-radius: 50%;
   transition:
@@ -121,7 +121,7 @@
   box-shadow: var(--box-shadow);
 }
 
-.stack {
+.marker-text {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -138,7 +138,7 @@
   text-align: var(--text-align);
 }
 
-.name {
+.marker-name {
   font: 600 clamp(18px, 1.6vw, 22px) / 1.1 var(--font-display);
   font-variation-settings: 'wdth' 88;
   color: var(--color-text);
@@ -146,14 +146,14 @@
   text-shadow: 0 0 12px var(--color-bg);
 }
 
-.meta {
+.marker-hud {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--color-muted);
   white-space: nowrap;
 }
 
-.meta-2 {
+.here-badge {
   margin-top: 6px;
   width: max-content;
   display: inline-flex;
@@ -170,7 +170,7 @@
   box-shadow: 0 0 18px rgba(var(--box-shadow), 0.35);
 }
 
-.label-8 {
+.marker-extra {
   width: 8px;
   height: 8px;
   transform: rotate(45deg);

@@ -1,4 +1,4 @@
-.stack {
+.card {
   position: absolute;
   z-index: 6;
   background: rgb(var(--rgb-panel) / 0.94);
@@ -19,14 +19,14 @@
   animation: var(--animation);
 }
 
-.row {
+.card-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
 }
 
-.meta {
+.card-meta {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -35,11 +35,11 @@
   color: var(--color-muted);
 }
 
-.label {
+.card-route {
   color: var(--color-text-2);
 }
 
-.btn {
+.card-close {
   width: 44px;
   height: 44px;
   margin: -10px -10px -10px 0;
@@ -53,11 +53,11 @@
   transition: background var(--dur-fast) var(--ease-out);
 }
 
-.btn:hover {
+.card-close:hover {
   background: var(--color-panel-hover);
 }
 
-.btn:focus-visible {
+.card-close:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 1px;
 }
@@ -69,20 +69,20 @@
   letter-spacing: -0.02em;
 }
 
-.text {
+.card-desc {
   margin: 0;
   color: var(--color-text-2);
   font-size: 16px;
   line-height: 1.55;
 }
 
-.row-2 {
+.card-tags {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.meta-2 {
+.card-count {
   font: 400 12px var(--font-mono);
   padding: 5px 10px;
   border: 1px solid rgb(var(--rgb-text) / 0.22);
@@ -90,7 +90,7 @@
   color: var(--color-text-2);
 }
 
-.meta-3 {
+.visit-badge {
   font: 400 12px var(--font-mono);
   padding: 5px 10px;
   border-radius: 99px;
@@ -98,7 +98,7 @@
   color: var(--color);
 }
 
-.btn-2 {
+.card-cta {
   min-height: 52px;
   margin-top: 4px;
   border: 0;
@@ -117,20 +117,20 @@
   background: var(--background);
 }
 
-.btn-2:hover {
+.card-cta:hover {
   filter: brightness(1.12);
 }
 
-.btn-2:active {
+.card-cta:active {
   transform: scale(0.98);
 }
 
-.btn-2:focus-visible {
+.card-cta:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.meta-4 {
+.key-hint {
   font: 400 12px var(--font-mono);
   display: var(--display);
 }

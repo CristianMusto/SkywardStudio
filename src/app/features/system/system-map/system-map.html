@@ -1,25 +1,25 @@
 @let v = vm();
 @let t = tr();
 <section
-  class="section"
+  class="system-screen"
   aria-labelledby="sk-arrive"
   [style.--background-1]="txt(v?.mapCxPct)"
   [style.--background-2]="txt(v?.mapCyPct)"
   [style.--animation]="txt(v?.arriveAnim)"
 >
-  <header class="header">
-    <button class="btn" (click)="call(v?.backToMap, $event)">
+  <header class="system-header">
+    <button class="back-btn" (click)="call(v?.backToMap, $event)">
       <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
         <path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.5"></path></svg
-      >{{ t.galaxyMap }}<span class="meta">M</span>
+      >{{ t.galaxyMap }}<span class="key-hint">M</span>
     </button>
-    <div class="row">
-      <nav class="nav" [attr.aria-label]="t.location" [style.--display]="txt(v?.crumbDisplay)">
+    <div class="header-actions">
+      <nav class="breadcrumb" [attr.aria-label]="t.location" [style.--display]="txt(v?.crumbDisplay)">
         <span>{{ t.galaxy }}</span
-        ><span aria-hidden="true">/</span><span class="label">{{ txt(v?.sel?.name) }}</span>
+        ><span aria-hidden="true">/</span><span class="crumb-current">{{ txt(v?.sel?.name) }}</span>
       </nav>
       <a
-        class="link"
+        class="lang-link"
         [attr.href]="t.it"
         (click)="call(v?.switchLang, $event)"
         [attr.hreflang]="t.it2"
@@ -27,7 +27,7 @@
         [attr.aria-label]="t.versioneItaliana"
         >{{ t.it3 }}</a
       ><button
-        class="btn-2"
+        class="header-btn"
         (click)="call(v?.toggleAudio, $event)"
         [attr.aria-pressed]="v?.audioOn"
         [attr.aria-label]="v?.audioAria"
@@ -51,7 +51,7 @@
       </button>
     </div>
   </header>
-  <svg class="svg" [skyRef]="v?.orbSvgRef" aria-hidden="true" [attr.width]="v?.vw" [attr.height]="v?.vh">
+  <svg class="orbits" [skyRef]="v?.orbSvgRef" aria-hidden="true" [attr.width]="v?.vw" [attr.height]="v?.vh">
     <path [attr.d]="v?.orbitsD" fill="none" stroke="rgba(242,238,230,.2)" stroke-width="1"></path>
     <path
       [attr.d]="v?.ghostD"
@@ -69,7 +69,7 @@
     ></path>
   </svg>
   <div
-    class="box"
+    class="star"
     [skyRef]="v?.starRef"
     aria-hidden="true"
     [style.--left]="txt(v?.mapCx)"
@@ -82,9 +82,14 @@
     [style.--background-3]="txt(v?.sel?.tint)"
   ></div>
   @for (p of v?.planets ?? []; track $index) {
-    <div class="box-2" [skyRef]="p?.wrapRef" [style.--width]="txt(p?.size)" [style.--height]="txt(p?.size)">
+    <div
+      class="star-glow"
+      [skyRef]="p?.wrapRef"
+      [style.--width]="txt(p?.size)"
+      [style.--height]="txt(p?.size)"
+    >
       <button
-        class="btn-3"
+        class="planet-btn"
         (click)="call(p?.onSel, $event)"
         (mouseenter)="call(p?.onEnter, $event)"
         (mouseleave)="call(p?.onLeave, $event)"
@@ -96,7 +101,7 @@
         [style.--height]="txt(p?.hit)"
       >
         <span
-          class="label-2"
+          class="planet-halo"
           [skyRef]="p?.haloRef"
           [style.--width]="txt(p?.haloSize)"
           [style.--height]="txt(p?.haloSize)"
@@ -106,7 +111,7 @@
           [style.--opacity]="txt(p?.glowOp)"
         ></span
         ><span
-          class="label-3"
+          class="planet-glow"
           [style.--width]="txt(p?.core)"
           [style.--height]="txt(p?.core)"
           [style.--margin]="txt(p?.coreM)"
@@ -116,7 +121,7 @@
           [style.--opacity]="txt(p?.glowOp)"
         ></span
         ><span
-          class="label-4"
+          class="planet-solid"
           [style.--width]="txt(p?.size)"
           [style.--height]="txt(p?.size)"
           [style.--background]="txt(p?.bg)"
@@ -126,7 +131,7 @@
           [style.--transform]="txt(p?.solidScale)"
         ></span
         ><span
-          class="label-5"
+          class="planet-ring"
           [style.--width]="txt(p?.ringD)"
           [style.--height]="txt(p?.ringD)"
           [style.--margin]="txt(p?.ringM)"
@@ -134,41 +139,41 @@
           [style.--opacity]="txt(p?.ringOp)"
         ></span>
       </button>
-      <div class="stack">
-        <span class="meta-2" [style.--color]="txt(p?.idxColor)">{{ txt(p?.idx) }}</span
-        ><span class="name">{{ txt(p?.name) }}</span>
+      <div class="planet-label">
+        <span class="planet-idx" [style.--color]="txt(p?.idxColor)">{{ txt(p?.idx) }}</span
+        ><span class="planet-name">{{ txt(p?.name) }}</span>
       </div>
     </div>
   }
-  <div class="stack-2" [style.--top]="txt(v?.colTop)" [style.--width]="txt(v?.colW)">
-    <span class="meta-3" [style.--color]="txt(v?.sel?.hex)"
+  <div class="system-intro" [style.--top]="txt(v?.colTop)" [style.--width]="txt(v?.colW)">
+    <span class="system-eyebrow" [style.--color]="txt(v?.sel?.hex)"
       >{{ txt(v?.sel?.code) }} {{ t.system }} {{ txt(v?.sel?.meta) }}</span
     >
     <h1 class="arrive" id="sk-arrive" [skyRef]="v?.arriveRef" tabindex="-1">
       {{ txt(v?.sel?.name) }}
     </h1>
-    <p class="text">
+    <p class="system-desc">
       {{ txt(v?.sel?.desc) }}
     </p>
-    <nav class="nav-2" [attr.aria-label]="t.indexOf + txt(v?.sel?.name)">
-      <span class="meta-4">{{ t.index }}</span>
-      <ol class="ol">
+    <nav class="planet-index" [attr.aria-label]="t.indexOf + txt(v?.sel?.name)">
+      <span class="index-label">{{ t.index }}</span>
+      <ol class="index-list">
         @for (p of v?.planets ?? []; track $index) {
-          <li class="li">
+          <li class="index-item">
             <button
-              class="btn-4"
+              class="index-btn"
               (click)="call(p?.onSel, $event)"
               (mouseenter)="call(p?.onEnter, $event)"
               (mouseleave)="call(p?.onLeave, $event)"
               [attr.aria-pressed]="p?.selected"
               [style.--background]="txt(p?.rowBg)"
             >
-              <span class="meta-5" [style.--color]="txt(p?.idxColor)">{{ txt(p?.idx) }}</span
-              ><span class="label-6"
-                ><span class="name-2">{{ txt(p?.name) }}</span
-                ><span class="label-7">{{ txt(p?.kind) }}</span></span
+              <span class="index-num" [style.--color]="txt(p?.idxColor)">{{ txt(p?.idx) }}</span
+              ><span class="index-text"
+                ><span class="index-name">{{ txt(p?.name) }}</span
+                ><span class="index-kind">{{ txt(p?.kind) }}</span></span
               ><span
-                class="label-8"
+                class="index-arrow"
                 aria-hidden="true"
                 [style.--background]="txt(p?.dot)"
                 [style.--border]="txt(p?.border)"
@@ -179,10 +184,14 @@
       </ol>
     </nav>
     @if (v?.planetOnDesk) {
-      <div class="stack-3" role="region" aria-labelledby="sk-planet">
-        <div class="row-2">
-          <span class="meta">{{ txt(v?.pl?.idx) }} · {{ txt(v?.pl?.kind) }}</span
-          ><button class="btn-5" (click)="call(v?.closePlanet, $event)" [attr.aria-label]="t.closeDetail">
+      <div class="planet-panel" role="region" aria-labelledby="sk-planet">
+        <div class="panel-head">
+          <span class="key-hint">{{ txt(v?.pl?.idx) }} · {{ txt(v?.pl?.kind) }}</span
+          ><button
+            class="panel-close"
+            (click)="call(v?.closePlanet, $event)"
+            [attr.aria-label]="t.closeDetail"
+          >
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
               <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5"></path>
             </svg>
@@ -191,13 +200,13 @@
         <h2 class="planet" id="sk-planet">
           {{ txt(v?.pl?.name) }}
         </h2>
-        <p class="text-2">{{ txt(v?.pl?.desc) }}</p>
-        <button class="btn-6" (click)="call(v?.land, $event)" [style.--background]="txt(v?.sel?.hex)">
+        <p class="panel-desc">{{ txt(v?.pl?.desc) }}</p>
+        <button class="panel-cta" (click)="call(v?.land, $event)" [style.--background]="txt(v?.sel?.hex)">
           <span>{{ txt(v?.pl?.cta) }}</span
-          ><span class="meta-6" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
+          ><span class="cta-key" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
         </button>
         @if (v?.landMsg) {
-          <p class="text-3" role="status">
+          <p class="land-msg" role="status">
             {{ txt(v?.landMsg) }}
           </p>
         }
@@ -206,16 +215,16 @@
   </div>
   @if (v?.planetOnMob) {
     <div
-      class="stack-4"
+      class="planet-sheet"
       role="region"
       aria-labelledby="sk-planet"
       [style.--position]="txt(v?.panelPos)"
       [style.--left]="txt(v?.panelLeft)"
       [style.--width]="txt(v?.panelW)"
     >
-      <div class="row-2">
-        <span class="meta">{{ txt(v?.pl?.idx) }} · {{ txt(v?.pl?.kind) }}</span
-        ><button class="btn-7" (click)="call(v?.closePlanet, $event)" [attr.aria-label]="t.closeDetail">
+      <div class="panel-head">
+        <span class="key-hint">{{ txt(v?.pl?.idx) }} · {{ txt(v?.pl?.kind) }}</span
+        ><button class="sheet-close" (click)="call(v?.closePlanet, $event)" [attr.aria-label]="t.closeDetail">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5"></path>
           </svg>
@@ -224,13 +233,13 @@
       <h2 class="planet" id="sk-planet">
         {{ txt(v?.pl?.name) }}
       </h2>
-      <p class="text-2">{{ txt(v?.pl?.desc) }}</p>
-      <button class="btn-8" (click)="call(v?.land, $event)" [style.--background]="txt(v?.sel?.hex)">
+      <p class="panel-desc">{{ txt(v?.pl?.desc) }}</p>
+      <button class="sheet-cta" (click)="call(v?.land, $event)" [style.--background]="txt(v?.sel?.hex)">
         <span>{{ txt(v?.pl?.cta) }}</span
-        ><span class="meta-7" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
+        ><span class="cta-key" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
       </button>
       @if (v?.landMsg) {
-        <p class="text-3" role="status">
+        <p class="land-msg" role="status">
           {{ txt(v?.landMsg) }}
         </p>
       }

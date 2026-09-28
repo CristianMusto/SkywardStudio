@@ -1,4 +1,4 @@
-.row {
+.intro {
   position: absolute;
   inset: 0;
   z-index: 20;
@@ -10,7 +10,7 @@
   background: var(--background);
 }
 
-.stack {
+.intro-logo {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@
   transform: var(--transform);
 }
 
-.path {
+.logo-stroke-1 {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   animation:
@@ -30,7 +30,7 @@
     skFillIn 500ms 1450ms ease-out forwards;
 }
 
-.path-2 {
+.logo-stroke-2 {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   animation:
@@ -38,7 +38,7 @@
     skFillIn 500ms 1600ms ease-out forwards;
 }
 
-.stack-2 {
+.boot-log {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -49,36 +49,36 @@
   min-width: 240px;
 }
 
-.label {
+.boot-line {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   animation: skFade 300ms 400ms both;
 }
 
-.label-2 {
+.boot-ok {
   color: var(--color-work);
 }
 
-.label-3 {
+.boot-line-2 {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   animation: skFade 300ms 750ms both;
 }
 
-.label-4 {
+.boot-line-3 {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   animation: skFade 300ms 1100ms both;
 }
 
-.label-5 {
+.boot-ready {
   color: var(--color-services);
 }
 
-.stack-3 {
+.launch {
   min-height: 150px;
   display: flex;
   flex-direction: column;
@@ -86,7 +86,7 @@
   gap: 14px;
 }
 
-.btn {
+.launch-btn {
   position: relative;
   width: 96px;
   height: 96px;
@@ -106,35 +106,35 @@
   animation: skFade 400ms ease-out;
 }
 
-.btn:hover {
+.launch-btn:hover {
   background: rgb(var(--rgb-text) / 0.1);
 }
 
-.btn:focus-visible {
+.launch-btn:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 4px;
 }
 
-.svg {
+.launch-ring {
   position: absolute;
   inset: 0;
 }
 
-.label-6 {
+.launch-core {
   width: 18px;
   height: 18px;
   border: 1.5px solid var(--color-text);
   transform: rotate(45deg);
 }
 
-.meta {
+.launch-hint {
   font: 500 12px var(--font-mono);
   letter-spacing: 0.12em;
   color: var(--color-text-2);
   animation: skFade 400ms 150ms both;
 }
 
-.btn-2 {
+.skip-btn {
   position: absolute;
   right: clamp(16px, 3vw, 32px);
   bottom: max(20px, env(safe-area-inset-bottom));
@@ -149,11 +149,11 @@
   cursor: pointer;
 }
 
-.btn-2:hover {
+.skip-btn:hover {
   color: var(--color-text);
 }
 
-.btn-2:focus-visible {
+.skip-btn:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }

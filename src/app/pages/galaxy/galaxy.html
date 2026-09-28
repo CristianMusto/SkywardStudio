@@ -3,7 +3,7 @@
 @if (v?.showMap) {
   <sky-site-header [v]="v" [t]="t"></sky-site-header
   ><svg
-    class="svg"
+    class="routes"
     aria-hidden="true"
     [attr.width]="v?.vw"
     [attr.height]="v?.vh"
@@ -24,7 +24,7 @@
       stroke-dasharray="6 6"
     ></path></svg
   ><button
-    class="btn"
+    class="black-hole-btn"
     [skyRef]="v?.bhRef"
     (click)="call(v?.bhClick, $event)"
     [attr.aria-label]="t.blackHole"

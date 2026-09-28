@@ -1,4 +1,4 @@
-.section {
+.hero-section {
   animation: skFade 700ms ease-out;
   position: absolute;
   left: clamp(16px, 4vw, 56px);
@@ -11,14 +11,14 @@
   pointer-events: none;
 }
 
-.meta {
+.eyebrow {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
 
-.hero {
+.hero-title {
   margin: 0;
   font: 700 clamp(44px, 7vw, 104px) / 0.9 var(--font-display);
   font-variation-settings:
@@ -28,7 +28,7 @@
   text-wrap: balance;
 }
 
-.text {
+.hero-text {
   margin: 0;
   max-width: 440px;
   font-size: clamp(16px, 1.3vw, 18px);

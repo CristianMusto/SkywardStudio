@@ -1,10 +1,10 @@
-.nav {
+.step-rail {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
 }
 
-.ol {
+.rail-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -14,7 +14,7 @@
   position: relative;
 }
 
-.btn {
+.rail-step {
   width: 100%;
   min-height: 88px;
   display: flex;
@@ -33,22 +33,22 @@
   background: var(--background);
 }
 
-.btn:hover {
+.rail-step:hover {
   background: var(--color-panel-hover);
 }
 
-.btn:focus-visible {
+.rail-step:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.label {
+.rail-dot {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.label-2 {
+.rail-text {
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -56,17 +56,17 @@
   border: 1.5px solid var(--border);
 }
 
-.meta {
+.rail-meta {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--color-muted);
 }
 
-.name {
+.rail-name {
   font: 600 19px/1.15 var(--font-display);
 }
 
-.row {
+.step-body {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -75,21 +75,21 @@
   gap: 40px 64px;
 }
 
-.stack {
+.step-happens {
   flex: 2 1 420px;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.heading {
+.section-title {
   margin: 0;
   font: 600 clamp(28px, 3vw, 40px) / 1.1 var(--font-display);
   font-variation-settings: 'wdth' 84;
   letter-spacing: -0.015em;
 }
 
-.text {
+.step-text {
   margin: 0;
   max-width: 640px;
   font-size: 17px;
@@ -98,14 +98,14 @@
   text-wrap: pretty;
 }
 
-.stack-2 {
+.step-gets {
   flex: 1 1 280px;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.ul {
+.gets-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -114,7 +114,7 @@
   gap: 14px;
 }
 
-.li {
+.gets-item {
   display: flex;
   gap: 12px;
   align-items: flex-start;
@@ -122,7 +122,7 @@
   line-height: 1.5;
 }
 
-.svg {
+.check-icon {
   flex: none;
   margin-top: 3px;
 }

@@ -1,4 +1,4 @@
-.svg {
+.routes {
   position: absolute;
   left: 0;
   top: 0;
@@ -7,7 +7,7 @@
   opacity: var(--opacity);
 }
 
-.btn {
+.black-hole-btn {
   position: absolute;
   left: 0;
   top: 0;
@@ -23,13 +23,13 @@
   transition: box-shadow 240ms ease-out;
 }
 
-.btn:hover {
+.black-hole-btn:hover {
   box-shadow:
     0 0 0 1px rgba(255, 192, 120, 0.45),
     0 0 40px 6px rgba(255, 150, 90, 0.18);
 }
 
-.btn:focus-visible {
+.black-hole-btn:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }

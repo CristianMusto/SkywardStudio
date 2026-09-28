@@ -1,4 +1,4 @@
-.row {
+.about-hero {
   position: relative;
   max-width: 1200px;
   width: 100%;
@@ -7,7 +7,7 @@
   justify-content: center;
 }
 
-.canvas {
+.about-stars {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -30,7 +30,7 @@
   );
 }
 
-.box {
+.portrait {
   position: relative;
   width: min(92vw, 380px);
   aspect-ratio: 380/240;
@@ -45,7 +45,7 @@
   mask-composite: intersect;
 }
 
-.img {
+.portrait-img {
   position: absolute;
   left: 50%;
   top: 0;
@@ -56,7 +56,7 @@
   display: block;
 }
 
-.box-2 {
+.portrait-glow {
   position: absolute;
   left: -30%;
   top: 80%;
@@ -73,7 +73,7 @@
     0 -4px 28px color-mix(in oklch, var(--box-shadow-2) 30%, transparent);
 }
 
-.grid {
+.about-blocks {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -82,7 +82,7 @@
   gap: 40px;
 }
 
-.stack {
+.about-block {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -90,13 +90,13 @@
   border-top: 1px solid var(--border-top);
 }
 
-.meta {
+.block-num {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--color);
 }
 
-.img-2 {
+.block-img {
   display: block;
   align-self: flex-start;
   height: 44px;
@@ -106,13 +106,13 @@
   margin: 6px 0 2px;
 }
 
-.heading {
+.block-title {
   margin: 0;
   font: 600 24px/1.2 var(--font-display);
   text-wrap: balance;
 }
 
-.text {
+.block-text {
   margin: 0;
   font-size: 16px;
   line-height: 1.6;
@@ -120,7 +120,7 @@
   text-wrap: pretty;
 }
 
-.link {
+.block-link {
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
@@ -135,11 +135,11 @@
   color: var(--color);
 }
 
-.link:hover {
+.block-link:hover {
   opacity: 0.75;
 }
 
-.link:focus-visible {
+.block-link:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }

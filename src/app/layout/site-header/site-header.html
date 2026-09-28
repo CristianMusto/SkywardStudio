@@ -1,7 +1,7 @@
 @let v = vm();
 @let t = tr();
-<header class="header">
-  <button class="btn" (click)="call(v?.goHome, $event)" [attr.aria-label]="t.skywardBackToHome">
+<header class="site-header">
+  <button class="home-btn" (click)="call(v?.goHome, $event)" [attr.aria-label]="t.skywardBackToHome">
     <svg width="36" height="36" viewBox="0 0 1000 1000" aria-hidden="true">
       <g transform="matrix(1.577362,0,0,1.577362,-316.787463,-268.230134)" fill="#F2EEE6">
         <path
@@ -13,12 +13,12 @@
       </g>
     </svg>
     @if (v?.showWordmark) {
-      <span class="name">Skyward</span>
+      <span class="wordmark">Skyward</span>
     }
   </button>
-  <div class="row">
+  <div class="header-actions">
     <a
-      class="link"
+      class="lang-link"
       [attr.href]="t.it"
       (click)="call(v?.switchLang, $event)"
       [attr.hreflang]="t.it2"
@@ -26,7 +26,7 @@
       [attr.aria-label]="t.versioneItaliana"
       >{{ t.it3 }}</a
     ><button
-      class="btn-2"
+      class="audio-btn"
       (click)="call(v?.toggleAudio, $event)"
       [attr.aria-pressed]="v?.audioOn"
       [attr.aria-label]="v?.audioAria"
@@ -74,9 +74,9 @@
           stroke-linecap="round"
         ></path>
       </svg></button
-    ><button class="btn-3" (click)="call(v?.toggleList, $event)" [attr.aria-pressed]="v?.listOn">
-      {{ txt(v?.listLabel) }}<span class="meta">{{ txt(v?.listKey) }}</span></button
-    ><button class="btn-4" (click)="call(v?.goContatti, $event)">
+    ><button class="list-toggle" (click)="call(v?.toggleList, $event)" [attr.aria-pressed]="v?.listOn">
+      {{ txt(v?.listLabel) }}<span class="key-hint">{{ txt(v?.listKey) }}</span></button
+    ><button class="btn-contact" (click)="call(v?.goContatti, $event)">
       {{ t.contact }}
     </button>
   </div>

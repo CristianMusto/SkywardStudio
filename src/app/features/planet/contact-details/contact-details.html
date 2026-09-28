@@ -1,13 +1,13 @@
 @let v = vm();
-<dl class="dl">
+<dl class="details">
   @for (r of v?.page?.rows ?? []; track $index) {
-    <div class="grid">
-      <dt class="dt">
+    <div class="detail-row">
+      <dt class="detail-key">
         {{ txt(r?.k) }}
       </dt>
-      <dd class="dd">
+      <dd class="detail-value">
         @if (r?.href) {
-          <a class="link" [attr.href]="r?.href" [style.--text-decoration-color]="txt(v?.page?.hex)">{{
+          <a class="detail-link" [attr.href]="r?.href" [style.--text-decoration-color]="txt(v?.page?.hex)">{{
             txt(r?.v)
           }}</a>
         }

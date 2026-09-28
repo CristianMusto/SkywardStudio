@@ -1,14 +1,14 @@
 @let v = vm();
 @let t = tr();
 <section
-  class="section"
+  class="lost-screen"
   role="alertdialog"
   aria-modal="true"
   aria-labelledby="sk-lost"
   aria-describedby="sk-lost-d"
 >
-  <div class="stack">
-    <span class="meta"
+  <div class="lost-body">
+    <span class="lost-eyebrow"
       ><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
         <circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
         <path d="M7 4v3.5M7 9.5v.5" stroke="currentColor" stroke-width="1.4"></path></svg
@@ -20,18 +20,18 @@
     <p class="lost-d" id="sk-lost-d">
       {{ t.thisRouteDoesnT }}
     </p>
-    <code class="box">#{{ txt(v?.lostPath) }}</code
-    ><button class="btn" [skyRef]="v?.lostBtnRef" (click)="call(v?.lostHome, $event)">
+    <code class="lost-path">#{{ txt(v?.lostPath) }}</code
+    ><button class="btn-primary" [skyRef]="v?.lostBtnRef" (click)="call(v?.lostHome, $event)">
       <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
         <path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg
       >{{ t.backToTheGalaxy }}
     </button>
-    <div class="stack-2">
-      <span class="meta-2">{{ t.orJumpStraightTo }}</span>
-      <div class="row">
+    <div class="lost-jumps">
+      <span class="jumps-label">{{ t.orJumpStraightTo }}</span>
+      <div class="jump-list">
         @for (s of v?.lostJumps ?? []; track $index) {
-          <button class="btn-2" (click)="call(s?.go, $event)">
-            <span class="label" aria-hidden="true" [style.--background]="txt(s?.hex)"></span
+          <button class="jump-chip" (click)="call(s?.go, $event)">
+            <span class="chip-dot" aria-hidden="true" [style.--background]="txt(s?.hex)"></span
             >{{ txt(s?.name) }}
           </button>
         }

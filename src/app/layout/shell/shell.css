@@ -5,14 +5,14 @@
   background: var(--color-bg);
 }
 
-.box {
+.sky {
   position: absolute;
   inset: 0;
   touch-action: none;
   cursor: grab;
 }
 
-.box-2 {
+.live-region {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -20,7 +20,7 @@
   clip: rect(0 0 0 0);
 }
 
-.box-3 {
+.planet-zoom {
   position: fixed;
   left: 0;
   top: 0;

@@ -1,7 +1,7 @@
 @let v = vm();
 @let t = tr();
 <div
-  class="stack"
+  class="card"
   role="dialog"
   aria-labelledby="sk-card-title"
   (mouseenter)="call(v?.cardEnter, $event)"
@@ -14,11 +14,11 @@
   [style.--border-radius]="txt(v?.cardRadius)"
   [style.--animation]="txt(v?.cardAnim)"
 >
-  <div class="row">
-    <span class="meta"
+  <div class="card-head">
+    <span class="card-meta"
       ><span>{{ txt(v?.sel?.code) }} {{ t.distance }} {{ txt(v?.sel?.min) }} min</span
-      ><span class="label">{{ txt(v?.sel?.route) }}</span></span
-    ><button class="btn" (click)="call(v?.clearSel, $event)" [attr.aria-label]="t.closeCard">
+      ><span class="card-route">{{ txt(v?.sel?.route) }}</span></span
+    ><button class="card-close" (click)="call(v?.clearSel, $event)" [attr.aria-label]="t.closeCard">
       <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
         <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5"></path>
       </svg>
@@ -27,18 +27,18 @@
   <h2 class="card-title" id="sk-card-title">
     {{ txt(v?.sel?.name) }}
   </h2>
-  <p class="text">{{ txt(v?.sel?.desc) }}</p>
-  <div class="row-2">
-    <span class="meta-2">{{ txt(v?.sel?.meta) }}</span
+  <p class="card-desc">{{ txt(v?.sel?.desc) }}</p>
+  <div class="card-tags">
+    <span class="card-count">{{ txt(v?.sel?.meta) }}</span
     ><span
-      class="meta-3"
+      class="visit-badge"
       [style.--border]="txt(v?.sel?.visitBorder)"
       [style.--color]="txt(v?.sel?.visitColor)"
       >{{ txt(v?.sel?.visitLabel) }}</span
     >
   </div>
-  <button class="btn-2" (click)="call(v?.jump, $event)" [style.--background]="txt(v?.sel?.hex)">
+  <button class="card-cta" (click)="call(v?.jump, $event)" [style.--background]="txt(v?.sel?.hex)">
     <span>{{ txt(v?.sel?.cta) }}</span
-    ><span class="meta-4" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
+    ><span class="key-hint" [style.--display]="txt(v?.kbdDisp)">{{ t.enter }}</span>
   </button>
 </div>

@@ -1,4 +1,4 @@
-.section {
+.lost-screen {
   position: absolute;
   inset: 0;
   z-index: 20;
@@ -15,7 +15,7 @@
   animation: skFade 420ms ease-out;
 }
 
-.stack {
+.lost-body {
   max-width: 560px;
   width: 100%;
   display: flex;
@@ -24,7 +24,7 @@
   gap: 20px;
 }
 
-.meta {
+.lost-eyebrow {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.1em;
   color: var(--color-error);
@@ -51,7 +51,7 @@
   text-wrap: pretty;
 }
 
-.box {
+.lost-path {
   font: 400 13px var(--font-mono);
   color: var(--color-muted);
   padding: 6px 10px;
@@ -61,7 +61,7 @@
   max-width: 100%;
 }
 
-.btn {
+.btn-primary {
   min-height: 52px;
   padding: 0 22px;
   border: 0;
@@ -78,20 +78,20 @@
     transform 120ms ease-out;
 }
 
-.btn:hover {
+.btn-primary:hover {
   filter: brightness(1.12);
 }
 
-.btn:active {
+.btn-primary:active {
   transform: scale(0.98);
 }
 
-.btn:focus-visible {
+.btn-primary:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.stack-2 {
+.lost-jumps {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -100,19 +100,19 @@
   padding-top: 18px;
 }
 
-.meta-2 {
+.jumps-label {
   font: 400 12px var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--color-muted);
 }
 
-.row {
+.jump-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.btn-2 {
+.jump-chip {
   min-height: 44px;
   padding: 0 14px;
   border-radius: 99px;
@@ -129,17 +129,17 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
-.btn-2:hover {
+.jump-chip:hover {
   background: var(--color-panel-hover);
   border-color: rgb(var(--rgb-text) / 0.6);
 }
 
-.btn-2:focus-visible {
+.jump-chip:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.label {
+.chip-dot {
   width: 9px;
   height: 9px;
   border-radius: 50%;

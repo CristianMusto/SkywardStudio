@@ -1,8 +1,13 @@
 @let v = vm();
 @let t = tr();
-<form class="form" (submit)="call(v?.fSubmit, $event)" [noValidate]="!!true" aria-labelledby="sk-page">
-  <div class="stack">
-    <label class="label" for="f-nome">{{ t.name }}</label
+<form
+  class="contact-form"
+  (submit)="call(v?.fSubmit, $event)"
+  [noValidate]="!!true"
+  aria-labelledby="sk-page"
+>
+  <div class="field">
+    <label class="field-label" for="f-nome">{{ t.name }}</label
     ><input
       class="nome"
       id="f-nome"
@@ -25,8 +30,8 @@
       {{ txt(v?.fe?.nome?.msg) }}</span
     >
   </div>
-  <div class="stack">
-    <label class="label" for="f-email">Email</label
+  <div class="field">
+    <label class="field-label" for="f-email">Email</label
     ><input
       class="email"
       id="f-email"
@@ -49,8 +54,8 @@
       {{ txt(v?.fe?.email?.msg) }}</span
     >
   </div>
-  <div class="stack">
-    <label class="label" for="f-msg">{{ t.whatDoYouNeed }}</label
+  <div class="field">
+    <label class="field-label" for="f-msg">{{ t.whatDoYouNeed }}</label
     ><textarea
       class="msg"
       id="f-msg"
@@ -74,7 +79,7 @@
     >
   </div>
   <button
-    class="btn"
+    class="btn-submit"
     type="submit"
     [attr.aria-busy]="v?.fSending"
     [disabled]="!!v?.fSending"
@@ -84,7 +89,7 @@
     {{ txt(v?.fBtn) }}
   </button>
   @if (v?.fSent) {
-    <p class="text" role="status" [style.--border]="txt(v?.page?.hex)">
+    <p class="form-note" role="status" [style.--border]="txt(v?.page?.hex)">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
         <path
           d="M3.5 9.5l3.5 3.5 7.5-8"

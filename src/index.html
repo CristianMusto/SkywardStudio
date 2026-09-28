@@ -4,6 +4,21 @@
     <meta charset="utf-8" />
     <title>Skyward</title>
     <base href="/" />
+    <script>
+      // Old mockup links used hash routes ("…?return=1#/work/skyward", e.g. from the design system):
+      // send them to the real page instead of letting the app fall back to the galaxy.
+      (function () {
+        var m = /^#\/([\w-]+(?:\/[\w-]+)?)$/.exec(location.hash);
+        if (!m) return;
+        var back = null;
+        try {
+          back = sessionStorage.getItem('skyward.dsReturn');
+        } catch (e) {}
+        var ok = back && back.charAt(0) === '/' && back.charAt(1) !== '/';
+        var lang = /\/en(\/|$)/.test(location.pathname) ? 'en' : 'it';
+        location.replace(ok ? back : new URL(lang + '/' + m[1], document.baseURI).href);
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0B0A1F" />

@@ -1,4 +1,4 @@
-.form {
+.contact-form {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
@@ -8,13 +8,13 @@
   gap: 22px;
 }
 
-.stack {
+.field {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.label {
+.field-label {
   font: 500 15px var(--font-text);
 }
 
@@ -91,7 +91,7 @@
   color: var(--color);
 }
 
-.btn {
+.btn-submit {
   align-self: flex-start;
   min-height: 52px;
   padding: 0 22px;
@@ -111,20 +111,20 @@
   opacity: var(--opacity);
 }
 
-.btn:hover {
+.btn-submit:hover {
   filter: brightness(1.12);
 }
 
-.btn:active {
+.btn-submit:active {
   transform: scale(0.98);
 }
 
-.btn:focus-visible {
+.btn-submit:focus-visible {
   outline: 2px solid var(--color-work);
   outline-offset: 3px;
 }
 
-.text {
+.form-note {
   margin: 0;
   display: flex;
   gap: 10px;

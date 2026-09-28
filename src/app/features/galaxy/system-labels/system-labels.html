@@ -1,16 +1,16 @@
 @let v = vm();
 @let t = tr();
-<nav class="nav" [skyRef]="v?.navRef" [attr.aria-label]="t.systemMap">
+<nav class="system-nav" [skyRef]="v?.navRef" [attr.aria-label]="t.systemMap">
   @for (s of v?.systems ?? []; track $index) {
     <div
-      class="row"
+      class="system-marker"
       [skyRef]="s?.wrapRef"
       [style.--transform]="txt(s?.tf)"
       [style.--flex-direction]="txt(s?.dir)"
       [style.--opacity]="txt(s?.op)"
     >
       <button
-        class="btn"
+        class="marker-btn"
         [skyRef]="s?.ref"
         (click)="call(s?.onClick, $event)"
         (pointerdown)="call(s?.onDown, $event)"
@@ -26,18 +26,25 @@
         [attr.aria-expanded]="s?.selected"
       >
         <span
-          class="label"
+          class="marker-halo"
           [style.--border]="txt(s?.ringBorder)"
           [style.--opacity]="txt(s?.ringOp)"
           [style.--transform]="txt(s?.ringScale)"
         ></span>
         @if (s?.selected) {
-          <span class="label-2" [style.--background]="txt(s?.hex)"></span
-          ><span class="label-3" [style.--background]="txt(s?.hex)"></span
-          ><span class="label-4" [style.--background]="txt(s?.hex)"></span
-          ><span class="label-5" [style.--background]="txt(s?.hex)"></span>
+          <span class="marker-ring" [style.--background]="txt(s?.hex)"></span
+          ><span class="marker-core" [style.--background]="txt(s?.hex)"></span
+          ><span class="marker-layer-4" [style.--background]="txt(s?.hex)"></span
+          ><span class="marker-layer-5" [style.--background]="txt(s?.hex)"></span>
         }
-        <svg class="svg" [skyRef]="s?.holdRef" aria-hidden="true" width="60" height="60" viewBox="0 0 60 60">
+        <svg
+          class="hold-ring"
+          [skyRef]="s?.holdRef"
+          aria-hidden="true"
+          width="60"
+          height="60"
+          viewBox="0 0 60 60"
+        >
           <circle
             cx="30"
             cy="30"
@@ -58,9 +65,9 @@
             stroke-dashoffset="169.6"
             transform="rotate(-90 30 30)"
           ></circle></svg
-        ><span class="label-6" [skyRef]="s?.haloRef" [style.--background]="txt(s?.tint)"></span
+        ><span class="marker-layer-6" [skyRef]="s?.haloRef" [style.--background]="txt(s?.tint)"></span
         ><span
-          class="label-7"
+          class="marker-layer-7"
           [style.--width]="txt(s?.core)"
           [style.--height]="txt(s?.core)"
           [style.--background]="txt(s?.coreBg)"
@@ -68,16 +75,16 @@
           [style.--box-shadow]="txt(s?.glow)"
         ></span>
       </button>
-      <div class="stack" [style.--text-align]="txt(s?.align)">
-        <span class="name">{{ txt(s?.name) }}</span
-        ><span class="meta">{{ txt(s?.hud) }}</span>
+      <div class="marker-text" [style.--text-align]="txt(s?.align)">
+        <span class="marker-name">{{ txt(s?.name) }}</span
+        ><span class="marker-hud">{{ txt(s?.hud) }}</span>
         @if (s?.isHere) {
           <span
-            class="meta-2"
+            class="here-badge"
             [style.--border]="txt(s?.hex)"
             [style.--color]="txt(s?.hex)"
             [style.--box-shadow]="txt(s?.tint)"
-            ><span class="label-8" [style.--border]="txt(s?.hex)"></span>{{ t.youAreHere }}</span
+            ><span class="marker-extra" [style.--border]="txt(s?.hex)"></span>{{ t.youAreHere }}</span
           >
         }
       </div>
