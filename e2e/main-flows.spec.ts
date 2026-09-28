@@ -48,6 +48,27 @@ test.describe('galaxy map', () => {
     await expect(page).toHaveURL(/\/en\/?$/);
   });
 
+  test('hero buttons jump to the right system after coming back from another one', async ({ page }) => {
+    await page.goto('/en');
+    await page.getByRole('button', { name: EN.skip }).click();
+    const work = page.getByRole('button', { name: new RegExp(EN.heroSeeWork) });
+    const contact = page.getByRole('button', { name: EN.heroWriteMe });
+
+    await work.click();
+    await expect(page).toHaveURL(/\/en\/work$/, { timeout: 15_000 });
+    await page.keyboard.press('Escape');
+    await expect(page).toHaveURL(/\/en\/?$/);
+
+    // Regression: a leftover hover on Work used to send this jump to Work again.
+    await contact.click();
+    await expect(page).toHaveURL(/\/en\/contact$/, { timeout: 15_000 });
+    await page.keyboard.press('Escape');
+    await expect(page).toHaveURL(/\/en\/?$/);
+
+    await work.click();
+    await expect(page).toHaveURL(/\/en\/work$/, { timeout: 15_000 });
+  });
+
   test('browser back follows the engine history', async ({ page }) => {
     await page.goto('/en/work');
     await page.goto('/en/work/skyward');

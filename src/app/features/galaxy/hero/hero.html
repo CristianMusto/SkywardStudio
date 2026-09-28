@@ -8,4 +8,12 @@
   <p class="hero-text">
     {{ t.iMCristianA }}
   </p>
+  <div class="hero-actions">
+    <button class="btn-primary" type="button" (click)="call(v?.heroWork, $event)">
+      {{ t.heroSeeWork }}<span aria-hidden="true">→</span>
+    </button>
+    <button class="btn-ghost" type="button" (click)="call(v?.heroContact, $event)">
+      {{ t.heroWriteMe }}
+    </button>
+  </div>
 </section>

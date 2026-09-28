@@ -16,6 +16,7 @@ const HOLD_RING = 169.6;
 /** A click right after a hold-jump is ignored (ms). */
 const HOLD_CLICK_GUARD = 400;
 const HOVER_OUT_MS = 260;
+const WORK_SYSTEM = 0;
 const CONTACT_SYSTEM = 4;
 const CARD_EASE = 'cubic-bezier(.2,.7,.2,1)';
 const FORM_FIELDS: FormField[] = ['nome', 'email', 'msg'];
@@ -160,11 +161,9 @@ export const view = {
       listLabel: mobile ? (list ? STR.map : STR.list) : list ? STR.mapView2 : STR.listView,
       listKey: mobile ? '' : list ? 'M' : 'L',
       toggleList: list ? this.openMap : this.openList,
-      goContatti: () => {
-        this.setState({ list: false });
-        this.select(CONTACT_SYSTEM);
-        setTimeout(() => this.btns[CONTACT_SYSTEM]?.focus(), 30);
-      },
+      // Hero shortcuts: jump straight into Work or Contact with the usual animation.
+      heroWork: () => jumpTo(this, WORK_SYSTEM),
+      heroContact: () => jumpTo(this, CONTACT_SYSTEM),
       clearSel: this.clear,
       goHome: this.goHome,
       jump: this.jump,
@@ -190,6 +189,15 @@ export const view = {
     };
   },
 };
+
+/** Selects a system and starts the jump (same as picking it on the map and pressing Enter). */
+function jumpTo(ctx: ViewCtx, system: number): void {
+  // Clear a leftover hover: the jump targets the card's system, and hover wins over sel there.
+  clearTimeout(ctx.hvT);
+  ctx.setState({ list: false, hover: -1 });
+  ctx.select(system);
+  setTimeout(() => ctx.jump(), 0);
+}
 
 /** One entry per system on the galaxy map and in the list view. */
 function systemVals(ctx: ViewCtx) {

@@ -130,27 +130,6 @@
   color: var(--color-muted);
 }
 
-.btn-contact {
-  min-height: 44px;
-  padding: 0 16px;
-  border: 0;
-  border-radius: 4px;
-  background: var(--color-work);
-  color: var(--color-bg);
-  font: 600 15px var(--font-text);
-  cursor: pointer;
-  transition: background var(--dur-fast) var(--ease-out);
-}
-
-.btn-contact:hover {
-  background: #a8f0f8;
-}
-
-.btn-contact:focus-visible {
-  outline: 2px solid var(--color-work);
-  outline-offset: 3px;
-}
-
 /* Keyboard shortcuts */
 .shortcuts-btn {
   min-height: 44px;

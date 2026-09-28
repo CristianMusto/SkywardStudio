@@ -75,9 +75,7 @@
         ></path>
       </svg></button
     ><button class="list-toggle" (click)="call(v?.toggleList, $event)" [attr.aria-pressed]="v?.listOn">
-      {{ txt(v?.listLabel) }}<span class="key-hint">{{ txt(v?.listKey) }}</span></button
-    ><button class="btn-contact" (click)="call(v?.goContatti, $event)">
-      {{ t.contact }}
+      {{ txt(v?.listLabel) }}<span class="key-hint">{{ txt(v?.listKey) }}</span>
     </button>
   </div>
 </header>
