@@ -8,7 +8,7 @@ import type { PlanetView } from './types';
 /** Minimal engine stand-in: only what parseRoute / pathForState / syncRoute read. */
 function fakeEngine(overrides: Record<string, unknown> = {}) {
   const state = { intro: null, phase: 'map', sel: -1, psel: -1, ...((overrides['state'] as object) ?? {}) };
-  return {
+  const engine: any = {
     routePath: '/',
     warp: null,
     egg: null,
@@ -16,7 +16,10 @@ function fakeEngine(overrides: Record<string, unknown> = {}) {
     deps: { navigate: vi.fn(), send: vi.fn(), switchLang: vi.fn() },
     ...overrides,
     state,
-  } as any;
+  };
+  // syncRoute calls this.pathForState(), so the router methods must live on the fake engine.
+  for (const [name, fn] of Object.entries(router)) engine[name] ??= (fn as Function).bind(engine);
+  return engine;
 }
 
 const parse = (path: string) => router.parseRoute.call(fakeEngine({ routePath: path }));
