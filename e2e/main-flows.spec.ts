@@ -38,6 +38,8 @@ test.describe('galaxy map', () => {
     await expect(page.getByRole('heading', { name: EN.skywardSJourney })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page).toHaveURL(/\/en\/work$/);
+    // Inside a system the planet stays selected: the first Esc deselects it, the second leaves.
+    await page.keyboard.press('Escape');
     await page.keyboard.press('Escape');
     await expect(page).toHaveURL(/\/en\/?$/);
   });
