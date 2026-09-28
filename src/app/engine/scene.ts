@@ -148,7 +148,13 @@ interface SceneCtx extends EngineCtx {
   clusters: Cluster[];
   nebs: Nebula[];
   swarms: SwarmStar[][];
-  bh: { p: Vec3; R: number; tilt: number; k: number; parts: { r: number; a: number; w: number; s: number; b: number }[] };
+  bh: {
+    p: Vec3;
+    R: number;
+    tilt: number;
+    k: number;
+    parts: { r: number; a: number; w: number; s: number; b: number }[];
+  };
   bhScr: { x: number; y: number; R: number } | null;
   warpP: WarpParticle[];
   warpNeb: WarpNebula[];
@@ -217,7 +223,10 @@ function warpSpeed(k: number): number {
   return Math.pow(1 - q, 2.4) * 0.985 + 0.015;
 }
 const offscreen = (x1: number, y1: number, x2: number, y2: number, W: number, H: number) =>
-  (x1 < -40 && x2 < -40) || (x1 > W + 40 && x2 > W + 40) || (y1 < -40 && y2 < -40) || (y1 > H + 40 && y2 > H + 40);
+  (x1 < -40 && x2 < -40) ||
+  (x1 > W + 40 && x2 > W + 40) ||
+  (y1 < -40 && y2 < -40) ||
+  (y1 > H + 40 && y2 > H + 40);
 
 export const scene = {
   sizeCanvas(this: SceneCtx): void {
@@ -451,7 +460,13 @@ export const scene = {
           const an = th + arm * Math.PI + offset + gauss() * 0.12;
           const px = half + Math.cos(an) * r + gauss() * r * 0.06;
           const py = half + Math.sin(an) * r + gauss() * r * 0.06;
-          glow(px, py, 1.5 + rnd() * 3.5, rnd() < 0.25 ? '255,255,255' : col, 0.25 + rnd() * 0.35 * (1 - r / (n * 0.46)));
+          glow(
+            px,
+            py,
+            1.5 + rnd() * 3.5,
+            rnd() < 0.25 ? '255,255,255' : col,
+            0.25 + rnd() * 0.35 * (1 - r / (n * 0.46)),
+          );
         }
       glow(half, half, n * 0.13, '255,244,225', 0.9);
       glow(half, half, n * 0.05, '255,255,255', 0.9);
@@ -490,7 +505,11 @@ export const scene = {
     const yaw = this.cam.yaw + this.swY;
     const pitch = this.cam.pitch + this.swP;
     const cp = Math.cos(pitch);
-    const C: Vec3 = [T[0] + dist * cp * Math.sin(yaw), T[1] + dist * Math.sin(pitch), T[2] + dist * cp * Math.cos(yaw)];
+    const C: Vec3 = [
+      T[0] + dist * cp * Math.sin(yaw),
+      T[1] + dist * Math.sin(pitch),
+      T[2] + dist * cp * Math.cos(yaw),
+    ];
     const toTarget: Vec3 = [T[0] - C[0], T[1] - C[1], T[2] - C[2]];
     const len = Math.hypot(...toTarget);
     const fw = toTarget.map(v => v / len) as Vec3;
@@ -593,7 +612,14 @@ export const scene = {
 
     if (warp.handoff && k >= warp.handoff) {
       const land = warp.land;
-      this.wtail = { start: t, dur: WARP_TAIL_MS, V0: speed * 2.1, cx: end[0], cy: end[1], dir: warp.dir || 1 };
+      this.wtail = {
+        start: t,
+        dur: WARP_TAIL_MS,
+        V0: speed * 2.1,
+        cx: end[0],
+        cy: end[1],
+        dir: warp.dir || 1,
+      };
       this.warp = null;
       land?.();
       return;
@@ -700,7 +726,8 @@ export const scene = {
 
     if (warp.dest) {
       const grow = smoothstep(clamp((k - 0.6) / 0.4, 0, 1));
-      const size = 6 + grow * (warp.ss || 100) + (warp.entry ? Math.pow(entry, 2.4) * Math.hypot(W, H) * 2.8 : 0);
+      const size =
+        6 + grow * (warp.ss || 100) + (warp.entry ? Math.pow(entry, 2.4) * Math.hypot(W, H) * 2.8 : 0);
       warp.lastS = size;
       c.globalAlpha = 0.25 + 0.75 * grow;
       const glow = size * 2.4;
@@ -718,7 +745,14 @@ export const scene = {
     }
 
     c.globalCompositeOperation = 'source-over';
-    const vignette = c.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.35, W / 2, H / 2, Math.max(W, H) * 0.75);
+    const vignette = c.createRadialGradient(
+      W / 2,
+      H / 2,
+      Math.min(W, H) * 0.35,
+      W / 2,
+      H / 2,
+      Math.max(W, H) * 0.75,
+    );
     vignette.addColorStop(0, 'rgba(5,4,12,0)');
     vignette.addColorStop(1, `rgba(5,4,12,${(0.35 + 0.35 * speed) * fadeOut})`);
     c.globalAlpha = 1;
@@ -739,9 +773,14 @@ export const scene = {
 };
 
 /** Other galaxies scattered around, spaced so they don't overlap on screen. */
-function seedDistantGalaxies(ctx: SceneCtx, count: number, galaxyCount: number, add: (s: Star) => void): void {
+function seedDistantGalaxies(
+  ctx: SceneCtx,
+  count: number,
+  galaxyCount: number,
+  add: (s: Star) => void,
+): void {
   let attempts = 0;
-  for (let placed = 0; placed < galaxyCount && attempts < 900; ) {
+  for (let placed = 0; placed < galaxyCount && attempts < 900;) {
     attempts++;
     const u = rnd() * 1.3 - 0.65;
     const t = rnd() * TAU;
@@ -770,7 +809,11 @@ function seedDistantGalaxies(ctx: SceneCtx, count: number, galaxyCount: number, 
       const radius = Rr * Math.pow(rnd(), 0.72);
       const angle = ((i % arms) * TAU) / arms + (radius / Rr) * 5.3 + gauss() * 0.28 * (1 + radius / Rr);
       const local = rotate(
-        [Math.cos(angle) * radius + gauss() * 18, gauss() * (26 * (1 - radius / Rr) + 6), Math.sin(angle) * radius + gauss() * 18],
+        [
+          Math.cos(angle) * radius + gauss() * 18,
+          gauss() * (26 * (1 - radius / Rr) + 6),
+          Math.sin(angle) * radius + gauss() * 18,
+        ],
         a,
         b,
       );
@@ -809,7 +852,12 @@ function seedDistantGalaxies(ctx: SceneCtx, count: number, galaxyCount: number, 
   }
 }
 
-function clusterStars(count: number, radius: number, base: string, magnitude: [number, number]): ClusterStar[] {
+function clusterStars(
+  count: number,
+  radius: number,
+  base: string,
+  magnitude: [number, number],
+): ClusterStar[] {
   const stars: ClusterStar[] = [];
   for (let i = 0; i < count; i++) {
     const spread = Math.pow(rnd(), 0.8);
@@ -845,13 +893,23 @@ function seedHomeClusters(target: number): Cluster[] {
 }
 
 /** Nebulae, core glow and clusters inside one distant galaxy. */
-function seedRegionDetail(ctx: SceneCtx, region: Region, withNebulae: boolean, clusterCount: number, galaxyCount: number): void {
+function seedRegionDetail(
+  ctx: SceneCtx,
+  region: Region,
+  withNebulae: boolean,
+  clusterCount: number,
+  galaxyCount: number,
+): void {
   if (withNebulae) {
     for (let i = 0; i < 10; i++) {
       const radius = region.Rr * Math.pow(rnd(), 0.6);
       const angle = rnd() * TAU;
       ctx.nebs.push({
-        p: [region.c[0] + Math.cos(angle) * radius, region.c[1] + gauss() * 30, region.c[2] + Math.sin(angle) * radius],
+        p: [
+          region.c[0] + Math.cos(angle) * radius,
+          region.c[1] + gauss() * 30,
+          region.c[2] + Math.sin(angle) * radius,
+        ],
         s: region.Rr * (0.35 + rnd() * 0.5),
         a: 0.06 + rnd() * 0.08,
         c: pick(NEB),
@@ -863,7 +921,11 @@ function seedRegionDetail(ctx: SceneCtx, region: Region, withNebulae: boolean, c
   for (let i = 0; i < perRegion; i++) {
     const radius = region.Rr * (0.15 + rnd() * 0.8);
     const angle = rnd() * TAU;
-    const centre: Vec3 = [region.c[0] + Math.cos(angle) * radius, region.c[1] + gauss() * 20, region.c[2] + Math.sin(angle) * radius];
+    const centre: Vec3 = [
+      region.c[0] + Math.cos(angle) * radius,
+      region.c[1] + gauss() * 20,
+      region.c[2] + Math.sin(angle) * radius,
+    ];
     const young = rnd() < 0.55;
     const count = 10 + Math.floor(rnd() * 18);
     const size = 14 + rnd() * 34;
@@ -920,7 +982,14 @@ function updateCamera(ctx: SceneCtx, t: number, dt: number, mo: number): void {
 }
 
 /** Background stars and haze on the sky sphere (they only rotate, never move closer). */
-function drawSkySphere(ctx: SceneCtx, c: CanvasRenderingContext2D, b: Omit<Basis, 'C'>, F: number, cx: number, cy: number): void {
+function drawSkySphere(
+  ctx: SceneCtx,
+  c: CanvasRenderingContext2D,
+  b: Omit<Basis, 'C'>,
+  F: number,
+  cx: number,
+  cy: number,
+): void {
   const { fw, r, u } = b;
   const { W, H } = ctx;
   c.globalCompositeOperation = 'source-over';
@@ -951,7 +1020,14 @@ function drawSkySphere(ctx: SceneCtx, c: CanvasRenderingContext2D, b: Omit<Basis
 
 type Visible = (p: Projected | null, margin: number) => p is Projected;
 
-function drawNebulae(ctx: SceneCtx, c: CanvasRenderingContext2D, P: Project, visible: Visible, s: number, mo: number): void {
+function drawNebulae(
+  ctx: SceneCtx,
+  c: CanvasRenderingContext2D,
+  P: Project,
+  visible: Visible,
+  s: number,
+  mo: number,
+): void {
   const { W, H } = ctx;
   for (const neb of ctx.nebs) {
     const p = P(neb.p[0], neb.p[1], neb.p[2]);
@@ -972,7 +1048,14 @@ function drawNebulae(ctx: SceneCtx, c: CanvasRenderingContext2D, P: Project, vis
 }
 
 /** Field stars (by colour bucket), clusters and the swarms around each system. */
-function drawStars(ctx: SceneCtx, c: CanvasRenderingContext2D, P: Project, visible: Visible, s: number, mo: number): void {
+function drawStars(
+  ctx: SceneCtx,
+  c: CanvasRenderingContext2D,
+  P: Project,
+  visible: Visible,
+  s: number,
+  mo: number,
+): void {
   /** Distant stars are dimmer. */
   const depthFade = (depth: number) => clamp(1.35 - depth / 7500, 0.45, 1);
   const twinkle = (period: number, phase: number, min: number) =>
@@ -1042,7 +1125,15 @@ function drawHereRings(ctx: SceneCtx, c: CanvasRenderingContext2D, P: Project, s
 }
 
 /** An occasional shooting star, rarer at lower motion levels. */
-function drawShootingStar(ctx: SceneCtx, c: CanvasRenderingContext2D, W: number, H: number, s: number, dt: number, mo: number): void {
+function drawShootingStar(
+  ctx: SceneCtx,
+  c: CanvasRenderingContext2D,
+  W: number,
+  H: number,
+  s: number,
+  dt: number,
+  mo: number,
+): void {
   if (mo && s > ctx.nextShoot && !ctx.shoot) {
     const angle = ((200 + rnd() * 35) * Math.PI) / 180;
     const speed = 700 + rnd() * 500;
@@ -1112,7 +1203,14 @@ function drawFadeIn(ctx: SceneCtx, c: CanvasRenderingContext2D, W: number, H: nu
   if (q >= 1) ctx.fadeIn = null;
 }
 
-function drawWarpTail(ctx: SceneCtx, c: CanvasRenderingContext2D, W: number, H: number, t: number, dt: number): void {
+function drawWarpTail(
+  ctx: SceneCtx,
+  c: CanvasRenderingContext2D,
+  W: number,
+  H: number,
+  t: number,
+  dt: number,
+): void {
   const tail = ctx.wtail;
   if (!tail) return;
   const q = clamp((t - tail.start) / tail.dur, 0, 1);
@@ -1162,7 +1260,14 @@ function drawWarpTail(ctx: SceneCtx, c: CanvasRenderingContext2D, W: number, H: 
 }
 
 /** Destination name, remaining distance and a progress bar at the bottom of the warp. */
-function drawWarpHud(c: CanvasRenderingContext2D, warp: Warp, k: number, fadeOut: number, W: number, H: number): void {
+function drawWarpHud(
+  c: CanvasRenderingContext2D,
+  warp: Warp,
+  k: number,
+  fadeOut: number,
+  W: number,
+  H: number,
+): void {
   const alpha = clamp(k / 0.15, 0, 1) * clamp((1 - k) / 0.12, 0, 1) * fadeOut;
   const progress = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
   const distance = (warp.ly * (1 - progress)).toFixed(1);

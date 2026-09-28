@@ -4,7 +4,8 @@
  * When that happens, reload once so the browser fetches the new index and chunks.
  */
 const RELOAD_KEY = 'skyward.chunkReload';
-const STALE_CHUNK = /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/i;
+const STALE_CHUNK =
+  /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/i;
 
 export function reloadOnStaleChunk(error: unknown): void {
   const message = error instanceof Error ? error.message : String(error ?? '');

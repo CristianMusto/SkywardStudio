@@ -17,7 +17,11 @@
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px dashed rgb(var(--rgb-text) / 0.3);
-  background: radial-gradient(circle at 34% 30%, rgb(var(--rgb-text) / 0.08), rgb(var(--rgb-panel) / 0.6) 70%);
+  background: radial-gradient(
+    circle at 34% 30%,
+    rgb(var(--rgb-text) / 0.08),
+    rgb(var(--rgb-panel) / 0.6) 70%
+  );
   display: grid;
   place-items: center;
 }

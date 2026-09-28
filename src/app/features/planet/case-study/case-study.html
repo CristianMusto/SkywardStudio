@@ -247,8 +247,9 @@
             <div class="summary-cell">
               <span class="caption-mono">{{ t.systemColors }}</span
               ><span class="color-dots"
-                ><span class="color-dot-home"></span><span class="color-dot-work"></span><span class="color-dot-services"></span
-                ><span class="color-dot-process"></span><span class="color-dot-about"></span><span class="color-dot-contact"></span
+                ><span class="color-dot-home"></span><span class="color-dot-work"></span
+                ><span class="color-dot-services"></span><span class="color-dot-process"></span
+                ><span class="color-dot-about"></span><span class="color-dot-contact"></span
               ></span>
             </div>
             <div class="summary-cell">
@@ -258,7 +259,8 @@
             <div class="summary-cell">
               <span class="caption-mono">{{ t.radii }}</span
               ><span class="radii"
-                ><span class="radius-sm"></span><span class="radius-md"></span><span class="radius-pill"></span
+                ><span class="radius-sm"></span><span class="radius-md"></span
+                ><span class="radius-pill"></span
               ></span>
             </div>
             <div class="summary-cell">
@@ -282,38 +284,128 @@
     </div>
     <div class="sketches-grid">
       <figure class="sketch">
-        <button class="sketch-link" type="button" data-src="assets/sketches/01-logo.webp" [attr.data-alt]="t.sketchLogo" [attr.aria-label]="t.openSketch + ': ' + t.sketchLogo" (click)="call(v?.openShot, $event)">
-          <img class="sketch-img" src="assets/sketches/01-logo.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        <button
+          class="sketch-link"
+          type="button"
+          data-src="assets/sketches/01-logo.webp"
+          [attr.data-alt]="t.sketchLogo"
+          [attr.aria-label]="t.openSketch + ': ' + t.sketchLogo"
+          (click)="call(v?.openShot, $event)"
+        >
+          <img
+            class="sketch-img"
+            src="assets/sketches/01-logo.webp"
+            alt=""
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
         </button>
         <figcaption class="figcaption">01 · {{ t.sketchLogo }}</figcaption>
       </figure>
       <figure class="sketch">
-        <button class="sketch-link" type="button" data-src="assets/sketches/02-galaxy-map.webp" [attr.data-alt]="t.sketchGalaxy" [attr.aria-label]="t.openSketch + ': ' + t.sketchGalaxy" (click)="call(v?.openShot, $event)">
-          <img class="sketch-img" src="assets/sketches/02-galaxy-map.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        <button
+          class="sketch-link"
+          type="button"
+          data-src="assets/sketches/02-galaxy-map.webp"
+          [attr.data-alt]="t.sketchGalaxy"
+          [attr.aria-label]="t.openSketch + ': ' + t.sketchGalaxy"
+          (click)="call(v?.openShot, $event)"
+        >
+          <img
+            class="sketch-img"
+            src="assets/sketches/02-galaxy-map.webp"
+            alt=""
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
         </button>
         <figcaption class="figcaption">02 · {{ t.sketchGalaxy }}</figcaption>
       </figure>
       <figure class="sketch">
-        <button class="sketch-link" type="button" data-src="assets/sketches/03-navigation-flow.webp" [attr.data-alt]="t.sketchFlow" [attr.aria-label]="t.openSketch + ': ' + t.sketchFlow" (click)="call(v?.openShot, $event)">
-          <img class="sketch-img" src="assets/sketches/03-navigation-flow.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        <button
+          class="sketch-link"
+          type="button"
+          data-src="assets/sketches/03-navigation-flow.webp"
+          [attr.data-alt]="t.sketchFlow"
+          [attr.aria-label]="t.openSketch + ': ' + t.sketchFlow"
+          (click)="call(v?.openShot, $event)"
+        >
+          <img
+            class="sketch-img"
+            src="assets/sketches/03-navigation-flow.webp"
+            alt=""
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
         </button>
         <figcaption class="figcaption">03 · {{ t.sketchFlow }}</figcaption>
       </figure>
       <figure class="sketch">
-        <button class="sketch-link" type="button" data-src="assets/sketches/04-page-grid.webp" [attr.data-alt]="t.sketchGrid" [attr.aria-label]="t.openSketch + ': ' + t.sketchGrid" (click)="call(v?.openShot, $event)">
-          <img class="sketch-img" src="assets/sketches/04-page-grid.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        <button
+          class="sketch-link"
+          type="button"
+          data-src="assets/sketches/04-page-grid.webp"
+          [attr.data-alt]="t.sketchGrid"
+          [attr.aria-label]="t.openSketch + ': ' + t.sketchGrid"
+          (click)="call(v?.openShot, $event)"
+        >
+          <img
+            class="sketch-img"
+            src="assets/sketches/04-page-grid.webp"
+            alt=""
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
         </button>
         <figcaption class="figcaption">04 · {{ t.sketchGrid }}</figcaption>
       </figure>
       <figure class="sketch">
-        <button class="sketch-link" type="button" data-src="assets/sketches/05-mobile.webp" [attr.data-alt]="t.sketchMobile" [attr.aria-label]="t.openSketch + ': ' + t.sketchMobile" (click)="call(v?.openShot, $event)">
-          <img class="sketch-img" src="assets/sketches/05-mobile.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        <button
+          class="sketch-link"
+          type="button"
+          data-src="assets/sketches/05-mobile.webp"
+          [attr.data-alt]="t.sketchMobile"
+          [attr.aria-label]="t.openSketch + ': ' + t.sketchMobile"
+          (click)="call(v?.openShot, $event)"
+        >
+          <img
+            class="sketch-img"
+            src="assets/sketches/05-mobile.webp"
+            alt=""
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
         </button>
         <figcaption class="figcaption">05 · {{ t.sketchMobile }}</figcaption>
       </figure>
       <figure class="sketch">
-        <button class="sketch-link" type="button" data-src="assets/sketches/06-jump.webp" [attr.data-alt]="t.sketchJump" [attr.aria-label]="t.openSketch + ': ' + t.sketchJump" (click)="call(v?.openShot, $event)">
-          <img class="sketch-img" src="assets/sketches/06-jump.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        <button
+          class="sketch-link"
+          type="button"
+          data-src="assets/sketches/06-jump.webp"
+          [attr.data-alt]="t.sketchJump"
+          [attr.aria-label]="t.openSketch + ': ' + t.sketchJump"
+          (click)="call(v?.openShot, $event)"
+        >
+          <img
+            class="sketch-img"
+            src="assets/sketches/06-jump.webp"
+            alt=""
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
         </button>
         <figcaption class="figcaption">06 · {{ t.sketchJump }}</figcaption>
       </figure>

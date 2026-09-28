@@ -106,7 +106,15 @@ export const blackHole = {
    * Draws the black hole at (x, y) with horizon radius Rp. Back half of the disc first,
    * then the shadow and photon ring, then the front half, so the disc wraps around the hole.
    */
-  drawBH(this: BlackHoleCtx, c: CanvasRenderingContext2D, x: number, y: number, Rp: number, s: number, mo: number): void {
+  drawBH(
+    this: BlackHoleCtx,
+    c: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    Rp: number,
+    s: number,
+    mo: number,
+  ): void {
     const model = this.bh;
     const tilt = model.tilt;
     const squash = model.k;
@@ -114,7 +122,10 @@ export const blackHole = {
     const sin = Math.sin(tilt);
     const spin = s * (mo ? 0.9 : 0);
     /** Disc-local point → screen. */
-    const toScreen = (lx: number, ly: number): [number, number] => [x + lx * cos - ly * sin, y + lx * sin + ly * cos];
+    const toScreen = (lx: number, ly: number): [number, number] => [
+      x + lx * cos - ly * sin,
+      y + lx * sin + ly * cos,
+    ];
 
     // Dark halo and soft orange glow.
     c.globalCompositeOperation = 'source-over';

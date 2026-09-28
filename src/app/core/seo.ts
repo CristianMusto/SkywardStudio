@@ -60,7 +60,8 @@ export function seoFor(lang: Lang, path: string): PageSeo {
     author: person,
   };
   const keys = systemId ? SYSTEMS[systemId] : undefined;
-  if (!keys) return { title: TAGLINE[lang], description: SITE_DESCRIPTION[lang], image: OG_DEFAULT, jsonLd: [site] };
+  if (!keys)
+    return { title: TAGLINE[lang], description: SITE_DESCRIPTION[lang], image: OG_DEFAULT, jsonLd: [site] };
 
   const systemName = str[keys[0]];
   const planets = (planetsFor(lang)[systemId] ?? []) as unknown as PlanetText[];

@@ -14,8 +14,20 @@
   height: 100%;
   display: block;
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(to right, transparent, var(--color-black) 12%, var(--color-black) 88%, transparent);
-  mask-image: linear-gradient(to right, transparent, var(--color-black) 12%, var(--color-black) 88%, transparent);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    var(--color-black) 12%,
+    var(--color-black) 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    var(--color-black) 12%,
+    var(--color-black) 88%,
+    transparent
+  );
 }
 
 .box {
@@ -23,10 +35,12 @@
   width: min(92vw, 380px);
   aspect-ratio: 380/240;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent, var(--color-black) 14%, var(--color-black) 86%, transparent),
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, var(--color-black) 14%, var(--color-black) 86%, transparent),
     linear-gradient(to bottom, var(--color-black) 88%, transparent);
   -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to right, transparent, var(--color-black) 14%, var(--color-black) 86%, transparent),
+  mask-image:
+    linear-gradient(to right, transparent, var(--color-black) 14%, var(--color-black) 86%, transparent),
     linear-gradient(to bottom, var(--color-black) 88%, transparent);
   mask-composite: intersect;
 }
@@ -49,7 +63,11 @@
   width: 160%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: linear-gradient(to bottom, color-mix(in oklch, var(--background) 20%, var(--color-bg-deep)) 0%, var(--color-bg-deep) 6%);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklch, var(--background) 20%, var(--color-bg-deep)) 0%,
+    var(--color-bg-deep) 6%
+  );
   box-shadow:
     inset 0 1.5px 0 color-mix(in oklch, var(--box-shadow-1) 75%, transparent),
     0 -4px 28px color-mix(in oklch, var(--box-shadow-2) 30%, transparent);

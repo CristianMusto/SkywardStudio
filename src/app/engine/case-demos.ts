@@ -330,7 +330,12 @@ export const caseDemos = {
     if (!mini || mini.run) return;
     const system = SYS[this.state['miniSel'] as number];
     for (const particle of mini.parts ?? []) Object.assign(particle, this.spawn(true));
-    mini.run = { start: performance.now(), dur: this.reduced ? 1 : JUMP_MS, tint: system.tint, name: system.name };
+    mini.run = {
+      start: performance.now(),
+      dur: this.reduced ? 1 : JUMP_MS,
+      tint: system.tint,
+      name: system.name,
+    };
     this.setState({ jumpBusy: true, live: STR.demoJumpTo + system.name + '.' });
     this.sfx('jump', 2.2);
   },
@@ -415,7 +420,12 @@ function orbitProjector(yaw: number, pitch: number, W: number, H: number) {
 }
 
 /** Dotted routes from Home to every system, with the selected one animated in its colour. */
-function drawMiniRoutes(c: CanvasRenderingContext2D, screen: (ScreenPoint | null)[], sel: number, t: number): void {
+function drawMiniRoutes(
+  c: CanvasRenderingContext2D,
+  screen: (ScreenPoint | null)[],
+  sel: number,
+  t: number,
+): void {
   const home = screen[HOME];
   c.globalCompositeOperation = 'source-over';
   if (!home) return;
@@ -466,7 +476,14 @@ function arrivalFade(k: number, dur: number): number {
 }
 
 /** The destination star grows in the centre during the last part of the jump. */
-function drawArrivalStar(ctx: CaseDemoCtx, c: CanvasRenderingContext2D, run: MiniRun, k: number, W: number, H: number): void {
+function drawArrivalStar(
+  ctx: CaseDemoCtx,
+  c: CanvasRenderingContext2D,
+  run: MiniRun,
+  k: number,
+  W: number,
+  H: number,
+): void {
   const cx = W / 2;
   const cy = H / 2;
   const grow = smoothstep(clamp((k - 0.6) / 0.4, 0, 1));

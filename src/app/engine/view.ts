@@ -181,7 +181,8 @@ export const view = {
             : cardIndex === here
               ? STR.enter + cardSystem.name
               : STR.jumpTo + cardSystem.name,
-        route: cardIndex === here ? STR.currentPosition : STR.route + SYS[here].name + ' → ' + cardSystem.name,
+        route:
+          cardIndex === here ? STR.currentPosition : STR.route + SYS[here].name + ' → ' + cardSystem.name,
         visitLabel: cardIndex === here ? STR.youAreHere2 : cardVisited ? STR.visitedLabel : STR.notVisited,
         visitColor: cardVisited || cardIndex === here ? cardSystem.hex : MUTED,
         visitBorder: cardVisited ? `rgba(${cardSystem.tint},.55)` : 'rgba(242,238,230,.22)',
@@ -335,7 +336,9 @@ function arriveVals(ctx: ViewCtx, mobile: boolean): Vals {
   const maxRadius = mobile
     ? Math.min(vw / 2 - 56, (vh * 0.2) / TILT)
     : Math.min((vw - leftW) / 2 - 70, (vh * 0.36) / TILT);
-  const rx = planetsData.map((_, i) => Math.max(60, maxRadius * (count === 1 ? 1 : 0.4 + (0.6 * i) / (count - 1))));
+  const rx = planetsData.map((_, i) =>
+    Math.max(60, maxRadius * (count === 1 ? 1 : 0.4 + (0.6 * i) / (count - 1))),
+  );
   ctx.lay = { cx, cy, rx };
 
   let orbitsD = '';
@@ -374,7 +377,14 @@ function arriveVals(ctx: ViewCtx, mobile: boolean): Vals {
   };
 }
 
-function planetVals(ctx: ViewCtx, p: PlanetContent, i: number, on: boolean, hovered: boolean, system: StarSystem) {
+function planetVals(
+  ctx: ViewCtx,
+  p: PlanetContent,
+  i: number,
+  on: boolean,
+  hovered: boolean,
+  system: StarSystem,
+) {
   const idx = pad2(i + 1);
   const palette = (p.c ?? PC['ice']) as Palette;
   const tint = p.ghost ? GHOST_TINT : hexRgb(palette[1]);
@@ -441,7 +451,10 @@ function pageVals(ctx: ViewCtx): Vals {
   const palette = p.c ?? PC['ice'];
   const type = p.type || 'about';
   const real = planets.filter(q => !q.ghost);
-  const photoAlts: Record<string, string> = { experience: STR.cristianSMemojiBrown, approach: STR.cristianSMemojiWith };
+  const photoAlts: Record<string, string> = {
+    experience: STR.cristianSMemojiBrown,
+    approach: STR.cristianSMemojiWith,
+  };
 
   const page = {
     isCase: type === 'case',

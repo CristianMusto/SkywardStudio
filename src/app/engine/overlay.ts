@@ -92,7 +92,10 @@ export const overlay = {
       if (p) screen[i] = [p[0], p[1]];
       if (wrap) placeSystemLabel(this, wrap, p, !!system.home);
       if (wrap && reveal != null) {
-        const t = reveal === Infinity ? 0 : clamp((now - reveal - LABEL_DELAY - i * LABEL_STAGGER) / LABEL_FADE, 0, 1);
+        const t =
+          reveal === Infinity
+            ? 0
+            : clamp((now - reveal - LABEL_DELAY - i * LABEL_STAGGER) / LABEL_FADE, 0, 1);
         const opacity = t >= 1 ? '' : String(t);
         const [dot, label] = [wrap.firstElementChild, wrap.lastElementChild] as (HTMLElement | null)[];
         if (dot) dot.style.opacity = opacity;
@@ -271,7 +274,12 @@ function dimCoveredText(ctx: OverlayCtx, now: number): void {
   const covered = (rect: DOMRect | null) =>
     !!rect &&
     screen.some(
-      p => p && p[0] + 170 > rect.left && p[0] - 22 < rect.right && p[1] + 20 > rect.top && p[1] - 22 < rect.bottom,
+      p =>
+        p &&
+        p[0] + 170 > rect.left &&
+        p[0] - 22 < rect.right &&
+        p[1] + 20 > rect.top &&
+        p[1] - 22 < rect.bottom,
     );
   const [heroRect, hintRect] = ctx.rc;
   const { sel, zoomed } = ctx.state;

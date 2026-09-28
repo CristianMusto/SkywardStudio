@@ -11,6 +11,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes, withNavigationErrorHandler(e => reloadOnStaleChunk(e.error))),
+    provideRouter(
+      routes,
+      withNavigationErrorHandler(e => reloadOnStaleChunk(e.error)),
+    ),
   ],
 };

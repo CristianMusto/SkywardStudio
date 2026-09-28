@@ -186,7 +186,9 @@ export const lifecycle = {
 
   componentDidUpdate(this: LifecycleCtx, prev: Record<string, unknown>): void {
     const next = this.props as Record<string, unknown>;
-    const starfieldChanged = ['density', 'galaxies', 'constellations', 'milkyWay'].some(k => prev[k] !== next[k]);
+    const starfieldChanged = ['density', 'galaxies', 'constellations', 'milkyWay'].some(
+      k => prev[k] !== next[k],
+    );
     if (starfieldChanged) this.seed();
     if (prev['quality'] !== next['quality']) {
       this.setQ(qualityLevel((next['quality'] as Quality) ?? 'auto', 0.85));
@@ -215,16 +217,17 @@ function liftLanguageVeil(ctx: LifecycleCtx): void {
       ctx.reduced ? 0 : VEIL_FADE_MS,
     );
   };
-  Promise.race([document.fonts?.ready ?? Promise.resolve(), new Promise(r => setTimeout(r, FONT_WAIT_MS))]).then(
-    () => {
-      let frames = 0;
-      const tick = () => {
-        if (++frames < SETTLE_FRAMES) requestAnimationFrame(tick);
-        else setTimeout(lift, 80);
-      };
-      requestAnimationFrame(tick);
-    },
-  );
+  Promise.race([
+    document.fonts?.ready ?? Promise.resolve(),
+    new Promise(r => setTimeout(r, FONT_WAIT_MS)),
+  ]).then(() => {
+    let frames = 0;
+    const tick = () => {
+      if (++frames < SETTLE_FRAMES) requestAnimationFrame(tick);
+      else setTimeout(lift, 80);
+    };
+    requestAnimationFrame(tick);
+  });
 }
 
 /** Browsers only allow audio after a user gesture, so a saved "sound on" waits for the first input. */
@@ -264,7 +267,8 @@ function openInitialView(ctx: LifecycleCtx): void {
   ctx.revealAt = Infinity;
   ctx.setState({ intro: 'boot' });
   ctx.introT = setTimeout(
-    () => ctx.setState(st => (st.intro === 'boot' ? { intro: 'ready', live: STR.readyPressTheButton } : null)),
+    () =>
+      ctx.setState(st => (st.intro === 'boot' ? { intro: 'ready', live: STR.readyPressTheButton } : null)),
     ctx.reduced ? BOOT_REDUCED_MS : BOOT_MS,
   );
 }

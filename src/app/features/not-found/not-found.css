@@ -5,7 +5,11 @@
   display: grid;
   place-items: center;
   padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom));
-  background: radial-gradient(ellipse at 50% 45%, rgb(var(--rgb-bg) / 0.82), rgb(var(--rgb-bg-deep) / 0.96) 70%);
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    rgb(var(--rgb-bg) / 0.82),
+    rgb(var(--rgb-bg-deep) / 0.96) 70%
+  );
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   animation: skFade 420ms ease-out;
