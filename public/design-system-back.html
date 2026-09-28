@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <meta name="color-scheme" content="dark" />
+  <title>Skyward</title>
+  <style>html,body{margin:0;background:#0B0A1F}</style>
+  <script>
+    // "Back to the case study" from the design system: return to the exact page it was opened from.
+    (function () {
+      var target = null;
+      try { target = sessionStorage.getItem('skyward.dsReturn'); } catch (e) {}
+      // Only same-site paths; otherwise the Italian case study.
+      if (!target || target.charAt(0) !== '/' || target.charAt(1) === '/') target = 'it/work/skyward';
+      location.replace(target);
+    })();
+  </script>
+</head>
+<body></body>
+</html>

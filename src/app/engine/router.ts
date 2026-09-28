@@ -4,8 +4,8 @@
  * - Engine -> URL: syncRoute() after every state change.
  * - URL -> engine: onRoute() on links, back/forward and deep links.
  */
-import { DHOME, HOME, PC, PL, STR, SYS, slug } from './data';
-import { snapshotCanvas } from './navigation';
+import { DHOME, HOME, PC, PL, STR, SYS, rnd, slug } from './data';
+import { arrivalStarSize, snapshotCanvas } from './navigation';
 import type { EngineCtx, PlanetView, RouteTarget } from './types';
 
 const planetSlug = (p: PlanetView): string => p.key || slug(p.name);
@@ -238,7 +238,8 @@ export const router = {
   },
 
   goHome(this: EngineCtx): void {
-    const landHome = () =>
+    const home = SYS[HOME];
+    const landHome = (fromJump = false) =>
       this.setState({ phase: 'map', here: HOME, sel: -1, list: false, live: STR.homeStartingMap }, () => {
         this.fly(-1);
         // Return to the default yaw by the shortest turn.
@@ -246,6 +247,14 @@ export const router = {
         this.tgt.pitch = 0.52;
         this.tgt.dist = DHOME;
         this.tgt.T = [0, 0, 0];
+        // The jump ends with Home's star filling the screen: fade that colour out over the map.
+        if (fromJump)
+          (this as EngineCtx & { fadeIn: unknown }).fadeIn = {
+            start: performance.now(),
+            dur: 700,
+            a0: 0.9,
+            color: home.tint,
+          };
       });
 
     if (this.state.here === HOME || this.reduced) {
@@ -253,21 +262,27 @@ export const router = {
       return;
     }
 
+    // Same jump as the other systems (see navigation.jump), ending on the galaxy map.
+    const duration = Math.min(2600, 1600 + 250 * home.min);
     const from = this.scr?.[HOME] ?? [this.W / 2, this.H / 2];
     this.setState({ sel: HOME, list: false, phase: 'jump', live: STR.returningHome });
     for (const particle of this.warpP) Object.assign(particle, this.spawn(true));
-    this.sfx('jump', 1.5);
+    this.sfx('jump', duration / 1000);
     this.warp = {
       start: performance.now(),
-      dur: 1500,
+      dur: duration,
       sx: from[0],
       sy: from[1],
       end: [this.W / 2, this.H * 0.4],
-      tint: SYS[HOME].tint,
-      name: 'Home',
-      ly: 1.2,
+      tint: home.tint,
+      name: home.name,
+      ly: home.min * 1.3 + rnd() * 0.4,
       snap: snapshotCanvas(this.cv),
-      land: landHome,
+      ss: arrivalStarSize(this.W, this.H),
+      dir: rnd() < 0.5 ? -1 : 1,
+      dest: true,
+      entry: 800,
+      land: () => landHome(true),
     };
   },
 

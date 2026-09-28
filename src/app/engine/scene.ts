@@ -182,7 +182,7 @@ interface SceneCtx extends EngineCtx {
   hold: { i: number; start: number } | null;
   holds: (HTMLElement | null)[];
   holdFired?: { i: number; t: number };
-  fadeIn: { start: number; dur: number; a0?: number } | null;
+  fadeIn: { start: number; dur: number; a0?: number; color?: string } | null;
   lastP?: Project;
 
   spawn(init: boolean): WarpParticle;
@@ -1197,7 +1197,7 @@ function drawFadeIn(ctx: SceneCtx, c: CanvasRenderingContext2D, W: number, H: nu
   const q = clamp((t - fade.start) / fade.dur, 0, 1);
   c.globalCompositeOperation = 'source-over';
   c.globalAlpha = (fade.a0 ?? 1) * Math.pow(1 - q, 1.6);
-  c.fillStyle = '#05040C';
+  c.fillStyle = fade.color ? `rgb(${fade.color})` : '#05040C';
   c.fillRect(0, 0, W, H);
   c.globalAlpha = 1;
   if (q >= 1) ctx.fadeIn = null;

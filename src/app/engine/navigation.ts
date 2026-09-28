@@ -151,7 +151,7 @@ export const navigation = {
 };
 
 /** Size of the destination star at the end of the jump, matched to the system map layout. */
-function arrivalStarSize(vw: number, vh: number): number {
+export function arrivalStarSize(vw: number, vh: number): number {
   const mobile = vw < MOBILE_BREAKPOINT;
   const indexWidth = mobile ? 0 : Math.min(460, vw * 0.36);
   const orbitRadius = mobile
