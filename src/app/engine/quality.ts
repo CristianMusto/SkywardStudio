@@ -4,9 +4,15 @@
  */
 import type { Engine } from './types';
 
-/** Frame time (ms) above which quality drops, and below which it can rise again. */
+/**
+ * Frame time (ms) above which quality drops (under ~42 fps), and below which it can rise again.
+ * The rise threshold sits just under one 60 Hz frame: most phone browsers are capped at 60 fps,
+ * so a lower value (e.g. 12.5 ms = 80 fps) would never be reached there.
+ */
 const SLOW_MS = 24;
-const FAST_MS = 12.5;
+const FAST_MS = 17.5;
+/** Consecutive fast checks needed before raising quality, to avoid bouncing between two levels. */
+const FAST_CHECKS = 2;
 /** Minimum time between quality changes (ms). */
 const ADJUST_EVERY = 2500;
 const HUD_EVERY = 500;
@@ -19,6 +25,8 @@ interface QualityCtx extends Engine {
   /** Smoothed frame time (ms). */
   ema: number;
   qT?: number;
+  /** Fast checks in a row. */
+  qFast?: number;
   shot: string | null;
   warp: unknown;
   dpr?: number;
@@ -49,11 +57,17 @@ export const quality = {
     this.qT = t;
     const q = this.q ?? 1;
     if (this.ema > SLOW_MS && q > 0.4) {
+      this.qFast = 0;
       this.setQ(Math.max(0.4, +(q - 0.2).toFixed(2)));
       this.sizeCanvas();
     } else if (this.ema < FAST_MS && q < 1) {
+      this.qFast = (this.qFast ?? 0) + 1;
+      if (this.qFast < FAST_CHECKS) return;
+      this.qFast = 0;
       this.setQ(Math.min(1, +(q + 0.1).toFixed(2)));
       this.sizeCanvas();
+    } else {
+      this.qFast = 0;
     }
   },
 };
