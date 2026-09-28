@@ -84,12 +84,17 @@ export const overlay = {
     let idleD = '';
     let activeD = '';
     const screen: [number, number][] = [];
+    /** Perspective scale per system (smaller = farther), used to pick which label gives way. */
+    const scales: number[] = [];
     this.scr = screen;
 
     SYS.forEach((system, i) => {
       const p = P(...system.p);
       const wrap = this.wraps[i];
-      if (p) screen[i] = [p[0], p[1]];
+      if (p) {
+        screen[i] = [p[0], p[1]];
+        scales[i] = p[2];
+      }
       if (wrap) placeSystemLabel(this, wrap, p, !!system.home);
       if (wrap && reveal != null) {
         const t =
@@ -134,6 +139,7 @@ export const overlay = {
 
     fadeInHero(this, now);
     dimCoveredText(this, now);
+    declutterLabels(this, now, scales);
 
     if (this.orig) {
       if (origin) {
@@ -212,6 +218,68 @@ export const overlay = {
     }
   },
 };
+
+/** Size of each system label, measured every RECT_REFRESH ms with the secondary line visible. */
+type LabelBox = { w: number; h: number; t: number };
+const labelBoxes = new WeakMap<HTMLElement, LabelBox>();
+
+/**
+ * When two system labels overlap, the farther one hides its secondary line ("SYS-0x · n min")
+ * and keeps only the name. Labels sit right of the dot, or left when flipped near the edge.
+ */
+function declutterLabels(ctx: OverlayCtx, now: number, scales: number[]): void {
+  const screen = ctx.scr ?? [];
+  const rects: ({ x0: number; x1: number; y0: number; y1: number } | null)[] = [];
+  SYS.forEach((_, i) => {
+    const p = screen[i];
+    const wrap = ctx.wraps[i];
+    const text = wrap?.lastElementChild as HTMLElement | null | undefined;
+    if (!p || !wrap || !text) {
+      rects[i] = null;
+      return;
+    }
+    let box = labelBoxes.get(text);
+    if (!box || now - box.t > RECT_REFRESH) {
+      const hud = secondaryLine(text);
+      const hidden = hud?.style.display === 'none';
+      // Measure with the secondary line shown, so the box does not shrink after hiding it.
+      box = {
+        w: text.offsetWidth,
+        h: hidden && box ? box.h : text.offsetHeight,
+        t: now,
+      };
+      labelBoxes.set(text, box);
+    }
+    const flip = p[0] > ctx.W - FLIP_MARGIN;
+    const x0 = flip ? p[0] - 22 - box.w : p[0] + 22;
+    rects[i] = { x0, x1: x0 + box.w, y0: p[1] - 22, y1: p[1] - 22 + box.h };
+  });
+
+  const compact = new Set<number>();
+  for (let a = 0; a < rects.length; a++) {
+    const ra = rects[a];
+    if (!ra) continue;
+    for (let b = a + 1; b < rects.length; b++) {
+      const rb = rects[b];
+      if (!rb) continue;
+      const overlap = ra.x0 < rb.x1 + 4 && rb.x0 < ra.x1 + 4 && ra.y0 < rb.y1 + 2 && rb.y0 < ra.y1 + 2;
+      if (overlap) compact.add((scales[a] ?? 0) < (scales[b] ?? 0) ? a : b);
+    }
+  }
+
+  SYS.forEach((_, i) => {
+    const text = ctx.wraps[i]?.lastElementChild as HTMLElement | null | undefined;
+    const hud = text ? secondaryLine(text) : null;
+    if (!hud) return;
+    const display = compact.has(i) ? 'none' : '';
+    if (hud.style.display !== display) hud.style.display = display;
+  });
+}
+
+/** The "SYS-0x · n min" line inside a system label. */
+function secondaryLine(text: HTMLElement): HTMLElement | null {
+  return text.querySelector<HTMLElement>('.marker-hud');
+}
 
 /** Keeps the invisible black-hole button over the black hole, at least 44px wide. */
 function placeBlackHoleButton(ctx: OverlayCtx): void {

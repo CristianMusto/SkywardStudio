@@ -143,10 +143,17 @@
   font-variation-settings: 'wdth' 88;
   color: var(--color-text);
   white-space: nowrap;
-  text-shadow: 0 0 12px var(--color-bg);
+  text-shadow:
+    0 0 2px rgb(5 4 12 / 0.95),
+    0 1px 3px rgb(5 4 12 / 0.9),
+    0 0 12px var(--color-bg);
 }
 
 .marker-hud {
+  text-shadow:
+    0 0 2px rgb(5 4 12 / 0.95),
+    0 1px 3px rgb(5 4 12 / 0.9),
+    0 0 12px var(--color-bg);
   font: 400 12px var(--font-mono);
   letter-spacing: 0.06em;
   color: var(--color-muted);
