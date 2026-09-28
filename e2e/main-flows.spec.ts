@@ -28,7 +28,11 @@ test.describe('galaxy map', () => {
   test('skips the intro and jumps to a system with the keyboard', async ({ page }) => {
     await page.goto('/en');
     await page.getByRole('button', { name: EN.skip }).click();
+    // System labels become visible on the first map frame; a hidden button cannot take focus.
+    const work = page.getByRole('button', { name: new RegExp('^' + EN.work) }).first();
+    await expect(work).toBeVisible();
     await page.keyboard.press('ArrowRight');
+    await expect(work).toBeFocused();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/\/en\/work$/, { timeout: 15_000 });
   });
