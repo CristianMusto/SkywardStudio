@@ -9,7 +9,11 @@
     "build:pages": "ng build --base-href /SkywardStudio/",
     "watch": "ng build --watch --configuration development",
     "format": "prettier --write \"src/**/*.{ts,html,css}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,css}\""
+    "format:check": "prettier --check \"src/**/*.{ts,html,css}\"",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@angular/common": "^20.3.0",
@@ -27,8 +31,11 @@
     "@angular/build": "^20.3.0",
     "@angular/cli": "^20.3.0",
     "@angular/compiler-cli": "^20.3.0",
+    "@playwright/test": "^1.55.0",
     "@types/node": "^22.0.0",
+    "jsdom": "^26.1.0",
     "typescript": "~5.9.2",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "vitest": "^3.2.0"
   }
 }

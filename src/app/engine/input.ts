@@ -1,12 +1,83 @@
-// @ts-nocheck: typing in progress (step 1b). Generated from the Skyward Mappa engine.
-/** Pointer, wheel, keyboard and zoom controls. */
+/** Pointer, wheel, keyboard and zoom controls for the galaxy map and the system view. */
 import { DMAX, DMIN, PL, SYS, STR, clamp } from './data';
+import type { EngineCtx, Vec3 } from './types';
+
+/** Radians of yaw per pixel dragged horizontally. */
+const YAW_PER_PX = 0.0055;
+/** Radians of pitch per pixel dragged vertically. */
+const PITCH_PER_PX = 0.0045;
+const PITCH_MIN = -0.6;
+const PITCH_MAX = 1.45;
+/** Pan limits in galaxy units. */
+const PAN_RADIUS = 1500;
+const PAN_HEIGHT = 600;
+/** Drag distance (px) that completes the first tutorial step. */
+const COACH_DRAG_PX = 140;
+/** A pointer that moves less than this and lifts within TAP_MS counts as a tap. */
+const TAP_PX = 5;
+const TAP_MS = 500;
+const WHEEL_ZOOM = 0.0013;
+/** Zoom factor of the + / − buttons and keys. */
+const ZOOM_STEP = 0.7;
+/** Spin speed given by Q / E. */
+const KEY_SPIN = 0.05;
+
+const ARROWS = ['arrowright', 'arrowdown', 'arrowleft', 'arrowup'];
+
+interface PointerDown {
+  x: number;
+  y: number;
+  t: number;
+}
+
+interface Basis {
+  r: Vec3;
+  u: Vec3;
+}
+
+/** Fields and methods of the engine that the input module reads or writes. */
+interface InputCtx extends EngineCtx {
+  sky: HTMLElement;
+  /** Active pointers by id, with their last position. */
+  ptr: Map<number, { x: number; y: number }>;
+  down: PointerDown | null;
+  drag: boolean;
+  /** Current spin velocity (yaw per frame). */
+  vel: number;
+  /** True while the drag pans instead of rotating (right button or Shift). */
+  rot: boolean;
+  /** Distance between two fingers at the last move, or null. */
+  pinch: number | null;
+  /** Focal length of the last frame. */
+  F?: number;
+  /** System whose hover card must stay hidden until the pointer leaves it. */
+  noCard: number | null;
+  /** Element that opened the screenshot viewer, focused again on close. */
+  shotFrom?: HTMLElement | null;
+  basis(): Basis;
+  zoomBy(factor: number): void;
+  zoomIn(): void;
+  zoomOut(): void;
+  clear(): void;
+  recenter(): void;
+  lostHome(): void;
+  openMap(): void;
+  openList(): void;
+  land(): void;
+}
+
+const isArrow = (k: string) => ARROWS.includes(k);
+/** +1 for right/down, −1 for left/up. */
+const arrowDir = (k: string) => (k === 'arrowright' || k === 'arrowdown' ? 1 : -1);
+/** Next index in a ring of `count`, starting from nothing when `current` is −1. */
+const step = (current: number, dir: number, count: number) =>
+  current < 0 ? (dir > 0 ? 0 : count - 1) : (current + dir + count) % count;
 
 export const input = {
-  pDown(e) {
+  pDown(this: InputCtx, e: PointerEvent): void {
     if (this.egg || this.state.intro || this.approach) return;
     this.down = { x: e.clientX, y: e.clientY, t: performance.now() };
-    this.sky.setPointerCapture && this.sky.setPointerCapture(e.pointerId);
+    this.sky.setPointerCapture?.(e.pointerId);
     this.ptr.set(e.pointerId, { x: e.clientX, y: e.clientY });
     this.drag = true;
     this.vel = 0;
@@ -17,60 +88,43 @@ export const input = {
     this.pinch = null;
   },
 
-  pMove(e) {
-    const p = this.ptr.get(e.pointerId);
-    if (!p) return;
+  pMove(this: InputCtx, e: PointerEvent): void {
+    const last = this.ptr.get(e.pointerId);
+    if (!last) return;
     if (this.ptr.size === 1) {
-      const dx = e.clientX - p.x,
-        dy = e.clientY - p.y;
+      const dx = e.clientX - last.x;
+      const dy = e.clientY - last.y;
       if (this.cs === 0) {
-        this.cDrag = (this.cDrag || 0) + Math.abs(dx) + Math.abs(dy);
-        if (this.cDrag > 140) this.coachGo(1);
+        this.cDrag = (this.cDrag ?? 0) + Math.abs(dx) + Math.abs(dy);
+        if (this.cDrag > COACH_DRAG_PX) this.coachGo(1);
       }
-      if (!(this.rot || e.shiftKey)) {
-        this.cam.yaw -= dx * 0.0055;
-        this.vel = -dx * 0.0055;
-        this.cam.pitch = this.tgt.pitch = clamp(this.cam.pitch + dy * 0.0045, -0.6, 1.45);
-      } else {
-        const { r, u } = this.basis(),
-          k = this.cam.dist / (this.F || 800),
-          T = this.cam.T;
-        for (let j = 0; j < 3; j++) {
-          T[j] += (-r[j] * dx + u[j] * dy) * k;
-        }
-        const L = Math.hypot(T[0], T[2]);
-        if (L > 1500) {
-          T[0] *= 1500 / L;
-          T[2] *= 1500 / L;
-        }
-        T[1] = clamp(T[1], -600, 600);
-        this.tgt.T = [...T];
-      }
+      if (this.rot || e.shiftKey) panCamera(this, dx, dy);
+      else rotateCamera(this, dx, dy);
     }
-    p.x = e.clientX;
-    p.y = e.clientY;
+    last.x = e.clientX;
+    last.y = e.clientY;
     if (this.ptr.size === 2) {
-      const [a, b] = [...this.ptr.values()],
-        d = Math.hypot(a.x - b.x, a.y - b.y);
+      const [a, b] = [...this.ptr.values()];
+      const spread = Math.hypot(a.x - b.x, a.y - b.y);
       if (this.pinch) {
-        this.zoomBy(this.pinch / d);
+        this.zoomBy(this.pinch / spread);
         this.coachAct(1);
       }
-      this.pinch = d;
+      this.pinch = spread;
     }
     this.idle = performance.now();
   },
 
-  pUp(e) {
-    const d0 = this.down;
+  pUp(this: InputCtx, e: PointerEvent): void {
+    const start = this.down;
     this.down = null;
-    if (
-      d0 &&
+    const isTap =
+      !!start &&
       e.type === 'pointerup' &&
-      Math.hypot(e.clientX - d0.x, e.clientY - d0.y) < 5 &&
-      performance.now() - d0.t < 500 &&
-      this.state.phase === 'map'
-    ) {
+      Math.hypot(e.clientX - start.x, e.clientY - start.y) < TAP_PX &&
+      performance.now() - start.t < TAP_MS;
+    // A tap on empty space closes the card or the hover preview.
+    if (isTap && this.state.phase === 'map') {
       if (this.state.sel >= 0) this.clear();
       else if (this.state.hover >= 0) this.setState({ hover: -1 });
     }
@@ -83,180 +137,204 @@ export const input = {
     this.idle = performance.now();
   },
 
-  wheel(e) {
+  wheel(this: InputCtx, e: WheelEvent): void {
     e.preventDefault();
     if (this.egg || this.state.intro || this.approach) return;
     this.coachAct(1);
-    this.zoomBy(Math.exp(e.deltaY * 0.0013));
+    this.zoomBy(Math.exp(e.deltaY * WHEEL_ZOOM));
     this.idle = performance.now();
   },
 
-  zoomBy(k) {
-    this.tgt.dist = clamp(this.tgt.dist * k, DMIN, DMAX);
+  zoomBy(this: InputCtx, factor: number): void {
+    this.tgt.dist = clamp(this.tgt.dist * factor, DMIN, DMAX);
   },
 
-  clear() {
-    const i = this.state.hover >= 0 ? this.state.hover : this.state.sel;
+  zoomIn(this: InputCtx): void {
+    this.zoomBy(ZOOM_STEP);
+    this.idle = performance.now();
+  },
+
+  zoomOut(this: InputCtx): void {
+    this.zoomBy(1 / ZOOM_STEP);
+    this.idle = performance.now();
+  },
+
+  /** Deselects, flies back to the overview and returns focus to the system's button. */
+  clear(this: InputCtx): void {
+    const { hover, sel } = this.state;
+    const system = hover >= 0 ? hover : sel;
     this.fly(-1);
     this.cardHot = false;
     clearTimeout(this.hvT);
-    this.noCard = i;
+    this.noCard = system;
     this.setState({ sel: -1, hover: -1, list: false });
-    if (i >= 0 && this.btns[i]) {
-      const b = this.btns[i];
-      b.focus({ preventScroll: true });
-      const off = () => {
-        this.noCard = null;
-        b.removeEventListener('blur', off);
-        b.removeEventListener('pointerleave', off);
-      };
-      b.addEventListener('blur', off);
-      b.addEventListener('pointerleave', off);
-    }
+    const button = system >= 0 ? this.btns[system] : null;
+    if (!button) return;
+    button.focus({ preventScroll: true });
+    const release = () => {
+      this.noCard = null;
+      button.removeEventListener('blur', release);
+      button.removeEventListener('pointerleave', release);
+    };
+    button.addEventListener('blur', release);
+    button.addEventListener('pointerleave', release);
   },
 
-  recenter() {
+  recenter(this: InputCtx): void {
     this.fly(-1);
     this.setState({ sel: -1, live: STR.mapRecentered });
   },
 
-  zoomIn() {
-    this.zoomBy(0.7);
-    this.idle = performance.now();
-  },
-
-  zoomOut() {
-    this.zoomBy(1 / 0.7);
-    this.idle = performance.now();
-  },
-
-  key(e) {
-    if (this.state.shot) {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        this.setState({ shot: null });
-        const b = this.shotFrom;
-        if (b) setTimeout(() => b.focus({ preventScroll: true }), 30);
-      }
+  key(this: InputCtx, e: KeyboardEvent): void {
+    // A modal dialog (e.g. keyboard shortcuts) handles its own keys, Esc included.
+    if (document.querySelector('dialog[open]')) return;
+    if (this.state['shot']) {
+      if (e.key === 'Escape') closeShot(this, e);
       return;
     }
     if (this.state.lost) {
       if (e.key === 'Escape') this.lostHome();
       return;
     }
-    const st = this.state;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
-    const tag = (e.target && e.target.tagName) || '';
+    const target = e.target as HTMLElement | null;
+    const tag = target?.tagName ?? '';
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (this.state.intro) return;
+
     const k = e.key.toLowerCase();
-    if (st.intro) return;
-    if (st.phase === 'page') {
-      const L0 = PL[SYS[st.sel].id] || [];
-      if (k === 'escape' || k === 'm') {
-        e.preventDefault();
-        this.closePage();
-        return;
-      }
-      if (k === 'arrowleft' && st.psel > 0 && !L0[st.psel - 1].ghost) {
-        this.goPlanet(st.psel - 1);
-        return;
-      }
-      if (k === 'arrowright') {
-        const nx = L0[st.psel + 1];
-        if (nx && !nx.ghost) this.goPlanet(st.psel + 1);
-        return;
-      }
-      return;
-    }
-    if (st.phase === 'arrive') {
-      const pl = PL[SYS[st.sel].id] || [];
-      if (k === 'escape') {
-        e.preventDefault();
-        if (st.psel >= 0) this.setState({ psel: -1, landMsg: '' });
-        else this.back();
-        return;
-      }
-      if (k === 'm') {
-        e.preventDefault();
-        this.back();
-        return;
-      }
-      if (['arrowright', 'arrowdown', 'arrowleft', 'arrowup'].includes(k) && pl.length) {
-        e.preventDefault();
-        const dir = k === 'arrowright' || k === 'arrowdown' ? 1 : -1;
-        this.setState({
-          psel: st.psel < 0 ? (dir > 0 ? 0 : pl.length - 1) : (st.psel + dir + pl.length) % pl.length,
-          landMsg: '',
-        });
-        return;
-      }
-      if (
-        k === 'enter' &&
-        st.psel >= 0 &&
-        (e.target === document.body || !e.target.closest || !e.target.closest('button'))
-      ) {
-        e.preventDefault();
-        this.land();
-        return;
-      }
-      return;
-    }
-    if (st.phase !== 'map') return;
-    if (k === 'm') {
-      e.preventDefault();
-      if (st.list) this.openMap();
-      else if (st.sel >= 0) this.clear();
-      return;
-    }
-    if (k === 'l') {
-      e.preventDefault();
-      if (!st.list) this.openList();
-      return;
-    }
-    if (k === 'escape' && this.cs >= 0) {
-      this.coachDone();
-      return;
-    }
-    if (k === 'escape') {
-      if (st.list) this.openMap();
-      else if (st.sel >= 0) this.clear();
-      return;
-    }
-    if (st.list) return;
-    if (k === '+' || k === '=') {
-      this.zoomIn();
-      return;
-    }
-    if (k === '-' || k === '_') {
-      this.zoomOut();
-      return;
-    }
-    if (k === 'q') {
-      this.vel = -0.05;
-      this.idle = performance.now();
-      return;
-    }
-    if (k === 'e') {
-      this.vel = 0.05;
-      this.idle = performance.now();
-      return;
-    }
-    if (k === 'r' || k === '0') {
-      this.recenter();
-      return;
-    }
-    const n = SYS.length;
-    if (['arrowright', 'arrowdown', 'arrowleft', 'arrowup'].includes(k)) {
-      e.preventDefault();
-      const dir = k === 'arrowright' || k === 'arrowdown' ? 1 : -1;
-      const i = st.sel < 0 ? (dir > 0 ? 0 : n - 1) : (st.sel + dir + n) % n;
-      this.select(i);
-      this.btns[i] && this.btns[i].focus();
-      return;
-    }
-    if (k === 'enter' && st.sel >= 0 && document.activeElement === this.btns[st.sel]) {
-      e.preventDefault();
-      this.jump();
+    switch (this.state.phase) {
+      case 'page':
+        return pageKeys(this, e, k);
+      case 'arrive':
+        return systemKeys(this, e, k, target);
+      case 'map':
+        return mapKeys(this, e, k);
     }
   },
 };
+
+function rotateCamera(ctx: InputCtx, dx: number, dy: number): void {
+  ctx.cam.yaw -= dx * YAW_PER_PX;
+  ctx.vel = -dx * YAW_PER_PX;
+  ctx.cam.pitch = ctx.tgt.pitch = clamp(ctx.cam.pitch + dy * PITCH_PER_PX, PITCH_MIN, PITCH_MAX);
+}
+
+/** Moves the look-at point along the screen axes, kept inside a cylinder around the galaxy. */
+function panCamera(ctx: InputCtx, dx: number, dy: number): void {
+  const { r, u } = ctx.basis();
+  const unitsPerPx = ctx.cam.dist / (ctx.F || 800);
+  const T = ctx.cam.T;
+  for (let axis = 0; axis < 3; axis++) T[axis] += (-r[axis] * dx + u[axis] * dy) * unitsPerPx;
+  const radius = Math.hypot(T[0], T[2]);
+  if (radius > PAN_RADIUS) {
+    T[0] *= PAN_RADIUS / radius;
+    T[2] *= PAN_RADIUS / radius;
+  }
+  T[1] = clamp(T[1], -PAN_HEIGHT, PAN_HEIGHT);
+  ctx.tgt.T = [T[0], T[1], T[2]];
+}
+
+function closeShot(ctx: InputCtx, e: KeyboardEvent): void {
+  e.preventDefault();
+  ctx.setState({ shot: null });
+  const opener = ctx.shotFrom;
+  if (opener) setTimeout(() => opener.focus({ preventScroll: true }), 30);
+}
+
+/** Planet page: Esc / M closes, ← → move between planets (skipping empty orbits). */
+function pageKeys(ctx: InputCtx, e: KeyboardEvent, k: string): void {
+  const { sel, psel } = ctx.state;
+  const planets = PL[SYS[sel].id] ?? [];
+  if (k === 'escape' || k === 'm') {
+    e.preventDefault();
+    ctx.closePage();
+    return;
+  }
+  if (k === 'arrowleft' && psel > 0 && !planets[psel - 1].ghost) {
+    ctx.goPlanet(psel - 1);
+    return;
+  }
+  if (k === 'arrowright') {
+    const next = planets[psel + 1];
+    if (next && !next.ghost) ctx.goPlanet(psel + 1);
+  }
+}
+
+/** System view: arrows pick a planet, Enter lands, Esc steps back, M returns to the map. */
+function systemKeys(ctx: InputCtx, e: KeyboardEvent, k: string, target: HTMLElement | null): void {
+  const { sel, psel } = ctx.state;
+  const planets = PL[SYS[sel].id] ?? [];
+  if (k === 'escape') {
+    e.preventDefault();
+    if (psel >= 0) ctx.setState({ psel: -1, landMsg: '' });
+    else ctx.back();
+    return;
+  }
+  if (k === 'm') {
+    e.preventDefault();
+    ctx.back();
+    return;
+  }
+  if (isArrow(k) && planets.length) {
+    e.preventDefault();
+    ctx.setState({ psel: step(psel, arrowDir(k), planets.length), landMsg: '' });
+    return;
+  }
+  // Enter lands only when focus is not on a button (buttons handle Enter themselves).
+  const onButton = !!target && target !== document.body && !!target.closest?.('button');
+  if (k === 'enter' && psel >= 0 && !onButton) {
+    e.preventDefault();
+    ctx.land();
+  }
+}
+
+/** Galaxy map: M / L / Esc switch views, + − zoom, Q E spin, R / 0 recenter, arrows cycle systems. */
+function mapKeys(ctx: InputCtx, e: KeyboardEvent, k: string): void {
+  const { list, sel } = ctx.state;
+  if (k === 'm') {
+    e.preventDefault();
+    if (list) ctx.openMap();
+    else if (sel >= 0) ctx.clear();
+    return;
+  }
+  if (k === 'l') {
+    e.preventDefault();
+    if (!list) ctx.openList();
+    return;
+  }
+  if (k === 'escape') {
+    if ((ctx.cs ?? -1) >= 0) ctx.coachDone();
+    else if (list) ctx.openMap();
+    else if (sel >= 0) ctx.clear();
+    return;
+  }
+  if (list) return;
+  switch (k) {
+    case '+':
+    case '=':
+      return ctx.zoomIn();
+    case '-':
+    case '_':
+      return ctx.zoomOut();
+    case 'q':
+    case 'e':
+      ctx.vel = k === 'q' ? -KEY_SPIN : KEY_SPIN;
+      ctx.idle = performance.now();
+      return;
+    case 'r':
+    case '0':
+      return ctx.recenter();
+  }
+  if (isArrow(k)) {
+    e.preventDefault();
+    const next = step(sel, arrowDir(k), SYS.length);
+    ctx.select(next);
+    ctx.btns[next]?.focus();
+    return;
+  }
+  if (k === 'enter' && sel >= 0 && document.activeElement === ctx.btns[sel]) {
+    e.preventDefault();
+    ctx.jump();
+  }
+}

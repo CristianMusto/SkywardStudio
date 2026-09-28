@@ -33,6 +33,7 @@ const EN = {
   messageSent: 'Message sent.',
   sendingFailedTryAgain: 'Sending failed. Try again or email me.',
   jump: 'JUMP · ',
+  arrival: 'ARRIVAL · ',
   awaitingRoute: 'AWAITING ROUTE',
   demoJumpTo: 'Demo jump to ',
   system: 'System ',
@@ -100,6 +101,7 @@ const EN = {
   currentPosition: 'Current position',
   route: 'Route · ',
   notVisited: 'not visited',
+  visitedLabel: 'visited',
 } satisfies Record<string, string>;
 
 export type EngineStrings = Record<keyof typeof EN, string>;
@@ -136,6 +138,7 @@ const IT: EngineStrings = {
   messageSent: 'Messaggio inviato.',
   sendingFailedTryAgain: 'Invio non riuscito. Riprova o scrivimi via email.',
   jump: 'SALTO · ',
+  arrival: 'ARRIVO · ',
   awaitingRoute: 'IN ATTESA DI ROTTA',
   demoJumpTo: 'Salto dimostrativo verso ',
   system: 'Sistema ',
@@ -203,6 +206,7 @@ const IT: EngineStrings = {
   currentPosition: 'Posizione attuale',
   route: 'Rotta · ',
   notVisited: 'non visitato',
+  visitedLabel: 'visitato',
 };
 
 export const ENGINE_STRINGS: Record<Lang, EngineStrings> = { en: EN, it: IT };

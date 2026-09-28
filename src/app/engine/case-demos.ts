@@ -1,353 +1,486 @@
-// @ts-nocheck: typing in progress (step 1b). Generated from the Skyward Mappa engine.
-/** Interactive demos in the Skyward case study. */
-import { h } from './vnode';
+/**
+ * The two live demos in the Skyward case study: a small rotatable galaxy (leg 04) and a
+ * replay of the jump between systems (leg 05). Both share one animation loop that pauses
+ * while the canvases are off screen.
+ */
 import { HOME, RG, SYS, STR, clamp, gauss, pickT, rnd } from './data';
+import type { EngineCtx, Vec3 } from './types';
+
+type MiniKind = 'gal' | 'jump';
+type ScreenPoint = [number, number, number];
+
+const TAU = 6.283;
+const MINI_STARS = 1500;
+const JUMP_PARTICLES = 560;
+/** Auto-rotation starts after this much idle time (ms). */
+const AUTO_SPIN_AFTER = 1500;
+/** Tap radius for picking a system in the mini galaxy (px). */
+const PICK_RADIUS = 36;
+const TAP_PX = 5;
+const JUMP_MS = 2200;
+/** How long the arrived star stays before the demo resets (ms). */
+const HOLD_AFTER_MS = 1500;
+
+interface MiniStar {
+  x: number;
+  y: number;
+  z: number;
+  a: number;
+  r: number;
+  /** "r,g,b" */
+  c: string;
+}
+
+/** A warp particle (see `spawn` in the scene). */
+interface WarpParticle {
+  x: number;
+  y: number;
+  z: number;
+  b: number;
+  c: string;
+}
+
+interface MiniDrag {
+  x: number;
+  y: number;
+  x0: number;
+  y0: number;
+}
+
+interface MiniRun {
+  start: number;
+  dur: number;
+  tint: string;
+  name: string;
+}
+
+/** State of one demo canvas. */
+interface Mini {
+  cv: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  /** False while off screen. */
+  vis: boolean;
+  yaw: number;
+  pitch: number;
+  drag: MiniDrag | null;
+  idle: number;
+  parts: WarpParticle[] | null;
+  run: MiniRun | null;
+  io?: IntersectionObserver;
+  last?: number;
+  W?: number;
+  H?: number;
+  /** Device pixel ratio used for the backing store. */
+  d?: number;
+  /** Screen position of each system in the last frame. */
+  scr?: (ScreenPoint | null)[];
+}
+
+interface CaseDemoCtx extends EngineCtx {
+  minis?: Partial<Record<MiniKind, Mini>>;
+  miniRaf: number;
+  mStars?: MiniStar[];
+  sprite(tint: string, soft: boolean): CanvasImageSource;
+  miniLoop(t: number): void;
+  miniSeed(): void;
+  fitMini(m: Mini): void;
+  drawMiniGal(m: Mini, t: number, dt: number): void;
+  drawMiniJump(m: Mini, t: number, dt: number): void;
+}
+
+const smoothstep = (q: number) => q * q * (3 - 2 * q);
 
 export const caseDemos = {
-  attachMini(kind, el) {
+  /** Registers a demo canvas (called from a template ref). Safe to call again with the same element. */
+  attachMini(this: CaseDemoCtx, kind: MiniKind, el: HTMLCanvasElement | null): void {
     if (!el) return;
-    this.minis = this.minis || {};
-    const m = this.minis[kind];
-    if (m && m.cv === el) return;
-    const o = {
+    this.minis ??= {};
+    if (this.minis[kind]?.cv === el) return;
+    const ctx = el.getContext('2d');
+    if (!ctx) return;
+    const mini: Mini = {
       cv: el,
-      ctx: el.getContext('2d'),
+      ctx,
       vis: true,
       yaw: 0.7,
       pitch: 0.5,
       drag: null,
       idle: 0,
-      parts: kind === 'jump' ? Array.from({ length: 560 }, () => this.spawn(true)) : null,
+      parts:
+        kind === 'jump'
+          ? Array.from({ length: JUMP_PARTICLES }, () => this.spawn(true) as WarpParticle)
+          : null,
       run: null,
     };
     if (typeof IntersectionObserver !== 'undefined') {
-      o.io = new IntersectionObserver(es => {
-        o.vis = es[0].isIntersecting;
+      mini.io = new IntersectionObserver(entries => {
+        mini.vis = entries[0].isIntersecting;
       });
-      o.io.observe(el);
+      mini.io.observe(el);
     }
     if (kind === 'gal') {
       this.miniSeed();
-      el.addEventListener('pointerdown', e => {
-        el.setPointerCapture && el.setPointerCapture(e.pointerId);
-        o.drag = { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY };
-        el.style.cursor = 'grabbing';
-      });
-      el.addEventListener('pointermove', e => {
-        const d = o.drag;
-        if (!d) return;
-        o.yaw -= (e.clientX - d.x) * 0.006;
-        o.pitch = clamp(o.pitch + (e.clientY - d.y) * 0.005, 0.05, 1.4);
-        d.x = e.clientX;
-        d.y = e.clientY;
-        o.idle = performance.now();
-      });
-      const up = e => {
-        const d = o.drag;
-        o.drag = null;
-        el.style.cursor = 'grab';
-        if (d && Math.hypot(e.clientX - d.x0, e.clientY - d.y0) < 5 && o.scr) {
-          const r = el.getBoundingClientRect(),
-            px = e.clientX - r.left,
-            py = e.clientY - r.top;
-          let best = -1,
-            bd = 36;
-          o.scr.forEach((p, i) => {
-            if (p) {
-              const dd = Math.hypot(p[0] - px, p[1] - py);
-              if (dd < bd) {
-                bd = dd;
-                best = i;
-              }
-            }
-          });
-          if (best >= 0) {
-            this.setState({ miniSel: best });
-            this.sfx('blip');
-          }
-        }
-      };
-      el.addEventListener('pointerup', up);
-      el.addEventListener('pointercancel', () => {
-        o.drag = null;
-      });
+      bindGalaxyDrag(this, mini);
     }
-    this.minis[kind] = o;
+    this.minis[kind] = mini;
     if (!this.miniRaf) this.miniRaf = requestAnimationFrame(this.miniLoop);
   },
 
-  miniLoop(t) {
-    const ms = this.minis || {};
-    let any = false;
-    for (const k in ms) {
-      const m = ms[k];
-      if (!m.cv.isConnected) {
-        m.io && m.io.disconnect();
-        delete ms[k];
+  miniLoop(this: CaseDemoCtx, t: number): void {
+    const minis = this.minis ?? {};
+    let running = false;
+    for (const kind of Object.keys(minis) as MiniKind[]) {
+      const mini = minis[kind];
+      if (!mini) continue;
+      if (!mini.cv.isConnected) {
+        mini.io?.disconnect();
+        delete minis[kind];
         continue;
       }
-      any = true;
-      const dt = Math.min(0.05, (t - (m.last || t)) / 1000);
-      m.last = t;
-      if (!m.vis || document.hidden) continue;
-      this.fitMini(m);
-      if (k === 'gal') this.drawMiniGal(m, t, dt);
-      else this.drawMiniJump(m, t, dt);
+      running = true;
+      const dt = Math.min(0.05, (t - (mini.last || t)) / 1000);
+      mini.last = t;
+      if (!mini.vis || document.hidden) continue;
+      this.fitMini(mini);
+      if (kind === 'gal') this.drawMiniGal(mini, t, dt);
+      else this.drawMiniJump(mini, t, dt);
     }
-    this.miniRaf = any ? requestAnimationFrame(this.miniLoop) : 0;
+    this.miniRaf = running ? requestAnimationFrame(this.miniLoop) : 0;
   },
 
-  fitMini(m) {
-    const d = Math.min(devicePixelRatio || 1, 2),
-      w = m.cv.clientWidth,
-      h = m.cv.clientHeight;
-    if (m.cv.width !== Math.round(w * d) || m.cv.height !== Math.round(h * d)) {
-      m.cv.width = Math.round(w * d);
-      m.cv.height = Math.round(h * d);
+  /** Matches the backing store to the CSS size (capped at 2× DPR). */
+  fitMini(this: CaseDemoCtx, m: Mini): void {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const w = m.cv.clientWidth;
+    const h = m.cv.clientHeight;
+    if (m.cv.width !== Math.round(w * dpr) || m.cv.height !== Math.round(h * dpr)) {
+      m.cv.width = Math.round(w * dpr);
+      m.cv.height = Math.round(h * dpr);
     }
     m.W = w;
     m.H = h;
-    m.d = d;
+    m.d = dpr;
   },
 
-  miniSeed() {
+  /** A lighter three-arm galaxy for the demo, generated once. */
+  miniSeed(this: CaseDemoCtx): void {
     if (this.mStars) return;
-    this.mStars = [];
-    for (let i = 0; i < 1500; i++) {
-      const rr = RG * Math.pow(rnd(), 0.72),
-        arm = i % 3,
-        th = arm * 2.094 + rr * 0.0046 + gauss() * 0.26 * (1 + rr / RG);
-      this.mStars.push({
-        x: Math.cos(th) * rr + gauss() * 26,
-        y: gauss() * (38 * (1 - rr / RG) + 9),
-        z: Math.sin(th) * rr + gauss() * 26,
+    const stars: MiniStar[] = [];
+    for (let i = 0; i < MINI_STARS; i++) {
+      const radius = RG * Math.pow(rnd(), 0.72);
+      const arm = i % 3;
+      const angle = arm * 2.094 + radius * 0.0046 + gauss() * 0.26 * (1 + radius / RG);
+      stars.push({
+        x: Math.cos(angle) * radius + gauss() * 26,
+        y: gauss() * (38 * (1 - radius / RG) + 9),
+        z: Math.sin(angle) * radius + gauss() * 26,
         a: 0.25 + rnd() * 0.6,
         r: rnd() < 0.06 ? 1.6 : 0.9,
         c: pickT(),
       });
     }
+    this.mStars = stars;
   },
 
-  drawMiniGal(m, t, dt) {
-    const c = m.ctx,
-      W = m.W,
-      H = m.H;
-    c.setTransform(m.d, 0, 0, m.d, 0, 0);
-    if (!m.drag && !this.reduced && t - m.idle > 1500) m.yaw += dt * 0.12;
-    const dist = 2500,
-      cp = Math.cos(m.pitch),
-      C = [dist * cp * Math.sin(m.yaw), dist * Math.sin(m.pitch), dist * cp * Math.cos(m.yaw)],
-      l = Math.hypot(...C),
-      fw = C.map(v => -v / l);
-    let r = [-fw[2], 0, fw[0]];
-    const lr = Math.hypot(...r) || 1;
-    r = r.map(v => v / lr);
-    const u = [r[1] * fw[2] - r[2] * fw[1], r[2] * fw[0] - r[0] * fw[2], r[0] * fw[1] - r[1] * fw[0]];
-    const F = Math.min(W, H) * 1.35,
-      cx = W / 2,
-      cy = H / 2,
-      P = (x, y, z) => {
-        const dx = x - C[0],
-          dy = y - C[1],
-          dz = z - C[2],
-          zc = dx * fw[0] + dy * fw[1] + dz * fw[2];
-        if (zc < 4) return null;
-        const q = F / zc;
-        return [
-          cx + (dx * r[0] + dy * r[1] + dz * r[2]) * q,
-          cy - (dx * u[0] + dy * u[1] + dz * u[2]) * q,
-          q,
-        ];
-      };
+  drawMiniGal(this: CaseDemoCtx, m: Mini, t: number, dt: number): void {
+    const c = m.ctx;
+    const W = m.W ?? 0;
+    const H = m.H ?? 0;
+    c.setTransform(m.d ?? 1, 0, 0, m.d ?? 1, 0, 0);
+    if (!m.drag && !this.reduced && t - m.idle > AUTO_SPIN_AFTER) m.yaw += dt * 0.12;
+    const P = orbitProjector(m.yaw, m.pitch, W, H);
+
     c.globalCompositeOperation = 'source-over';
     c.globalAlpha = 1;
     c.fillStyle = '#07060F';
     c.fillRect(0, 0, W, H);
     c.globalCompositeOperation = 'lighter';
-    const o = P(0, 0, 0);
-    if (o) {
-      const s = 760 * o[2];
+    const core = P(0, 0, 0);
+    if (core) {
+      const size = 760 * core[2];
       c.globalAlpha = 0.4;
-      c.drawImage(this.sprite('255,210,160', true), o[0] - s / 2, o[1] - s / 2, s, s);
+      c.drawImage(this.sprite('255,210,160', true), core[0] - size / 2, core[1] - size / 2, size, size);
     }
-    for (const q of this.mStars) {
-      const p = P(q.x, q.y, q.z);
+    for (const star of this.mStars ?? []) {
+      const p = P(star.x, star.y, star.z);
       if (!p || p[0] < 0 || p[1] < 0 || p[0] > W || p[1] > H) continue;
-      c.globalAlpha = q.a;
-      c.fillStyle = 'rgb(' + q.c + ')';
-      c.fillRect(p[0], p[1], q.r, q.r);
+      c.globalAlpha = star.a;
+      c.fillStyle = `rgb(${star.c})`;
+      c.fillRect(p[0], p[1], star.r, star.r);
     }
-    const sel = this.state.miniSel;
-    m.scr = SYS.map(s => P(...s.p));
-    const hp = m.scr[HOME];
-    c.globalCompositeOperation = 'source-over';
-    if (hp) {
-      c.globalAlpha = 1;
-      c.strokeStyle = 'rgba(169,163,194,.45)';
-      c.setLineDash([2, 6]);
-      c.lineWidth = 1;
-      c.beginPath();
-      m.scr.forEach((p, i) => {
-        if (p && i !== HOME) {
-          c.moveTo(hp[0], hp[1]);
-          c.lineTo(p[0], p[1]);
-        }
-      });
-      c.stroke();
-      const sp = m.scr[sel];
-      if (sp && sel !== HOME) {
-        c.strokeStyle = SYS[sel].hex;
-        c.setLineDash([6, 6]);
-        c.lineDashOffset = -t / 60;
-        c.lineWidth = 1.25;
-        c.beginPath();
-        c.moveTo(hp[0], hp[1]);
-        c.lineTo(sp[0], sp[1]);
-        c.stroke();
-      }
-      c.setLineDash([]);
-    }
-    SYS.forEach((s, i) => {
-      const p = m.scr[i];
+
+    const sel = this.state['miniSel'] as number;
+    const screen = SYS.map(s => P(...s.p));
+    m.scr = screen;
+    drawMiniRoutes(c, screen, sel, t);
+    SYS.forEach((system, i) => {
+      const p = screen[i];
       if (!p) return;
       const on = i === sel;
       c.globalCompositeOperation = 'lighter';
       c.globalAlpha = 0.9;
-      const g = on ? 50 : 32;
-      c.drawImage(this.sprite(s.tint, true), p[0] - g / 2, p[1] - g / 2, g, g);
+      const glow = on ? 50 : 32;
+      c.drawImage(this.sprite(system.tint, true), p[0] - glow / 2, p[1] - glow / 2, glow, glow);
       c.globalCompositeOperation = 'source-over';
       c.globalAlpha = 1;
-      c.fillStyle = s.hex;
+      c.fillStyle = system.hex;
       c.beginPath();
-      c.arc(p[0], p[1], on ? 4.5 : 3.5, 0, 6.283);
+      c.arc(p[0], p[1], on ? 4.5 : 3.5, 0, TAU);
       c.fill();
       if (on) {
-        c.strokeStyle = s.hex;
+        c.strokeStyle = system.hex;
         c.lineWidth = 1.5;
         c.beginPath();
-        c.arc(p[0], p[1], 13, 0, 6.283);
+        c.arc(p[0], p[1], 13, 0, TAU);
         c.stroke();
       }
       c.fillStyle = '#F2EEE6';
       c.font = '600 13px "Bricolage Grotesque", sans-serif';
       c.shadowColor = '#07060F';
       c.shadowBlur = 6;
-      c.fillText(s.name, p[0] + 15, p[1] + 4);
+      c.fillText(system.name, p[0] + 15, p[1] + 4);
       c.shadowBlur = 0;
     });
   },
 
-  drawMiniJump(m, t, dt) {
-    const c = m.ctx,
-      W = m.W,
-      H = m.H;
-    c.setTransform(m.d, 0, 0, m.d, 0, 0);
-    const R0 = m.run;
-    let v = 0.03,
-      k = 0;
-    if (R0) {
-      const el = t - R0.start;
-      k = el / R0.dur;
-      if (k < 0.28) {
-        const q = k / 0.28;
-        v = 0.03 + q * q * q * 0.97;
-      } else if (k < 0.66) v = 1;
-      else if (k < 1) {
-        const q = (k - 0.66) / 0.34;
-        v = Math.pow(1 - q, 2.4) * 0.97 + 0.03;
-      } else v = 0.03;
-      if (el > R0.dur + 1500) {
+  drawMiniJump(this: CaseDemoCtx, m: Mini, t: number, dt: number): void {
+    const c = m.ctx;
+    const W = m.W ?? 0;
+    const H = m.H ?? 0;
+    c.setTransform(m.d ?? 1, 0, 0, m.d ?? 1, 0, 0);
+    const run = m.run;
+    let speed = 0.03;
+    let k = 0;
+    if (run) {
+      const elapsed = t - run.start;
+      k = elapsed / run.dur;
+      speed = jumpSpeed(k);
+      if (elapsed > run.dur + HOLD_AFTER_MS) {
         m.run = null;
         this.setState({ jumpBusy: false });
       }
     }
+
     c.globalCompositeOperation = 'source-over';
     c.globalAlpha = 1;
     c.fillStyle = '#05040C';
     c.fillRect(0, 0, W, H);
     c.globalCompositeOperation = 'lighter';
     c.lineCap = 'round';
-    const F = Math.max(W, H) * 0.16,
-      cx = W / 2,
-      cy = H / 2,
-      V = v * 2.1,
-      dim = R0 && k > 1 ? 0.35 : 1;
-    for (const p of m.parts) {
-      p.z -= V * dt;
+    const focal = Math.max(W, H) * 0.16;
+    const cx = W / 2;
+    const cy = H / 2;
+    const velocity = speed * 2.1;
+    const dim = run && k > 1 ? 0.35 : 1;
+    for (const p of m.parts ?? []) {
+      p.z -= velocity * dt;
       if (p.z <= 0.025) {
         Object.assign(p, this.spawn(false));
         continue;
       }
-      const z2 = Math.min(1.25, p.z + V * 0.045 + 0.0015),
-        x1 = cx + (p.x / p.z) * F,
-        y1 = cy + (p.y / p.z) * F,
-        x2 = cx + (p.x / z2) * F,
-        y2 = cy + (p.y / z2) * F;
+      // Each star is a streak from its current depth to a slightly deeper one.
+      const tailZ = Math.min(1.25, p.z + velocity * 0.045 + 0.0015);
+      const x1 = cx + (p.x / p.z) * focal;
+      const y1 = cy + (p.y / p.z) * focal;
+      const x2 = cx + (p.x / tailZ) * focal;
+      const y2 = cy + (p.y / tailZ) * focal;
       if ((x1 < 0 && x2 < 0) || (x1 > W && x2 > W) || (y1 < 0 && y2 < 0) || (y1 > H && y2 > H)) continue;
-      const nr = 1 - p.z,
-        al = Math.min(1, p.b * (0.12 + nr * nr * 1.3)) * dim,
-        lw = Math.max(0.5, Math.min(2.4, 0.35 + nr * nr * 2.2));
+      const near = 1 - p.z;
+      const alpha = Math.min(1, p.b * (0.12 + near * near * 1.3)) * dim;
+      const width = Math.max(0.5, Math.min(2.4, 0.35 + near * near * 2.2));
       if (Math.abs(x1 - x2) + Math.abs(y1 - y2) < 1.5) {
-        c.globalAlpha = al;
-        c.fillStyle = 'rgb(' + p.c + ')';
-        c.fillRect(x1, y1, lw, lw);
+        c.globalAlpha = alpha;
+        c.fillStyle = `rgb(${p.c})`;
+        c.fillRect(x1, y1, width, width);
       } else {
-        const g = c.createLinearGradient(x2, y2, x1, y1);
-        g.addColorStop(0, 'rgba(' + p.c + ',0)');
-        g.addColorStop(1, 'rgba(' + p.c + ',' + al + ')');
+        const streak = c.createLinearGradient(x2, y2, x1, y1);
+        streak.addColorStop(0, `rgba(${p.c},0)`);
+        streak.addColorStop(1, `rgba(${p.c},${alpha})`);
         c.globalAlpha = 1;
-        c.strokeStyle = g;
-        c.lineWidth = lw;
+        c.strokeStyle = streak;
+        c.lineWidth = width;
         c.beginPath();
         c.moveTo(x2, y2);
         c.lineTo(x1, y1);
         c.stroke();
       }
     }
-    if (R0) {
-      const q = clamp((k - 0.6) / 0.4, 0, 1),
-        e = q * q * (3 - 2 * q),
-        out = k > 1 ? clamp(((k - 1) * R0.dur) / 1500, 0, 1) : 0,
-        fade = out > 0.7 ? 1 - (out - 0.7) / 0.3 : 1,
-        S = 6 + e * Math.min(W, H) * 0.3;
-      c.globalAlpha = (0.25 + 0.75 * e) * fade;
-      const h = S * 2.4;
-      c.drawImage(this.sprite(R0.tint, true), cx - h / 2, cy - h / 2, h, h);
-      const g = c.createRadialGradient(cx, cy, 0, cx, cy, S / 2);
-      g.addColorStop(0, 'rgba(255,255,255,1)');
-      g.addColorStop(0.26, 'rgba(' + R0.tint + ',1)');
-      g.addColorStop(0.5, 'rgba(' + R0.tint + ',.35)');
-      g.addColorStop(1, 'rgba(' + R0.tint + ',0)');
-      c.fillStyle = g;
-      c.beginPath();
-      c.arc(cx, cy, S / 2, 0, 6.283);
-      c.fill();
+
+    c.textAlign = 'center';
+    if (run) {
+      drawArrivalStar(this, c, run, k, W, H);
       c.globalCompositeOperation = 'source-over';
-      c.globalAlpha = clamp(k / 0.12, 0, 1) * fade;
-      c.textAlign = 'center';
+      c.globalAlpha = clamp(k / 0.12, 0, 1) * arrivalFade(k, run.dur);
       c.fillStyle = '#F2EEE6';
       c.font = '500 13px "Martian Mono", monospace';
-      c.fillText((k < 1 ? STR.jump : 'ARRIVAL · ') + R0.name.toUpperCase(), W / 2, H - 26);
-      c.textAlign = 'start';
+      c.fillText((k < 1 ? STR.jump : STR.arrival) + run.name.toUpperCase(), W / 2, H - 26);
     } else {
       c.globalCompositeOperation = 'source-over';
       c.globalAlpha = 0.9;
-      c.textAlign = 'center';
       c.fillStyle = '#A9A3C2';
       c.font = '400 12px "Martian Mono", monospace';
       c.fillText(STR.awaitingRoute, W / 2, H - 26);
-      c.textAlign = 'start';
     }
+    c.textAlign = 'start';
     c.globalAlpha = 1;
   },
 
-  jumpDemo() {
-    const m = this.minis && this.minis.jump;
-    if (!m || m.run) return;
-    const s = SYS[this.state.miniSel];
-    m.parts.forEach(q => Object.assign(q, this.spawn(true)));
-    m.run = { start: performance.now(), dur: this.reduced ? 1 : 2200, tint: s.tint, name: s.name };
-    this.setState({ jumpBusy: true, live: STR.demoJumpTo + s.name + '.' });
+  jumpDemo(this: CaseDemoCtx): void {
+    const mini = this.minis?.jump;
+    if (!mini || mini.run) return;
+    const system = SYS[this.state['miniSel'] as number];
+    for (const particle of mini.parts ?? []) Object.assign(particle, this.spawn(true));
+    mini.run = { start: performance.now(), dur: this.reduced ? 1 : JUMP_MS, tint: system.tint, name: system.name };
+    this.setState({ jumpBusy: true, live: STR.demoJumpTo + system.name + '.' });
     this.sfx('jump', 2.2);
   },
 };
+
+/** Drag rotates the mini galaxy; a tap selects the nearest system. */
+function bindGalaxyDrag(ctx: CaseDemoCtx, mini: Mini): void {
+  const el = mini.cv;
+  el.addEventListener('pointerdown', e => {
+    el.setPointerCapture?.(e.pointerId);
+    mini.drag = { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY };
+    el.style.cursor = 'grabbing';
+  });
+  el.addEventListener('pointermove', e => {
+    const drag = mini.drag;
+    if (!drag) return;
+    mini.yaw -= (e.clientX - drag.x) * 0.006;
+    mini.pitch = clamp(mini.pitch + (e.clientY - drag.y) * 0.005, 0.05, 1.4);
+    drag.x = e.clientX;
+    drag.y = e.clientY;
+    mini.idle = performance.now();
+  });
+  el.addEventListener('pointerup', e => {
+    const drag = mini.drag;
+    mini.drag = null;
+    el.style.cursor = 'grab';
+    if (!drag || !mini.scr || Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) >= TAP_PX) return;
+    const box = el.getBoundingClientRect();
+    const px = e.clientX - box.left;
+    const py = e.clientY - box.top;
+    let best = -1;
+    let bestDist = PICK_RADIUS;
+    mini.scr.forEach((p, i) => {
+      if (!p) return;
+      const d = Math.hypot(p[0] - px, p[1] - py);
+      if (d < bestDist) {
+        bestDist = d;
+        best = i;
+      }
+    });
+    if (best >= 0) {
+      ctx.setState({ miniSel: best });
+      ctx.sfx('blip');
+    }
+  });
+  el.addEventListener('pointercancel', () => {
+    mini.drag = null;
+  });
+}
+
+/** Perspective projection for a camera orbiting the origin at a fixed distance. */
+function orbitProjector(yaw: number, pitch: number, W: number, H: number) {
+  const dist = 2500;
+  const cp = Math.cos(pitch);
+  const eye: Vec3 = [dist * cp * Math.sin(yaw), dist * Math.sin(pitch), dist * cp * Math.cos(yaw)];
+  const len = Math.hypot(...eye);
+  const fw = eye.map(v => -v / len) as Vec3;
+  const rawRight: Vec3 = [-fw[2], 0, fw[0]];
+  const rightLen = Math.hypot(...rawRight) || 1;
+  const right = rawRight.map(v => v / rightLen) as Vec3;
+  const up: Vec3 = [
+    right[1] * fw[2] - right[2] * fw[1],
+    right[2] * fw[0] - right[0] * fw[2],
+    right[0] * fw[1] - right[1] * fw[0],
+  ];
+  const focal = Math.min(W, H) * 1.35;
+  const cx = W / 2;
+  const cy = H / 2;
+  return (x: number, y: number, z: number): ScreenPoint | null => {
+    const dx = x - eye[0];
+    const dy = y - eye[1];
+    const dz = z - eye[2];
+    const depth = dx * fw[0] + dy * fw[1] + dz * fw[2];
+    if (depth < 4) return null;
+    const scale = focal / depth;
+    return [
+      cx + (dx * right[0] + dy * right[1] + dz * right[2]) * scale,
+      cy - (dx * up[0] + dy * up[1] + dz * up[2]) * scale,
+      scale,
+    ];
+  };
+}
+
+/** Dotted routes from Home to every system, with the selected one animated in its colour. */
+function drawMiniRoutes(c: CanvasRenderingContext2D, screen: (ScreenPoint | null)[], sel: number, t: number): void {
+  const home = screen[HOME];
+  c.globalCompositeOperation = 'source-over';
+  if (!home) return;
+  c.globalAlpha = 1;
+  c.strokeStyle = 'rgba(169,163,194,.45)';
+  c.setLineDash([2, 6]);
+  c.lineWidth = 1;
+  c.beginPath();
+  screen.forEach((p, i) => {
+    if (p && i !== HOME) {
+      c.moveTo(home[0], home[1]);
+      c.lineTo(p[0], p[1]);
+    }
+  });
+  c.stroke();
+  const target = screen[sel];
+  if (target && sel !== HOME) {
+    c.strokeStyle = SYS[sel].hex;
+    c.setLineDash([6, 6]);
+    c.lineDashOffset = -t / 60;
+    c.lineWidth = 1.25;
+    c.beginPath();
+    c.moveTo(home[0], home[1]);
+    c.lineTo(target[0], target[1]);
+    c.stroke();
+  }
+  c.setLineDash([]);
+}
+
+/** Warp speed by progress: ease in to full speed, cruise, ease out. */
+function jumpSpeed(k: number): number {
+  if (k < 0.28) {
+    const q = k / 0.28;
+    return 0.03 + q * q * q * 0.97;
+  }
+  if (k < 0.66) return 1;
+  if (k < 1) {
+    const q = (k - 0.66) / 0.34;
+    return Math.pow(1 - q, 2.4) * 0.97 + 0.03;
+  }
+  return 0.03;
+}
+
+/** 1 until 70% of the hold after arrival, then fades to 0. */
+function arrivalFade(k: number, dur: number): number {
+  const out = k > 1 ? clamp(((k - 1) * dur) / HOLD_AFTER_MS, 0, 1) : 0;
+  return out > 0.7 ? 1 - (out - 0.7) / 0.3 : 1;
+}
+
+/** The destination star grows in the centre during the last part of the jump. */
+function drawArrivalStar(ctx: CaseDemoCtx, c: CanvasRenderingContext2D, run: MiniRun, k: number, W: number, H: number): void {
+  const cx = W / 2;
+  const cy = H / 2;
+  const grow = smoothstep(clamp((k - 0.6) / 0.4, 0, 1));
+  const size = 6 + grow * Math.min(W, H) * 0.3;
+  c.globalAlpha = (0.25 + 0.75 * grow) * arrivalFade(k, run.dur);
+  const glow = size * 2.4;
+  c.drawImage(ctx.sprite(run.tint, true), cx - glow / 2, cy - glow / 2, glow, glow);
+  const body = c.createRadialGradient(cx, cy, 0, cx, cy, size / 2);
+  body.addColorStop(0, 'rgba(255,255,255,1)');
+  body.addColorStop(0.26, `rgba(${run.tint},1)`);
+  body.addColorStop(0.5, `rgba(${run.tint},.35)`);
+  body.addColorStop(1, `rgba(${run.tint},0)`);
+  c.fillStyle = body;
+  c.beginPath();
+  c.arc(cx, cy, size / 2, 0, TAU);
+  c.fill();
+}

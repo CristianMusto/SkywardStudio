@@ -1,72 +1,72 @@
 @let v = vm();
 @let t = tr();
-<div class="stack">
-  <div class="stack-2">
-    <span class="meta">{{ t.logbook6Legs }}</span>
-    <h2 class="heading">
+<div class="journey">
+  <div class="section-head">
+    <span class="eyebrow">{{ t.logbook6Legs }}</span>
+    <h2 class="leg-title">
       {{ t.skywardSJourney }}
     </h2>
   </div>
-  <ol class="ol">
-    <li class="li">
-      <span class="label" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
-      <div class="row">
-        <div class="stack-3">
-          <span class="meta-2" [style.--color]="txt(v?.page?.hex)">{{ t.leg01LiftOff }}</span>
-          <h2 class="heading">
+  <ol class="legs">
+    <li class="leg">
+      <span class="leg-dot" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="leg-body">
+        <div class="leg-copy">
+          <span class="leg-eyebrow" [style.--color]="txt(v?.page?.hex)">{{ t.leg01LiftOff }}</span>
+          <h2 class="leg-title">
             {{ t.theBrief }}
           </h2>
-          <p class="text">
+          <p class="leg-text">
             {{ t.skywardIsMyOwn }}
           </p>
         </div>
-        <div class="box">
-          <dl class="dl">
-            <div class="grid">
-              <dt class="dt">
+        <div class="leg-demo">
+          <dl class="brief">
+            <div class="brief-row">
+              <dt class="brief-term">
                 {{ t.client }}
               </dt>
-              <dd class="dd">{{ t.skywardSelfInitiated }}</dd>
+              <dd class="brief-value">{{ t.skywardSelfInitiated }}</dd>
             </div>
-            <div class="grid">
-              <dt class="dt-2">
+            <div class="brief-row">
+              <dt class="brief-term-tags">
                 {{ t.scope }}
               </dt>
-              <dd class="dd-2">
-                <span class="meta-3">{{ t.logoIdentity }}</span
-                ><span class="meta-3">{{ t.logoAnimation }}</span
-                ><span class="meta-3">{{ t.galaxyMapWebsite }}</span
-                ><span class="meta-3">Design system</span><span class="meta-3">Motion</span>
+              <dd class="brief-tags">
+                <span class="tag">{{ t.logoIdentity }}</span
+                ><span class="tag">{{ t.logoAnimation }}</span
+                ><span class="tag">{{ t.galaxyMapWebsite }}</span
+                ><span class="tag">Design system</span><span class="tag">Motion</span>
               </dd>
             </div>
-            <div class="grid-2">
-              <dt class="dt">
+            <div class="brief-row-last">
+              <dt class="brief-term">
                 {{ t.year }}
               </dt>
-              <dd class="dd">2026</dd>
+              <dd class="brief-value">2026</dd>
             </div>
           </dl>
         </div>
       </div>
     </li>
-    <li class="li">
-      <span class="label-2" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
-      <div class="row">
-        <div class="stack-3">
-          <span class="meta-4" [style.--color]="txt(v?.page?.hex)">{{ t.leg02TheMark }}</span>
-          <h2 class="heading">
+    <li class="leg">
+      <span class="leg-dot" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="leg-body">
+        <div class="leg-copy">
+          <span class="leg-eyebrow" [style.--color]="txt(v?.page?.hex)">{{ t.leg02TheMark }}</span>
+          <h2 class="leg-title">
             {{ t.aMarkThatDraws }}
           </h2>
-          <p class="text">
+          <p class="leg-text">
             {{ t.theLogoIsMade }}
           </p>
         </div>
-        <div class="box">
-          <div class="stack-4">
-            <div class="grid-3">
+        <div class="leg-demo">
+          <div class="logo-demo">
+            <div class="logo-frame">
               <sky-vn [n]="v?.logoDemo"></sky-vn>
             </div>
-            <button class="btn" (click)="call(v?.logoReplay, $event)">
+            <button class="btn-ghost" (click)="call(v?.logoReplay, $event)">
               <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
                 <path
                   d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5V5h-2.5"
@@ -81,53 +81,53 @@
         </div>
       </div>
     </li>
-    <li class="li">
-      <span class="label-3" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
-      <div class="row">
-        <div class="stack-3">
-          <span class="meta-5" [style.--color]="txt(v?.page?.hex)">{{ t.leg03ColorVoice }}</span>
-          <h2 class="heading">
+    <li class="leg">
+      <span class="leg-dot" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="leg-body">
+        <div class="leg-copy">
+          <span class="leg-eyebrow" [style.--color]="txt(v?.page?.hex)">{{ t.leg03ColorVoice }}</span>
+          <h2 class="leg-title">
             {{ t.oneColorPerSystem }}
           </h2>
-          <p class="text">
+          <p class="leg-text">
             {{ t.everySectionHasIts }}
           </p>
         </div>
-        <div class="box">
-          <div class="stack-5">
-            <div class="stack-6" aria-live="polite">
+        <div class="leg-demo">
+          <div class="type-demo">
+            <div class="type-preview" aria-live="polite">
               <span
-                class="name"
+                class="type-sample"
                 [style.--font-variation-settings]="txt(v?.tyW)"
                 [style.--color]="txt(v?.tyHex)"
                 >Skyward</span
-              ><span class="label-4">{{ t.yourIdeaInOrbit }}</span
-              ><span class="meta-6"
+              ><span class="type-tagline">{{ t.yourIdeaInOrbit }}</span
+              ><span class="caption-mono"
                 >{{ txt(v?.tyCode) }} · {{ txt(v?.tyName) }} · {{ txt(v?.tyHexLabel) }} {{ t.contrast }}
                 {{ txt(v?.tyCr) }}</span
               >
             </div>
-            <div class="row-2" role="group" [attr.aria-label]="t.systemColor">
+            <div class="swatches" role="group" [attr.aria-label]="t.systemColor">
               @for (c of v?.tySw ?? []; track $index) {
                 <button
-                  class="btn-2"
+                  class="swatch"
                   (click)="call(c?.pick, $event)"
                   [attr.aria-pressed]="c?.on"
                   [attr.aria-label]="c?.name"
                   [style.--border]="txt(c?.ring)"
                 >
                   <span
-                    class="label-5"
+                    class="swatch-dot"
                     [style.--background]="txt(c?.hex)"
                     [style.--box-shadow]="txt(c?.glow)"
                   ></span>
                 </button>
               }
             </div>
-            <div class="stack-7">
-              <label class="label-6" for="ty-w"
+            <div class="type-width">
+              <label class="type-width-label" for="ty-w"
                 ><span>{{ t.typeWidth }}</span
-                ><span class="meta-6">wdth {{ txt(v?.tyW) }}</span></label
+                ><span class="caption-mono">wdth {{ txt(v?.tyW) }}</span></label
               ><input
                 class="ty-w"
                 id="ty-w"
@@ -140,133 +140,133 @@
                 [style.--accent-color]="txt(v?.tyHex)"
               />
             </div>
-            <div class="grid-4">
-              <span class="label-7"
-                ><span class="name-2">Bricolage Grotesque</span
-                ><span class="meta-6">{{ t.headingsSystems }}</span></span
-              ><span class="label-7"
-                ><span class="label-8">Hanken Grotesk</span
-                ><span class="meta-6">{{ t.textInterface }}</span></span
-              ><span class="label-7"
-                ><span class="meta-7">Martian Mono</span
-                ><span class="meta-6">{{ t.hudCoordinates }}</span></span
+            <div class="type-families">
+              <span class="family"
+                ><span class="family-display">Bricolage Grotesque</span
+                ><span class="caption-mono">{{ t.headingsSystems }}</span></span
+              ><span class="family"
+                ><span class="family-text">Hanken Grotesk</span
+                ><span class="caption-mono">{{ t.textInterface }}</span></span
+              ><span class="family"
+                ><span class="family-mono">Martian Mono</span
+                ><span class="caption-mono">{{ t.hudCoordinates }}</span></span
               >
             </div>
           </div>
         </div>
       </div>
     </li>
-    <li class="li">
-      <span class="label-9" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
-      <div class="row">
-        <div class="stack-3">
-          <span class="meta-8" [style.--color]="txt(v?.page?.hex)">{{ t.leg04TheMap }}</span>
-          <h2 class="heading">
+    <li class="leg">
+      <span class="leg-dot" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="leg-body">
+        <div class="leg-copy">
+          <span class="leg-eyebrow" [style.--color]="txt(v?.page?.hex)">{{ t.leg04TheMap }}</span>
+          <h2 class="leg-title">
             {{ t.theSiteBecomesA }}
           </h2>
-          <p class="text">
+          <p class="leg-text">
             {{ t.insteadOfAMenu }}
           </p>
         </div>
-        <div class="box">
-          <div class="stack-8">
+        <div class="leg-demo">
+          <div class="demo-stack">
             <canvas
-              class="canvas"
+              class="mini-galaxy"
               [skyRef]="v?.miniGalRef"
               role="img"
               [attr.aria-label]="t.miniGalaxyDragTo"
             ></canvas>
-            <div class="row-3" role="group" [attr.aria-label]="t.chooseASystem">
+            <div class="system-chips" role="group" [attr.aria-label]="t.chooseASystem">
               @for (c of v?.mChips ?? []; track $index) {
                 <button
-                  class="btn-3"
+                  class="system-chip"
                   (click)="call(c?.pick, $event)"
                   [attr.aria-pressed]="c?.on"
                   [style.--border]="txt(c?.ring)"
                   [style.--background]="txt(c?.bg)"
                 >
-                  <span class="label-10" aria-hidden="true" [style.--background]="txt(c?.hex)"></span
+                  <span class="chip-dot" aria-hidden="true" [style.--background]="txt(c?.hex)"></span
                   >{{ txt(c?.name) }}
                 </button>
               }
             </div>
-            <span class="meta-6">{{ t.dragToRotateTap }}</span>
+            <span class="caption-mono">{{ t.dragToRotateTap }}</span>
           </div>
         </div>
       </div>
     </li>
-    <li class="li">
-      <span class="label-11" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
-      <div class="row">
-        <div class="stack-3">
-          <span class="meta-9" [style.--color]="txt(v?.page?.hex)">{{ t.leg05TheJump }}</span>
-          <h2 class="heading">
+    <li class="leg">
+      <span class="leg-dot" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="leg-body">
+        <div class="leg-copy">
+          <span class="leg-eyebrow" [style.--color]="txt(v?.page?.hex)">{{ t.leg05TheJump }}</span>
+          <h2 class="leg-title">
             {{ t.travelingBetweenSections }}
           </h2>
-          <p class="text">
+          <p class="leg-text">
             {{ t.movingBetweenSectionsIs }}
           </p>
         </div>
-        <div class="box">
-          <div class="stack-8">
+        <div class="leg-demo">
+          <div class="demo-stack">
             <canvas
-              class="canvas-2"
+              class="mini-jump"
               [skyRef]="v?.miniJumpRef"
               role="img"
               [attr.aria-label]="t.demoOfTheJump"
             ></canvas>
-            <div class="row-4">
+            <div class="jump-controls">
               <button
-                class="btn-4"
+                class="btn-primary"
                 (click)="call(v?.jumpDemo, $event)"
                 [disabled]="!!v?.jumpBusy"
                 [style.--background]="txt(v?.mSelHex)"
                 [style.--opacity]="txt(v?.jumpOp)"
               >
                 {{ txt(v?.jumpLabel) }}</button
-              ><span class="meta-6">{{ t.pickTheSystemIn }}</span>
+              ><span class="caption-mono">{{ t.pickTheSystemIn }}</span>
             </div>
           </div>
         </div>
       </div>
     </li>
-    <li class="li">
-      <span class="label-12" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
-      <div class="row">
-        <div class="stack-3">
-          <span class="meta-10" [style.--color]="txt(v?.page?.hex)">{{ t.leg06TheSystem }}</span>
-          <h2 class="heading">
+    <li class="leg">
+      <span class="leg-dot" aria-hidden="true" [style.--border]="txt(v?.page?.hex)"></span>
+      <div class="leg-body">
+        <div class="leg-copy">
+          <span class="leg-eyebrow" [style.--color]="txt(v?.page?.hex)">{{ t.leg06TheSystem }}</span>
+          <h2 class="leg-title">
             {{ t.aSharedLanguage }}
           </h2>
-          <p class="text">
+          <p class="leg-text">
             {{ t.colorsTypeRadiiAnd }}
           </p>
         </div>
-        <div class="box">
-          <div class="grid-5">
-            <div class="stack-9">
-              <span class="meta-6">{{ t.systemColors }}</span
-              ><span class="label-13"
-                ><span class="label-14"></span><span class="label-15"></span><span class="label-16"></span
-                ><span class="label-17"></span><span class="label-18"></span><span class="label-19"></span
+        <div class="leg-demo">
+          <div class="system-summary">
+            <div class="summary-cell">
+              <span class="caption-mono">{{ t.systemColors }}</span
+              ><span class="color-dots"
+                ><span class="color-dot-home"></span><span class="color-dot-work"></span><span class="color-dot-services"></span
+                ><span class="color-dot-process"></span><span class="color-dot-about"></span><span class="color-dot-contact"></span
               ></span>
             </div>
-            <div class="stack-9">
-              <span class="meta-6">{{ t.typefaces }}</span
-              ><span class="name-2">{{ t.n3Families16pxBase }}</span>
+            <div class="summary-cell">
+              <span class="caption-mono">{{ t.typefaces }}</span
+              ><span class="family-display">{{ t.n3Families16pxBase }}</span>
             </div>
-            <div class="stack-9">
-              <span class="meta-6">{{ t.radii }}</span
-              ><span class="label-20"
-                ><span class="label-21"></span><span class="label-22"></span><span class="label-23"></span
+            <div class="summary-cell">
+              <span class="caption-mono">{{ t.radii }}</span
+              ><span class="radii"
+                ><span class="radius-sm"></span><span class="radius-md"></span><span class="radius-pill"></span
               ></span>
             </div>
-            <div class="stack-9">
-              <span class="meta-6">{{ t.motion }}</span
-              ><span class="meta-11">{{ t.jump162 }}</span>
+            <div class="summary-cell">
+              <span class="caption-mono">{{ t.motion }}</span
+              ><span class="motion-value">{{ t.jump162 }}</span>
             </div>
-            <div class="box-2">
-              <a class="link" href="design-system.html"
+            <div class="summary-link">
+              <a class="btn-outline" href="design-system.html"
                 >{{ t.openTheDesignSystem }}<span aria-hidden="true">→</span></a
               >
             </div>
@@ -276,45 +276,45 @@
     </li>
   </ol>
   <section class="sketches" [attr.aria-label]="t.fromTheSketchbook">
-    <div class="stack-2">
-      <h2 class="heading-2">{{ t.fromTheSketchbook }}</h2>
+    <div class="section-head">
+      <h2 class="section-title">{{ t.fromTheSketchbook }}</h2>
       <p class="sketches-note">{{ t.sketchesNote }}</p>
     </div>
     <div class="sketches-grid">
       <figure class="sketch">
-        <a class="sketch-link" href="assets/sketches/01-logo.webp" target="_blank" rel="noopener">
-          <img class="sketch-img" src="assets/sketches/01-logo.webp" [attr.alt]="t.sketchLogo" width="1600" height="900" loading="lazy" decoding="async" />
-        </a>
+        <button class="sketch-link" type="button" data-src="assets/sketches/01-logo.webp" [attr.data-alt]="t.sketchLogo" [attr.aria-label]="t.openSketch + ': ' + t.sketchLogo" (click)="call(v?.openShot, $event)">
+          <img class="sketch-img" src="assets/sketches/01-logo.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        </button>
         <figcaption class="figcaption">01 · {{ t.sketchLogo }}</figcaption>
       </figure>
       <figure class="sketch">
-        <a class="sketch-link" href="assets/sketches/02-galaxy-map.webp" target="_blank" rel="noopener">
-          <img class="sketch-img" src="assets/sketches/02-galaxy-map.webp" [attr.alt]="t.sketchGalaxy" width="1600" height="900" loading="lazy" decoding="async" />
-        </a>
+        <button class="sketch-link" type="button" data-src="assets/sketches/02-galaxy-map.webp" [attr.data-alt]="t.sketchGalaxy" [attr.aria-label]="t.openSketch + ': ' + t.sketchGalaxy" (click)="call(v?.openShot, $event)">
+          <img class="sketch-img" src="assets/sketches/02-galaxy-map.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        </button>
         <figcaption class="figcaption">02 · {{ t.sketchGalaxy }}</figcaption>
       </figure>
       <figure class="sketch">
-        <a class="sketch-link" href="assets/sketches/03-navigation-flow.webp" target="_blank" rel="noopener">
-          <img class="sketch-img" src="assets/sketches/03-navigation-flow.webp" [attr.alt]="t.sketchFlow" width="1600" height="900" loading="lazy" decoding="async" />
-        </a>
+        <button class="sketch-link" type="button" data-src="assets/sketches/03-navigation-flow.webp" [attr.data-alt]="t.sketchFlow" [attr.aria-label]="t.openSketch + ': ' + t.sketchFlow" (click)="call(v?.openShot, $event)">
+          <img class="sketch-img" src="assets/sketches/03-navigation-flow.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        </button>
         <figcaption class="figcaption">03 · {{ t.sketchFlow }}</figcaption>
       </figure>
       <figure class="sketch">
-        <a class="sketch-link" href="assets/sketches/04-page-grid.webp" target="_blank" rel="noopener">
-          <img class="sketch-img" src="assets/sketches/04-page-grid.webp" [attr.alt]="t.sketchGrid" width="1600" height="900" loading="lazy" decoding="async" />
-        </a>
+        <button class="sketch-link" type="button" data-src="assets/sketches/04-page-grid.webp" [attr.data-alt]="t.sketchGrid" [attr.aria-label]="t.openSketch + ': ' + t.sketchGrid" (click)="call(v?.openShot, $event)">
+          <img class="sketch-img" src="assets/sketches/04-page-grid.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        </button>
         <figcaption class="figcaption">04 · {{ t.sketchGrid }}</figcaption>
       </figure>
       <figure class="sketch">
-        <a class="sketch-link" href="assets/sketches/05-mobile.webp" target="_blank" rel="noopener">
-          <img class="sketch-img" src="assets/sketches/05-mobile.webp" [attr.alt]="t.sketchMobile" width="1600" height="900" loading="lazy" decoding="async" />
-        </a>
+        <button class="sketch-link" type="button" data-src="assets/sketches/05-mobile.webp" [attr.data-alt]="t.sketchMobile" [attr.aria-label]="t.openSketch + ': ' + t.sketchMobile" (click)="call(v?.openShot, $event)">
+          <img class="sketch-img" src="assets/sketches/05-mobile.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        </button>
         <figcaption class="figcaption">05 · {{ t.sketchMobile }}</figcaption>
       </figure>
       <figure class="sketch">
-        <a class="sketch-link" href="assets/sketches/06-jump.webp" target="_blank" rel="noopener">
-          <img class="sketch-img" src="assets/sketches/06-jump.webp" [attr.alt]="t.sketchJump" width="1600" height="900" loading="lazy" decoding="async" />
-        </a>
+        <button class="sketch-link" type="button" data-src="assets/sketches/06-jump.webp" [attr.data-alt]="t.sketchJump" [attr.aria-label]="t.openSketch + ': ' + t.sketchJump" (click)="call(v?.openShot, $event)">
+          <img class="sketch-img" src="assets/sketches/06-jump.webp" alt="" width="1600" height="900" loading="lazy" decoding="async" />
+        </button>
         <figcaption class="figcaption">06 · {{ t.sketchJump }}</figcaption>
       </figure>
     </div>

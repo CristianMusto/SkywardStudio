@@ -9,7 +9,6 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
@@ -22,11 +21,7 @@ import { UI_STRINGS, type UiStrings } from '../i18n/ui-strings';
 import type { EngineView } from '../shared/view-part';
 import { sendContact } from './contact.service';
 import { SKYWARD_SETTINGS } from './settings';
-
-const TITLES: Record<Lang, string> = {
-  it: 'Skyward · La tua idea, in orbita.',
-  en: 'Skyward · Your idea, in orbit.',
-};
+import { SeoService } from './seo';
 
 /**
  * Owns the SkywardEngine for one language and bridges it to Angular:
@@ -50,7 +45,15 @@ export class EngineStore {
   });
 
   constructor() {
-    inject(Title).setTitle(TITLES[this.lang]);
+    // Head tags per URL, on the server (prerender) and in the browser.
+    const seo = inject(SeoService);
+    seo.apply(this.lang, this.pathOf(this.router.url));
+    this.router.events
+      .pipe(
+        filter(e => e instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => seo.apply(this.lang, this.pathOf(this.router.url)));
     if (!this.browser) return;
 
     const host: EngineHost = {

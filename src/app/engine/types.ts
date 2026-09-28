@@ -22,6 +22,8 @@ export interface StarSystem {
   /** Same colour as hex, as "r,g,b" for rgba(). */
   tint: string;
   core: number;
+  /** True for the Home system (drawn larger). */
+  home?: boolean;
   /** Position in galaxy space. */
   p: Vec3;
 }
@@ -108,6 +110,20 @@ export interface Warp {
   lastS?: number;
   /** Runs when the jump ends (used by the jump back Home). */
   land?: () => void;
+  /** Progress (0-1) at which the intro warp hands over to the galaxy approach. */
+  handoff?: number;
+}
+
+/** Camera fly-in after the intro: distance, yaw and pitch go from *0 to *1. */
+export interface Approach {
+  start: number;
+  dur: number;
+  d0: number;
+  d1: number;
+  y0: number;
+  y1: number;
+  p0: number;
+  p1: number;
 }
 
 /** Where a URL path points in the galaxy. */
@@ -135,6 +151,7 @@ export interface EngineCtx extends Engine {
   tgt: CameraTarget;
   idle: number;
   warp: Warp | null;
+  approach: Approach | null;
   warpP: object[];
   egg: unknown;
   W: number;
