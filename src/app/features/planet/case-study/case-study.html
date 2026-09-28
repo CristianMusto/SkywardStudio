@@ -275,5 +275,48 @@
       </div>
     </li>
   </ol>
-  <!-- Final screenshots removed: visitors are already looking at the site. Case studies for client work will add a gallery here. -->
+  <section class="sketches" [attr.aria-label]="t.fromTheSketchbook">
+    <div class="stack-2">
+      <h2 class="heading-2">{{ t.fromTheSketchbook }}</h2>
+      <p class="sketches-note">{{ t.sketchesNote }}</p>
+    </div>
+    <div class="sketches-grid">
+      <figure class="sketch">
+        <a class="sketch-link" href="assets/sketches/01-logo.webp" target="_blank" rel="noopener">
+          <img class="sketch-img" src="assets/sketches/01-logo.webp" [attr.alt]="t.sketchLogo" width="1600" height="900" loading="lazy" decoding="async" />
+        </a>
+        <figcaption class="figcaption">01 · {{ t.sketchLogo }}</figcaption>
+      </figure>
+      <figure class="sketch">
+        <a class="sketch-link" href="assets/sketches/02-galaxy-map.webp" target="_blank" rel="noopener">
+          <img class="sketch-img" src="assets/sketches/02-galaxy-map.webp" [attr.alt]="t.sketchGalaxy" width="1600" height="900" loading="lazy" decoding="async" />
+        </a>
+        <figcaption class="figcaption">02 · {{ t.sketchGalaxy }}</figcaption>
+      </figure>
+      <figure class="sketch">
+        <a class="sketch-link" href="assets/sketches/03-navigation-flow.webp" target="_blank" rel="noopener">
+          <img class="sketch-img" src="assets/sketches/03-navigation-flow.webp" [attr.alt]="t.sketchFlow" width="1600" height="900" loading="lazy" decoding="async" />
+        </a>
+        <figcaption class="figcaption">03 · {{ t.sketchFlow }}</figcaption>
+      </figure>
+      <figure class="sketch">
+        <a class="sketch-link" href="assets/sketches/04-page-grid.webp" target="_blank" rel="noopener">
+          <img class="sketch-img" src="assets/sketches/04-page-grid.webp" [attr.alt]="t.sketchGrid" width="1600" height="900" loading="lazy" decoding="async" />
+        </a>
+        <figcaption class="figcaption">04 · {{ t.sketchGrid }}</figcaption>
+      </figure>
+      <figure class="sketch">
+        <a class="sketch-link" href="assets/sketches/05-mobile.webp" target="_blank" rel="noopener">
+          <img class="sketch-img" src="assets/sketches/05-mobile.webp" [attr.alt]="t.sketchMobile" width="1600" height="900" loading="lazy" decoding="async" />
+        </a>
+        <figcaption class="figcaption">05 · {{ t.sketchMobile }}</figcaption>
+      </figure>
+      <figure class="sketch">
+        <a class="sketch-link" href="assets/sketches/06-jump.webp" target="_blank" rel="noopener">
+          <img class="sketch-img" src="assets/sketches/06-jump.webp" [attr.alt]="t.sketchJump" width="1600" height="900" loading="lazy" decoding="async" />
+        </a>
+        <figcaption class="figcaption">06 · {{ t.sketchJump }}</figcaption>
+      </figure>
+    </div>
+  </section>
 </div>

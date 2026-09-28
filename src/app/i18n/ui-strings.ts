@@ -64,6 +64,14 @@ const EN = {
   theLogoIsMade:
     'The logo is made of continuous strokes, so it can be traced as a line before it fills. That animation opens the site and comes back in small moments across the pages.',
   replayTheStroke: 'Replay the stroke',
+  fromTheSketchbook: 'From the sketchbook',
+  sketchesNote: 'Hand sketches from the project, notes in Italian.',
+  sketchLogo: 'Logo exploration: from a typographic S to a stroke with a trail',
+  sketchGalaxy: 'Galaxy map wireframe',
+  sketchFlow: 'Navigation flow between planets',
+  sketchGrid: 'Page grid and layout',
+  sketchMobile: 'Mobile version',
+  sketchJump: 'Storyboard of the jump to a planet',
   leg03ColorVoice: 'Leg 03 · Color & voice',
   oneColorPerSystem: 'One color per system',
   everySectionHasIts:
@@ -206,6 +214,14 @@ const IT: UiStrings = {
   theLogoIsMade:
     'Il logo è fatto di tratti continui, quindi può essere tracciato come una linea prima di riempirsi. Questa animazione apre il sito e ritorna in piccoli momenti nelle pagine.',
   replayTheStroke: 'Rivedi il tratto',
+  fromTheSketchbook: 'Dal quaderno',
+  sketchesNote: 'Schizzi a mano del progetto.',
+  sketchLogo: 'Esplorazione del logo: dalla S tipografica al tratto con la scia',
+  sketchGalaxy: 'Wireframe della mappa-galassia',
+  sketchFlow: 'Flusso di navigazione tra pianeti',
+  sketchGrid: 'Griglia e layout delle pagine',
+  sketchMobile: 'Versione mobile',
+  sketchJump: 'Storyboard del salto verso un pianeta',
   leg03ColorVoice: 'Tappa 03 · Colore e voce',
   oneColorPerSystem: 'Un colore per sistema',
   everySectionHasIts:
