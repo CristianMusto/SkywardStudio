@@ -70,6 +70,9 @@
   color: var(--color-muted);
   gap: 8px;
   white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: var(--display);
 }
 
@@ -191,6 +194,8 @@
   letter-spacing: -0.04em;
   outline: none;
   text-wrap: balance;
+  overflow-wrap: anywhere;
+  hyphens: auto;
   animation: skRise 600ms 120ms both var(--ease-rise);
 }
 
@@ -249,7 +254,7 @@
 
 .fact-row {
   display: grid;
-  grid-template-columns: 96px 1fr;
+  grid-template-columns: 96px minmax(0, 1fr);
   gap: 12px;
   padding: 12px 0;
   border-bottom: 1px solid rgb(var(--rgb-text) / 0.18);
@@ -416,4 +421,10 @@
   object-fit: contain;
   border-radius: 4px;
   box-shadow: 0 30px 80px rgb(var(--rgb-black) / 0.6);
+}
+
+@media (max-width: 480px) {
+  .page {
+    font-size: clamp(40px, 13vw, 56px);
+  }
 }

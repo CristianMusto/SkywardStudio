@@ -399,6 +399,7 @@
 
 .index-name {
   font: 600 17px/1.2 var(--font-display);
+  overflow-wrap: anywhere;
 }
 
 .index-kind {
@@ -461,6 +462,7 @@
   font: 650 32px/1.05 var(--font-display);
   font-variation-settings: 'wdth' 82;
   letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
 }
 
 .panel-desc {

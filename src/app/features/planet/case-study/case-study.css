@@ -105,7 +105,7 @@
 
 .brief-row {
   display: grid;
-  grid-template-columns: 110px 1fr;
+  grid-template-columns: 110px minmax(0, 1fr);
   gap: 12px;
   padding: 14px 0;
   border-bottom: 1px solid rgb(var(--rgb-text) / 0.12);
@@ -147,7 +147,7 @@
 
 .brief-row-last {
   display: grid;
-  grid-template-columns: 110px 1fr;
+  grid-template-columns: 110px minmax(0, 1fr);
   gap: 12px;
   padding: 14px 0;
 }
@@ -294,7 +294,7 @@
 
 .type-families {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
   gap: 8px;
   border-top: 1px solid rgb(var(--rgb-text) / 0.12);
   padding-top: 16px;
@@ -416,7 +416,7 @@
   border-radius: 6px;
   padding: 8px 20px 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
   gap: 0 16px;
 }
 
@@ -610,5 +610,13 @@
   .sketch-link:hover {
     transform: none;
     transition: border-color var(--dur-fast) var(--ease-out);
+  }
+}
+
+@media (max-width: 400px) {
+  .brief-row,
+  .brief-row-last {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
   }
 }

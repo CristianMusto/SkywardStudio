@@ -64,9 +64,10 @@
 
 .card-title {
   margin: 0;
-  font: 650 40px/1 var(--font-display);
+  font: 650 clamp(30px, 9vw, 40px)/1 var(--font-display);
   font-variation-settings: 'wdth' 80;
   letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
 }
 
 .card-desc {

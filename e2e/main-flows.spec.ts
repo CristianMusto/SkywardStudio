@@ -99,3 +99,53 @@ test.describe('contact form', () => {
     await expect(page.locator('#f-nome')).toBeFocused();
   });
 });
+
+test.describe('mobile layout', () => {
+  const noHorizontalOverflow = async (page: import('@playwright/test').Page) => {
+    const overflow = await page.evaluate(() => {
+      const vw = document.documentElement.clientWidth;
+      const wide = [...document.querySelectorAll<HTMLElement>('body *')]
+        .filter((el) => {
+          const r = el.getBoundingClientRect();
+          if (!r.width || !r.height) return false;
+          for (let p = el.parentElement; p; p = p.parentElement) {
+            const s = getComputedStyle(p);
+            if (s.overflowX === 'hidden' || s.overflowX === 'clip') return false;
+          }
+          return r.right > vw + 1 || r.left < -1;
+        })
+        .map((el) => el.className || el.tagName);
+      return { scroll: document.documentElement.scrollWidth - vw, wide: wide.slice(0, 5) };
+    });
+    expect(overflow.scroll, 'page scrolls sideways').toBeLessThanOrEqual(0);
+    expect(overflow.wide, 'elements outside the viewport').toEqual([]);
+  };
+
+  for (const lang of ['en', 'it'] as const) {
+    const S = lang === 'en' ? EN : IT;
+
+    test(`list view fits the screen (${lang})`, async ({ page, isMobile }) => {
+      test.skip(!isMobile, 'Mobile layout only');
+      await page.goto(`/${lang}`);
+      await page.getByRole('button', { name: S.skip }).click();
+      await page.getByRole('button', { name: S.list, exact: true }).click();
+      const list = page.getByRole('region', { name: S.systemListView });
+      await expect(list).toBeVisible();
+      const box = await list.boundingBox();
+      for (const item of await list.getByRole('button').all()) {
+        const b = await item.boundingBox();
+        expect(b && box && b.x >= box.x && b.x + b.width <= box.x + box.width + 1).toBeTruthy();
+      }
+      await noHorizontalOverflow(page);
+    });
+
+    for (const path of ['work', 'work/skyward', 'contact', 'contact/message']) {
+      test(`/${lang}/${path} has no sideways scroll`, async ({ page, isMobile }) => {
+        test.skip(!isMobile, 'Mobile layout only');
+        await page.goto(`/${lang}/${path}`);
+        await page.waitForLoadState('networkidle');
+        await noHorizontalOverflow(page);
+      });
+    }
+  }
+});
