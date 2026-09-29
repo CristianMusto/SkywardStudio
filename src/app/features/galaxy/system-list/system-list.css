@@ -72,3 +72,49 @@
   white-space: nowrap;
   color: var(--color);
 }
+
+.item-name,
+.item-desc {
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+@media (max-width: 640px) {
+  .system-list {
+    padding: 80px max(16px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom))
+      max(16px, env(safe-area-inset-left));
+  }
+
+  .list-item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'code meta'
+      'text text';
+    gap: 8px 12px;
+    padding: 18px 4px;
+    min-height: 44px;
+  }
+
+  .item-code {
+    grid-area: code;
+  }
+
+  .item-meta {
+    grid-area: meta;
+    white-space: normal;
+    text-align: right;
+  }
+
+  .item-text {
+    grid-area: text;
+  }
+
+  .item-name {
+    font-size: clamp(28px, 9vw, 40px);
+  }
+
+  .item-desc {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+}
