@@ -98,7 +98,8 @@ const EN = {
   kShiftDrag: 'Shift + drag',
   kWheel: 'Scroll wheel',
   kOr: 'or',
-  sketchesNote: 'Hand sketches from the project, notes in Italian.',
+  sketchesNote:
+    'These boards are AI-generated reworkings of the hand sketches made during the project. They keep the original ideas, composition and notes (in Italian).',
   sketchLogo: 'Logo exploration: from a typographic S to a stroke with a trail',
   sketchGalaxy: 'Galaxy map wireframe',
   sketchFlow: 'Navigation flow between planets',
@@ -281,7 +282,8 @@ const IT: UiStrings = {
   kShiftDrag: 'Maiusc + trascina',
   kWheel: 'Rotellina',
   kOr: 'o',
-  sketchesNote: 'Schizzi a mano del progetto.',
+  sketchesNote:
+    "Queste tavole sono rielaborazioni generate con l'IA. Partono dagli schizzi a mano fatti durante il progetto, di cui mantengono idee, composizione e annotazioni.",
   sketchLogo: 'Esplorazione del logo: dalla S tipografica al tratto con la scia',
   sketchGalaxy: 'Wireframe della mappa-galassia',
   sketchFlow: 'Flusso di navigazione tra pianeti',
